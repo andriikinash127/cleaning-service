@@ -1,0 +1,34 @@
+[
+{
+  "model": "cleaning.cleaningtype",
+  "pk": 1,
+  "fields": {
+    "name": "Regular",
+    "description": "Routine cleaning to keep the property clean and tidy."
+  }
+},
+{
+  "model": "cleaning.cleaningtype",
+  "pk": 2,
+  "fields": {
+    "name": "General",
+    "description": "Thorough cleaning of the main areas and surfaces of the property."
+  }
+},
+{
+  "model": "cleaning.cleaningtype",
+  "pk": 3,
+  "fields": {
+    "name": "Deep cleaning",
+    "description": "Detailed cleaning of hard-to-reach areas, surfaces, and equipment."
+  }
+},
+{
+  "model": "cleaning.cleaningtype",
+  "pk": 4,
+  "fields": {
+    "name": "Move in / Move out",
+    "description": "Comprehensive cleaning before moving in or after moving out of a property."
+  }
+}
+]

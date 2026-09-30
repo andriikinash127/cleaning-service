@@ -84,10 +84,10 @@ class Cleaner(models.Model):
 
 
 class StatusChoices(models.TextChoices):
-    PLANNED = "planned"
-    INPROGRESS = "in progress"
-    DONE = "finished"
-    CANCELLED = "canceled"
+    PLANNED = "planned", "Planned"
+    INPROGRESS = "in progress", "In progress"
+    DONE = "finished", "Finished"
+    CANCELLED = "canceled", "Canceled"
 
 
 class Cleaning(models.Model):
@@ -111,7 +111,7 @@ class Cleaning(models.Model):
         max_length=20,
         choices=StatusChoices.choices,
     )
-    notes = models.TextField()
+    notes = models.TextField(blank=True)
 
     class Meta:
         constraints = [
