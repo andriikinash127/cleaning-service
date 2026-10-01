@@ -12,5 +12,10 @@
   <p>Type: {{ property.property_type }}</p>
   <p>Rooms: {{ property.rooms }}</p>
   <p>Owner: {{ property.owner.first_name }} {{ property.owner.last_name }}</p>
-
+  <a href="{% url 'cleaning:property-update' property.pk %}">
+    Update
+  </a>
+  <a href="{% url 'cleaning:property-delete' property.pk %}">
+    Delete
+  </a>
 {% endblock %}

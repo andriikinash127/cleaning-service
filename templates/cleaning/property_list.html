@@ -9,4 +9,7 @@
       </a> — {{ property.address }}
     </p>
   {% endfor %}
+  <a href="{% url 'cleaning:property-create' %}">
+    Create Property
+  </a>
 {% endblock %}
