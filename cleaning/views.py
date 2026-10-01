@@ -5,8 +5,11 @@ from django.views.generic import (DetailView,
                                   CreateView,
                                   UpdateView,
                                   DeleteView)
-from .models import Property
-from .forms import PropertyForm
+from .models import (Property,
+                     Cleaner,
+                     )
+from .forms import PropertyForm, CleanerForm
+
 
 def home(request):
     return render(request, "home.html")
@@ -38,3 +41,32 @@ class PropertyUpdateView(UpdateView):
 class PropertyDeleteView(DeleteView):
     model = Property
     success_url = reverse_lazy("cleaning:property-list")
+
+
+class CleanerListView(ListView):
+    model = Cleaner
+    template_name = "cleaning/cleaner_list.html"
+
+
+class CleanerDetailView(DetailView):
+    model = Cleaner
+    template_name = "cleaning/cleaner_detail.html"
+
+
+class CleanerUpdateView(UpdateView):
+    model = Cleaner
+    form_class = CleanerForm
+    template_name = "cleaning/cleaner_form.html"
+    success_url = reverse_lazy("cleaning:cleaner-list")
+
+
+class CleanerDeleteView(DeleteView):
+    model = Cleaner
+    success_url = reverse_lazy("cleaning:cleaner-list")
+
+
+class CleanerCreateView(CreateView):
+    model = Cleaner
+    form_class = CleanerForm
+    template_name = "cleaning/cleaner_form.html"
+    success_url = reverse_lazy("cleaning:cleaner-list")

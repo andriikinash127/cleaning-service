@@ -6,7 +6,11 @@ from .views import (home,
                     PropertyCreateView,
                     PropertyUpdateView,
                     PropertyDeleteView,
-
+                    CleanerListView,
+                    CleanerDetailView,
+                    CleanerUpdateView,
+                    CleanerDeleteView,
+                    CleanerCreateView,
                     )
 
 app_name = "cleaning"
@@ -36,5 +40,30 @@ urlpatterns = [
         "properties/<int:pk>/delete/",
         PropertyDeleteView.as_view(),
         name="property-delete",
-    )
+    ),
+    path(
+        "cleaners/",
+        CleanerListView.as_view(),
+        name="cleaner-list"
+    ),
+    path(
+        "cleaners/<int:pk>/",
+        CleanerDetailView.as_view(),
+        name="cleaner-detail"
+    ),
+    path(
+        "cleaners/<int:pk>/update/",
+        CleanerUpdateView.as_view(),
+        name="cleaner-update",
+    ),
+    path(
+        "cleaners/<int:pk>/delete/",
+        CleanerDeleteView.as_view(),
+        name="cleaner-delete"
+    ),
+    path(
+        "cleaners/create/",
+        CleanerCreateView.as_view(),
+        name="cleaner-create"
+    ),
 ]

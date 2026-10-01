@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Cleaners</h1>
+  <a href="{% url 'cleaning:cleaner-create' %}">
+    Create Cleaner
+  </a>
+  <br>
+  {% for cleaner in cleaner_list %}
+    <p>
+      <a href="{% url 'cleaning:cleaner-detail' cleaner.pk %}">
+        {{ cleaner.first_name }} {{ cleaner.last_name }}
+      </a>
+    </p>
+  {% endfor %}
+
+{% endblock %}
