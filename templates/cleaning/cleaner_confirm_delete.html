@@ -1,13 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Delete Cleaner</h1>
+  <h1>Delete Cleaner</h1>
 
-<p>Are you sure you want to delete "{{ cleaner }}"?</p>
+  <p>Are you sure you want to delete "{{ cleaner }}"?</p>
+  <form method="post">
+      {% csrf_token %}
+      <button type="submit">Delete</button>
+  </form>
 
-<form method="post">
-    {% csrf_token %}
-    <button type="submit">Delete</button>
-</form>
+  <a href="{% url 'cleaning:cleaner-detail' cleaner.pk %}">
+    Cancel
+  </a>
+
 
 {% endblock %}

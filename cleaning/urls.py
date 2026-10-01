@@ -1,17 +1,23 @@
 from django.urls import path
 
-from .views import (home,
-                    PropertyListView,
-                    PropertyDetailView,
-                    PropertyCreateView,
-                    PropertyUpdateView,
-                    PropertyDeleteView,
-                    CleanerListView,
-                    CleanerDetailView,
-                    CleanerUpdateView,
-                    CleanerDeleteView,
-                    CleanerCreateView,
-                    )
+from .views import (
+    home,
+    PropertyListView,
+    PropertyDetailView,
+    PropertyCreateView,
+    PropertyUpdateView,
+    PropertyDeleteView,
+    CleanerListView,
+    CleanerDetailView,
+    CleanerUpdateView,
+    CleanerDeleteView,
+    CleanerCreateView,
+    CleaningListView,
+    CleaningDetailView,
+    CleaningCreateView,
+    CleaningUpdateView,
+    CleaningDeleteView,
+)
 
 app_name = "cleaning"
 
@@ -65,5 +71,30 @@ urlpatterns = [
         "cleaners/create/",
         CleanerCreateView.as_view(),
         name="cleaner-create"
+    ),
+    path(
+        "cleanings/",
+        CleaningListView.as_view(),
+        name="cleaning-list"
+    ),
+    path(
+        "cleanings/<int:pk>/",
+        CleaningDetailView.as_view(),
+        name="cleaning-detail"
+    ),
+    path(
+        "cleanings/create/",
+        CleaningCreateView.as_view(),
+        name="cleaning-create"
+    ),
+    path(
+        "cleanings/<int:pk>/update/",
+        CleaningUpdateView.as_view(),
+        name="cleaning-update"
+    ),
+    path(
+        "cleanings/<int:pk>/delete/",
+        CleaningDeleteView.as_view(),
+        name="cleaning-delete"
     ),
 ]

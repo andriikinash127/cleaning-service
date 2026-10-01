@@ -10,4 +10,8 @@
     <button type="submit">Delete</button>
   </form>
 
+  <a href="{% url 'cleaning:property-detail' property.pk %}">
+    Cancel
+  </a>
+
 {% endblock %}

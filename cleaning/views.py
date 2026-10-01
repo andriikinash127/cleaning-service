@@ -1,14 +1,22 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import (DetailView,
-                                  ListView,
-                                  CreateView,
-                                  UpdateView,
-                                  DeleteView)
-from .models import (Property,
-                     Cleaner,
-                     )
-from .forms import PropertyForm, CleanerForm
+from django.views.generic import (
+    DetailView,
+    ListView,
+    CreateView,
+    UpdateView,
+    DeleteView
+)
+from .models import (
+    Property,
+    Cleaner,
+    Cleaning,
+)
+from .forms import (
+    PropertyForm,
+    CleanerForm,
+    CleaningForm
+)
 
 
 def home(request):
@@ -70,3 +78,32 @@ class CleanerCreateView(CreateView):
     form_class = CleanerForm
     template_name = "cleaning/cleaner_form.html"
     success_url = reverse_lazy("cleaning:cleaner-list")
+
+
+class CleaningListView(ListView):
+    model = Cleaning
+    template_name = "cleaning/cleaning_list.html"
+
+
+class CleaningDetailView(DetailView):
+    model = Cleaning
+    template_name = "cleaning/cleaning_detail.html"
+
+
+class CleaningCreateView(CreateView):
+    model = Cleaning
+    form_class = CleaningForm
+    template_name = "cleaning/cleaning_form.html"
+    success_url = reverse_lazy("cleaning:cleaning-list")
+
+
+class CleaningUpdateView(UpdateView):
+    model = Cleaning
+    form_class = CleaningForm
+    template_name = "cleaning/cleaning_form.html"
+    success_url = reverse_lazy("cleaning:cleaning-list")
+
+
+class CleaningDeleteView(DeleteView):
+    model = Cleaning
+    success_url = reverse_lazy("cleaning:cleaning-list")

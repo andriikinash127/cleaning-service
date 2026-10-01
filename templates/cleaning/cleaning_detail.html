@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Cleaning details</h1>
+
+  <p>Date: {{ cleaning.date }}</p>
+  <p>Cleaning type: {{ cleaning.cleaning_type }}</p>
+  <p>Property: {{ cleaning.property }}</p>
+  <p>Cleaner: {{ cleaning.cleaner }}</p>
+  <p>Status: {{ cleaning.status }}</p>
+  <p>Notes: {{ cleaning.notes }}</p>
+
+  <br>
+
+  <a href="{% url 'cleaning:cleaning-update' cleaning.pk %}">
+    Update
+  </a>
+  <br>
+  <a href="{% url 'cleaning:cleaning-delete' cleaning.pk %}">
+    Delete
+  </a>
+  <br>
+  <a href="{% url 'cleaning:cleaning-list' %}">
+    Back to cleanings
+  </a>
+{% endblock %}

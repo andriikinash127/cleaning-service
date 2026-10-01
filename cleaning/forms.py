@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Property, Cleaner
+from .models import Property, Cleaner, Cleaning
 
 
 class PropertyForm(forms.ModelForm):
@@ -16,3 +16,9 @@ class CleanerForm(forms.ModelForm):
         widgets = {
             "cleaning_types": forms.CheckboxSelectMultiple,
         }
+
+
+class CleaningForm(forms.ModelForm):
+    class Meta:
+        model = Cleaning
+        fields = "__all__"

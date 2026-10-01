@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>
+    {% if object %}
+        Update Cleaning
+    {% else %}
+        Create Cleaning
+    {% endif %}
+</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form }}
+
+    <button type="submit">
+        {% if object %}
+            Update
+        {% else %}
+            Create
+        {% endif %}
+    </button>
+</form>
+
+{% endblock %}
