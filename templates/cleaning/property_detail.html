@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <a
+    href="{% url 'cleaning:property-list' %}"
+    class="btn btn-secondary"
+  >
+    Back to properties
+  </a>
+  <h1>{{ property.name }}</h1>
+  <p>Address: {{ property.address }}</p>
+  <p>Type: {{ property.property_type }}</p>
+  <p>Rooms: {{ property.rooms }}</p>
+  <p>Owner: {{ property.owner.first_name }} {{ property.owner.last_name }}</p>
+
+{% endblock %}

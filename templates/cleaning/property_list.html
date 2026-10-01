@@ -1,0 +1,12 @@
+{% extends "base.html"%}
+
+{% block content %}
+  <h1>Properties</h1>
+  {% for property in property_list %}
+    <p>
+      <a href="{% url 'cleaning:property-detail' property.pk %}">
+        {{ property.name }}
+      </a> — {{ property.address }}
+    </p>
+  {% endfor %}
+{% endblock %}
