@@ -17,6 +17,8 @@ from .views import (
     CleaningCreateView,
     CleaningUpdateView,
     CleaningDeleteView,
+    CleaningTypeListView,
+    CleaningTypeDetailView,
 )
 
 app_name = "cleaning"
@@ -96,5 +98,15 @@ urlpatterns = [
         "cleanings/<int:pk>/delete/",
         CleaningDeleteView.as_view(),
         name="cleaning-delete"
+    ),
+    path(
+        "cleaning-types/",
+        CleaningTypeListView.as_view(),
+        name="cleaning-type-list"
+    ),
+    path(
+        "cleaning-types/<int:pk>/",
+        CleaningTypeDetailView.as_view(),
+        name="cleaning-type-detail",
     ),
 ]

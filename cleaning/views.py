@@ -11,6 +11,7 @@ from .models import (
     Property,
     Cleaner,
     Cleaning,
+    CleaningType
 )
 from .forms import (
     PropertyForm,
@@ -107,3 +108,14 @@ class CleaningUpdateView(UpdateView):
 class CleaningDeleteView(DeleteView):
     model = Cleaning
     success_url = reverse_lazy("cleaning:cleaning-list")
+
+
+class CleaningTypeListView(ListView):
+    model = CleaningType
+    template_name = "cleaning/cleaning_type_list.html"
+
+
+class CleaningTypeDetailView(DetailView):
+    model = CleaningType
+    template_name = "cleaning/cleaning_type_detail.html"
+    context_object_name = "cleaning_type"

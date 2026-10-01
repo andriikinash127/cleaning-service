@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Cleaning Types</h1>
+
+  {% for cleaning_type in cleaningtype_list %}
+    <p>
+      <a href="{% url 'cleaning:cleaning-type-detail' cleaning_type.pk %}">
+        {{ cleaning_type.name }}
+      </a>
+    </p>
+  {% endfor %}
+
+{% endblock %}

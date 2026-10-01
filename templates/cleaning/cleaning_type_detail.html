@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>{{ cleaning_type.name }}</h1>
+
+  <p>Description: {{ cleaning_type.description }}</p>
+
+  <a href="{% url 'cleaning:cleaning-type-list' %}">
+    Back to cleaning types
+  </a>
+
+{% endblock %}
