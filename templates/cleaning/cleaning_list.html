@@ -7,6 +7,13 @@
     Create Cleaning
   </a>
 
+  <form method="get">
+    <input type="text" name="search" value="{{ request.GET.search }}">
+      <a href="{% url 'cleaning:cleaning-list' %}">×</a>
+    <button type="submit">Search</button>
+
+  </form>
+
   {% for cleaning in cleaning_list %}
     <p>
       <a href="{% url 'cleaning:cleaning-detail' cleaning.pk %}">
@@ -14,5 +21,9 @@
       </a>
     </p>
   {% endfor %}
+
+  {% if request.GET.search and not cleaning_list %}
+    <p>No cleanings found for "{{ request.GET.search }}".</p>
+  {% endif %}
 
 {% endblock %}

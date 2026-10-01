@@ -1,3 +1,6 @@
+from multiprocessing.connection import address_type
+
+from django.db.models import Q
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import (
@@ -28,6 +31,17 @@ class PropertyListView(ListView):
     model = Property
     template_name = "cleaning/property_list.html"
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        search = self.request.GET.get("search")
+        if search:
+            queryset = queryset.filter(
+                Q(name__icontains=search) |
+                Q(address__icontains=search)
+            )
+        return queryset
+
+
 class PropertyDetailView(DetailView):
     model = Property
     template_name = "cleaning/property_detail.html"
@@ -55,6 +69,17 @@ class PropertyDeleteView(DeleteView):
 class CleanerListView(ListView):
     model = Cleaner
     template_name = "cleaning/cleaner_list.html"
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        search = self.request.GET.get("search")
+
+        if search:
+            queryset = queryset.filter(
+                Q(first_name__icontains=search) |
+                Q(last_name__icontains=search)
+            )
+        return queryset
 
 
 class CleanerDetailView(DetailView):
@@ -84,6 +109,19 @@ class CleanerCreateView(CreateView):
 class CleaningListView(ListView):
     model = Cleaning
     template_name = "cleaning/cleaning_list.html"
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        search = self.request.GET.get("search")
+
+        if search:
+            queryset = queryset.filter(
+                Q(property__name__icontains=search) |
+                Q(cleaner__first_name__icontains=search) |
+                Q(cleaner__last_name__icontains=search) |
+                Q(cleaning_type__name__icontains=search)
+            )
+        return queryset
 
 
 class CleaningDetailView(DetailView):

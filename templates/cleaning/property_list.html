@@ -2,6 +2,15 @@
 
 {% block content %}
   <h1>Properties</h1>
+  <form method="get">
+    <input type="text" name="search" value="{{ request.GET.search }}">
+    <button type="button" onclick="window.location.href='{% url 'cleaning:property-list' %}'">
+    ×
+    </button>
+    <button type="submit">Search</button>
+
+  </form>
+
   {% for property in property_list %}
     <p>
       <a href="{% url 'cleaning:property-detail' property.pk %}">
@@ -9,6 +18,11 @@
       </a> — {{ property.address }}
     </p>
   {% endfor %}
+
+  {% if request.GET.search and not cleaner_list %}
+    <p>No cleaners found for "{{ request.GET.search }}".</p>
+  {% endif %}
+
   <a href="{% url 'cleaning:property-create' %}">
     Create Property
   </a>
