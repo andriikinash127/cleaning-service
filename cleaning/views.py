@@ -28,6 +28,7 @@ from .forms import (
     CleaningForm,
     UserRegistrationForm,
     OwnerPropertyForm,
+
 )
 
 
@@ -97,15 +98,11 @@ class CleanerRegisterView(TemplateView):
             user = user_form.save(commit=False)
             user.role = UserRole.CLEANER
             user.save()
-
             cleaner = cleaner_form.save(commit=False)
             cleaner.user = user
             cleaner.save()
-
             cleaner_form.save_m2m()
-
             login(request, user)
-
             return redirect("cleaning:home")
 
         return self.render_to_response(
@@ -154,6 +151,11 @@ class PropertyCreateView(LoginRequiredMixin, CreateView):
     template_name = "cleaning/property_form.html"
     success_url = reverse_lazy("cleaning:property-list")
 
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.role not in [UserRole.OWNER, UserRole.MANAGER]:
+            return redirect("cleaning:property-list")
+        return super().dispatch(request, *args, **kwargs)
+
     def form_valid(self, form):
         form.instance.owner = self.request.user
         return super().form_valid(form)
@@ -171,6 +173,11 @@ class PropertyUpdateView(LoginRequiredMixin, UpdateView):
             queryset = queryset.filter(owner=self.request.user)
         return queryset
 
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.role not in [UserRole.OWNER, UserRole.MANAGER]:
+            return redirect("cleaning:property-list")
+        return super().dispatch(request, *args, **kwargs)
+
 
 class PropertyDeleteView(LoginRequiredMixin, DeleteView):
     model = Property
@@ -182,6 +189,11 @@ class PropertyDeleteView(LoginRequiredMixin, DeleteView):
             queryset = queryset.filter(owner=self.request.user)
         return queryset
 
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.role not in [UserRole.OWNER, UserRole.MANAGER]:
+            return redirect("cleaning:property-list")
+        return super().dispatch(request, *args, **kwargs)
+
 
 class CleanerListView(ListView):
     model = Cleaner
@@ -192,18 +204,15 @@ class CleanerListView(ListView):
         queryset = super().get_queryset()
         search = self.request.GET.get("search")
         cleaning_type = self.request.GET.get("cleaning_type")
-
         if search:
             queryset = queryset.filter(
                 Q(first_name__icontains=search) |
                 Q(last_name__icontains=search)
             )
-
         if cleaning_type:
             queryset = queryset.filter(
                 cleaning_types__name=cleaning_type
             )
-
         return queryset
 
 
@@ -255,6 +264,8 @@ class CleaningListView(LoginRequiredMixin, ListView):
         queryset = super().get_queryset()
         if self.request.user.role == UserRole.OWNER:
             queryset = queryset.filter(property__owner=self.request.user)
+        if self.request.user.role == UserRole.CLEANER:
+            queryset = queryset.filter(cleaner=self.request.user.cleaner)
         search = self.request.GET.get("search")
         status = self.request.GET.get("status")
         cleaning_type = self.request.GET.get("cleaning_type")
@@ -287,6 +298,8 @@ class CleaningDetailView(LoginRequiredMixin, DetailView):
         queryset = super().get_queryset()
         if self.request.user.role == UserRole.OWNER:
             queryset = queryset.filter(property__owner=self.request.user)
+        if self.request.user.role == UserRole.CLEANER:
+            queryset = queryset.filter(cleaner=self.request.user.cleaner)
         return queryset
 
 
@@ -296,10 +309,17 @@ class CleaningCreateView(LoginRequiredMixin, CreateView):
     template_name = "cleaning/cleaning_form.html"
     success_url = reverse_lazy("cleaning:cleaning-list")
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["user"] = self.request.user
+        return kwargs
+
     def form_valid(self, form):
         if self.request.user.role == UserRole.OWNER:
             if form.instance.property.owner != self.request.user:
                 return redirect("cleaning:cleaning-list")
+        if self.request.user.role == UserRole.CLEANER:
+            form.instance.cleaner = self.request.user.cleaner
         return super().form_valid(form)
 
 
@@ -313,6 +333,8 @@ class CleaningUpdateView(LoginRequiredMixin, UpdateView):
         queryset = super().get_queryset()
         if self.request.user.role == UserRole.OWNER:
             queryset = queryset.filter(property__owner=self.request.user)
+        if self.request.user.role == UserRole.CLEANER:
+            queryset = queryset.filter(cleaner=self.request.user.cleaner)
         return queryset
 
 class CleaningDeleteView(LoginRequiredMixin, DeleteView):
@@ -323,6 +345,8 @@ class CleaningDeleteView(LoginRequiredMixin, DeleteView):
         queryset = super().get_queryset()
         if self.request.user.role == UserRole.OWNER:
             queryset = queryset.filter(property__owner=self.request.user)
+        if self.request.user.role == UserRole.CLEANER:
+            queryset = queryset.filter(cleaner=self.request.user.cleaner)
         return queryset
 
 class CleaningTypeListView(ListView):
