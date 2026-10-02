@@ -3,6 +3,7 @@ from django.contrib.auth.views import (
     LoginView,
     LogoutView
 )
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -115,7 +116,7 @@ class CleanerRegisterView(TemplateView):
         )
 
 
-class PropertyListView(ListView):
+class PropertyListView(LoginRequiredMixin, ListView):
     model = Property
     template_name = "cleaning/property_list.html"
     paginate_by = 10
@@ -134,26 +135,26 @@ class PropertyListView(ListView):
         return queryset
 
 
-class PropertyDetailView(DetailView):
+class PropertyDetailView(LoginRequiredMixin, DetailView):
     model = Property
     template_name = "cleaning/property_detail.html"
 
 
-class PropertyCreateView(CreateView):
+class PropertyCreateView(LoginRequiredMixin, CreateView):
     model = Property
     form_class = PropertyForm
     template_name = "cleaning/property_form.html"
     success_url = reverse_lazy("cleaning:property-list")
 
 
-class PropertyUpdateView(UpdateView):
+class PropertyUpdateView(LoginRequiredMixin, UpdateView):
     model = Property
     form_class = PropertyForm
     template_name = "cleaning/property_form.html"
     success_url = reverse_lazy("cleaning:property-list")
 
 
-class PropertyDeleteView(DeleteView):
+class PropertyDeleteView(LoginRequiredMixin, DeleteView):
     model = Property
     success_url = reverse_lazy("cleaning:property-list")
 
@@ -187,26 +188,26 @@ class CleanerDetailView(DetailView):
     template_name = "cleaning/cleaner_detail.html"
 
 
-class CleanerUpdateView(UpdateView):
+class CleanerUpdateView(LoginRequiredMixin, UpdateView):
     model = Cleaner
     form_class = CleanerForm
     template_name = "cleaning/cleaner_form.html"
     success_url = reverse_lazy("cleaning:cleaner-list")
 
 
-class CleanerDeleteView(DeleteView):
+class CleanerDeleteView(LoginRequiredMixin, DeleteView):
     model = Cleaner
     success_url = reverse_lazy("cleaning:cleaner-list")
 
 
-class CleanerCreateView(CreateView):
+class CleanerCreateView(LoginRequiredMixin, CreateView):
     model = Cleaner
     form_class = CleanerForm
     template_name = "cleaning/cleaner_form.html"
     success_url = reverse_lazy("cleaning:cleaner-list")
 
 
-class CleaningListView(ListView):
+class CleaningListView(LoginRequiredMixin, ListView):
     model = Cleaning
     template_name = "cleaning/cleaning_list.html"
     paginate_by = 10
@@ -237,26 +238,26 @@ class CleaningListView(ListView):
         return context
 
 
-class CleaningDetailView(DetailView):
+class CleaningDetailView(LoginRequiredMixin, DetailView):
     model = Cleaning
     template_name = "cleaning/cleaning_detail.html"
 
 
-class CleaningCreateView(CreateView):
+class CleaningCreateView(LoginRequiredMixin, CreateView):
     model = Cleaning
     form_class = CleaningForm
     template_name = "cleaning/cleaning_form.html"
     success_url = reverse_lazy("cleaning:cleaning-list")
 
 
-class CleaningUpdateView(UpdateView):
+class CleaningUpdateView(LoginRequiredMixin, UpdateView):
     model = Cleaning
     form_class = CleaningForm
     template_name = "cleaning/cleaning_form.html"
     success_url = reverse_lazy("cleaning:cleaning-list")
 
 
-class CleaningDeleteView(DeleteView):
+class CleaningDeleteView(LoginRequiredMixin, DeleteView):
     model = Cleaning
     success_url = reverse_lazy("cleaning:cleaning-list")
 
