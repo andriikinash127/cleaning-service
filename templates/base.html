@@ -13,9 +13,29 @@
 
 <body>
 
-  <div class="container mt-4">
-    {% block content %}
-    {% endblock %}
+  <div class="d-flex">
+
+    <aside class="p-3">
+      <h4>Cleaning Service</h4>
+
+      <nav>
+        <a href="{% url 'cleaning:home' %}">Home</a>
+        <br>
+        <a href="{% url 'cleaning:property-list' %}">Properties</a>
+        <br>
+        <a href="{% url 'cleaning:cleaner-list' %}">Cleaners</a>
+        <br>
+        <a href="{% url 'cleaning:cleaning-list' %}">Cleanings</a>
+        <br>
+        <a href="{% url 'cleaning:cleaning-type-list' %}">Cleaning Types</a>
+      </nav>
+    </aside>
+
+    <main class="container mt-4">
+      {% block content %}
+      {% endblock %}
+    </main>
+
   </div>
 
 </body>
