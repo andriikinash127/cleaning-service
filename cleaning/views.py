@@ -34,12 +34,17 @@ class PropertyListView(ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         search = self.request.GET.get("search")
+        property_type = self.request.GET.get("property_type")
         if search:
             queryset = queryset.filter(
                 Q(name__icontains=search) |
                 Q(address__icontains=search)
             )
+        if property_type:
+            queryset = queryset.filter(property_type=property_type)
         return queryset
+
+
 
 
 class PropertyDetailView(DetailView):
@@ -73,12 +78,19 @@ class CleanerListView(ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         search = self.request.GET.get("search")
+        cleaning_type = self.request.GET.get("cleaning_type")
 
         if search:
             queryset = queryset.filter(
                 Q(first_name__icontains=search) |
                 Q(last_name__icontains=search)
             )
+
+        if cleaning_type:
+            queryset = queryset.filter(
+                cleaning_types__name=cleaning_type
+            )
+
         return queryset
 
 
@@ -113,6 +125,8 @@ class CleaningListView(ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         search = self.request.GET.get("search")
+        status = self.request.GET.get("status")
+        cleaning_type = self.request.GET.get("cleaning_type")
 
         if search:
             queryset = queryset.filter(
@@ -121,7 +135,17 @@ class CleaningListView(ListView):
                 Q(cleaner__last_name__icontains=search) |
                 Q(cleaning_type__name__icontains=search)
             )
+
+        if status:
+            queryset = queryset.filter(status=status)
+        if cleaning_type:
+            queryset = queryset.filter(cleaning_type=cleaning_type)
         return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["cleaning_types"] = CleaningType.objects.all()
+        return context
 
 
 class CleaningDetailView(DetailView):

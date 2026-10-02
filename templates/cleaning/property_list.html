@@ -1,13 +1,36 @@
-{% extends "base.html"%}
+{% extends "base.html" %}
 
 {% block content %}
   <h1>Properties</h1>
+
   <form method="get">
-    <input type="text" name="search" value="{{ request.GET.search }}">
-    <button type="button" onclick="window.location.href='{% url 'cleaning:property-list' %}'">
-    ×
-    </button>
+    <input
+      type="text"
+      name="search"
+      value="{{ request.GET.search }}"
+    >
+
     <button type="submit">Search</button>
+
+   <select name="property_type" onchange="this.form.submit()">
+     <option value="" {% if request.GET.property_type == "" %}selected{% endif %}>
+      All
+     </option>
+
+     <option
+      value="Apartment"
+      {% if request.GET.property_type == "Apartment" %}selected{% endif %}
+     >
+      Apartment
+    </option>
+
+    <option
+      value="House"
+      {% if request.GET.property_type == "House" %}selected{% endif %}
+    >
+      House
+    </option>
+    </select>
 
   </form>
 
@@ -15,12 +38,13 @@
     <p>
       <a href="{% url 'cleaning:property-detail' property.pk %}">
         {{ property.name }}
-      </a> — {{ property.address }}
+      </a>
+      — {{ property.address }}
     </p>
   {% endfor %}
 
-  {% if request.GET.search and not cleaner_list %}
-    <p>No cleaners found for "{{ request.GET.search }}".</p>
+  {% if request.GET.search and not property_list %}
+    <p>No properties found for "{{ request.GET.search }}".</p>
   {% endif %}
 
   <a href="{% url 'cleaning:property-create' %}">

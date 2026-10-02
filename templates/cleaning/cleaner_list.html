@@ -5,11 +5,48 @@
   <a href="{% url 'cleaning:cleaner-create' %}">
     Create Cleaner
   </a>
+
   <br>
   <form method="get">
     <input type="text" name="search" value="{{ request.GET.search }}">
     <a href="{% url 'cleaning:cleaner-list' %}">×</a>
     <button type="submit">Search</button>
+
+
+    <select name="cleaning_type" onchange="this.form.submit()">
+      <option value="" {% if request.GET.cleaning_type == "" %}selected{% endif %}>
+        All
+      </option>
+
+      <option
+        value="Regular"
+        {% if request.GET.cleaning_type == "Regular" %}selected{% endif %}
+      >
+      Regular
+      </option>
+
+      <option
+        value="General"
+        {% if request.GET.cleaning_type == "General" %}selected{% endif %}
+      >
+      General
+      </option>
+
+      <option
+        value="Deep cleaning"
+        {% if request.GET.cleaning_type == "Deep cleaning" %}selected{% endif %}
+      >
+      Deep cleaning
+      </option>
+
+      <option
+        value="Move in / Move out"
+        {% if request.GET.cleaning_type == "Move in / Move out" %}selected{% endif %}
+      >
+      Move in / Move out
+      </option>
+    </select>
+
 
   </form>
   {% for cleaner in cleaner_list %}
