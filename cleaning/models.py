@@ -76,6 +76,13 @@ class CleaningType(models.Model):
 
 
 class Cleaner(models.Model):
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name="cleaner",
+        null=True,
+        blank=True,
+    )
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     phone = models.CharField(max_length=20)

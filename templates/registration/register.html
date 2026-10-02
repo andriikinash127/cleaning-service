@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Choose your role</h1>
+
+  <a href="{% url 'cleaning:register-owner' %}">Owner</a>
+  <a href="{% url 'cleaning:register-cleaner' %}">Cleaner</a>
+
+{% endblock %}

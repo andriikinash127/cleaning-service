@@ -21,6 +21,9 @@ from .views import (
     CleaningTypeDetailView,
     UserLoginView,
     UserLogoutView,
+    RegisterView,
+    OwnerRegisterView,
+    CleanerRegisterView,
 )
 
 app_name = "cleaning"
@@ -120,5 +123,20 @@ urlpatterns = [
         UserLogoutView.as_view(),
         name="logout",
     ),
-    
+    path(
+        "register/",
+        RegisterView.as_view(),
+        name="register",
+    ),
+    path(
+        "register/owner/",
+        OwnerRegisterView.as_view(),
+        name="register-owner",
+    ),
+    path(
+        "register/cleaner/",
+        CleanerRegisterView.as_view(),
+        name="register-cleaner",
+    ),
+
 ]

@@ -1,6 +1,7 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
 
-from .models import Property, Cleaner, Cleaning
+from .models import Property, Cleaner, Cleaning, User
 
 
 class PropertyForm(forms.ModelForm):
@@ -9,10 +10,16 @@ class PropertyForm(forms.ModelForm):
         fields = "__all__"
 
 
+class OwnerPropertyForm(forms.ModelForm):
+    class Meta:
+        model = Property
+        exclude = ("owner",)
+
+
 class CleanerForm(forms.ModelForm):
     class Meta:
         model = Cleaner
-        fields = "__all__"
+        exclude = ("user",)
         widgets = {
             "cleaning_types": forms.CheckboxSelectMultiple,
         }
@@ -34,3 +41,9 @@ class CleaningForm(forms.ModelForm):
                 )
 
         return cleaned_data
+
+
+class UserRegistrationForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ("username", "password1", "password2")

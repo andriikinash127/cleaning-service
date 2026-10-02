@@ -1,27 +1,32 @@
+from django.contrib.auth import login
 from django.contrib.auth.views import (
     LoginView,
     LogoutView
 )
 from django.db.models import Q
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import (
     DetailView,
     ListView,
     CreateView,
     UpdateView,
-    DeleteView
+    DeleteView,
+    TemplateView
 )
 from .models import (
     Property,
     Cleaner,
     Cleaning,
-    CleaningType
+    CleaningType,
+    UserRole,
 )
 from .forms import (
     PropertyForm,
     CleanerForm,
-    CleaningForm
+    CleaningForm,
+    UserRegistrationForm,
+    OwnerPropertyForm,
 )
 
 
@@ -34,6 +39,80 @@ class UserLoginView(LoginView):
 
 class UserLogoutView(LogoutView):
     next_page = "/"
+
+
+class RegisterView(TemplateView):
+    template_name = "registration/register.html"
+
+
+class OwnerRegisterView(TemplateView):
+    template_name = "registration/owner_register.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["user_form"] = UserRegistrationForm()
+        context["property_form"] = OwnerPropertyForm()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        user_form = UserRegistrationForm(request.POST)
+        property_form = OwnerPropertyForm(request.POST)
+
+        if user_form.is_valid() and property_form.is_valid():
+            user = user_form.save(commit=False)
+            user.role = UserRole.OWNER
+            user.save()
+
+            property = property_form.save(commit=False)
+            property.owner = user
+            property.save()
+
+            login(request, user)
+
+            return redirect("cleaning:home")
+
+        return self.render_to_response(
+            self.get_context_data(
+                user_form=user_form,
+                property_form=property_form,
+            )
+        )
+
+
+class CleanerRegisterView(TemplateView):
+    template_name = "registration/cleaner_register.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["user_form"] = UserRegistrationForm()
+        context["cleaner_form"] = CleanerForm()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        user_form = UserRegistrationForm(request.POST)
+        cleaner_form = CleanerForm(request.POST)
+
+        if user_form.is_valid() and cleaner_form.is_valid():
+            user = user_form.save(commit=False)
+            user.role = UserRole.CLEANER
+            user.save()
+
+            cleaner = cleaner_form.save(commit=False)
+            cleaner.user = user
+            cleaner.save()
+
+            cleaner_form.save_m2m()
+
+            login(request, user)
+
+            return redirect("cleaning:home")
+
+        return self.render_to_response(
+            self.get_context_data(
+                user_form=user_form,
+                cleaner_form=cleaner_form,
+            )
+        )
 
 
 class PropertyListView(ListView):

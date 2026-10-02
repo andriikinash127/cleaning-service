@@ -28,10 +28,18 @@
         <a href="{% url 'cleaning:cleaning-list' %}">Cleanings</a>
         <br>
         <a href="{% url 'cleaning:cleaning-type-list' %}">Cleaning Types</a>
-        <form method="post" action="{% url 'cleaning:logout' %}">
-          {% csrf_token %}
-          <button type="submit">Logout</button>
-        </form>
+
+        {% if user.is_authenticated %}
+          <form method="post" action="{% url 'cleaning:logout' %}">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+          </form>
+        {% else %}
+          <a href="{% url 'cleaning:login' %}">Login</a>
+          <br>
+          <a href="{% url 'cleaning:register' %}">Register</a>
+        {% endif %}
+
       </nav>
     </aside>
 
