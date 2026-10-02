@@ -128,3 +128,5 @@ MAILERS = {
 }
 
 AUTH_USER_MODEL = "cleaning.User"
+
+LOGIN_REDIRECT_URL = "/"

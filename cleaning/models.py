@@ -2,8 +2,18 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 
+class UserRole(models.TextChoices):
+    MANAGER = "manager", "Manager"
+    OWNER = "owner", "Owner"
+    CLEANER = "cleaner", "Cleaner"
+
+
 class User(AbstractUser):
-    pass
+    role = models.CharField(
+        max_length=20,
+        choices=UserRole.choices,
+        default=UserRole.OWNER,
+    )
 
 
 class PropertyType(models.TextChoices):

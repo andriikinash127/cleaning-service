@@ -1,3 +1,7 @@
+from django.contrib.auth.views import (
+    LoginView,
+    LogoutView
+)
 from django.db.models import Q
 from django.shortcuts import render
 from django.urls import reverse_lazy
@@ -23,6 +27,13 @@ from .forms import (
 
 def home(request):
     return render(request, "home.html")
+
+class UserLoginView(LoginView):
+    template_name = "registration/login.html"
+
+
+class UserLogoutView(LogoutView):
+    next_page = "/"
 
 
 class PropertyListView(ListView):

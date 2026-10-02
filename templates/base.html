@@ -28,6 +28,10 @@
         <a href="{% url 'cleaning:cleaning-list' %}">Cleanings</a>
         <br>
         <a href="{% url 'cleaning:cleaning-type-list' %}">Cleaning Types</a>
+        <form method="post" action="{% url 'cleaning:logout' %}">
+          {% csrf_token %}
+          <button type="submit">Logout</button>
+        </form>
       </nav>
     </aside>
 

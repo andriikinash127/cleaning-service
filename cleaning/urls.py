@@ -19,6 +19,8 @@ from .views import (
     CleaningDeleteView,
     CleaningTypeListView,
     CleaningTypeDetailView,
+    UserLoginView,
+    UserLogoutView,
 )
 
 app_name = "cleaning"
@@ -109,4 +111,14 @@ urlpatterns = [
         CleaningTypeDetailView.as_view(),
         name="cleaning-type-detail",
     ),
+    path(
+        "login/",
+        UserLoginView.as_view(),
+        name="login"),
+    path(
+        "logout/",
+        UserLogoutView.as_view(),
+        name="logout",
+    ),
+    
 ]
