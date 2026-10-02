@@ -8,50 +8,72 @@
   </a>
 
   <form method="get">
-    <input type="text" name="search" value="{{ request.GET.search }}">
-      <a href="{% url 'cleaning:cleaning-list' %}">×</a>
+    <input
+      type="text"
+      name="search"
+      value="{{ request.GET.search }}"
+    >
+
+    <a href="{% url 'cleaning:cleaning-list' %}">×</a>
+
     <button type="submit">Search</button>
 
     <select name="status" onchange="this.form.submit()">
-      <option value="" {% if request.GET.status == "" %}selected{% endif %}>
+      <option
+        value=""
+        {% if request.GET.status == "" %}selected{% endif %}
+      >
         All
       </option>
 
-      <option value="planned"
-            {% if request.GET.status == "planned" %}selected{% endif %}>
+      <option
+        value="planned"
+        {% if request.GET.status == "planned" %}selected{% endif %}
+      >
         Planned
       </option>
 
-      <option value="in progress"
-            {% if request.GET.status == "in progress" %}selected{% endif %}>
+      <option
+        value="in progress"
+        {% if request.GET.status == "in progress" %}selected{% endif %}
+      >
         In progress
       </option>
 
-      <option value="finished"
-            {% if request.GET.status == "finished" %}selected{% endif %}>
+      <option
+        value="finished"
+        {% if request.GET.status == "finished" %}selected{% endif %}
+      >
         Finished
       </option>
 
-      <option value="canceled"
-              {% if request.GET.status == "canceled" %}selected{% endif %}>
+      <option
+        value="canceled"
+        {% if request.GET.status == "canceled" %}selected{% endif %}
+      >
         Canceled
       </option>
     </select>
 
     <select name="cleaning_type" onchange="this.form.submit()">
-      <option value="">All</option>
-        {% for cleaning_type in cleaning_types %}
       <option
+        value=""
+        {% if request.GET.cleaning_type == "" %}selected{% endif %}
+      >
+        All
+      </option>
+
+      {% for cleaning_type in cleaning_types %}
+        <option
           value="{{ cleaning_type.pk }}"
           {% if request.GET.cleaning_type == cleaning_type.pk|stringformat:"s" %}
             selected
           {% endif %}
-      >
-        {{ cleaning_type.name }}
-      </option>
+        >
+          {{ cleaning_type.name }}
+        </option>
       {% endfor %}
     </select>
-
   </form>
 
   {% for cleaning in cleaning_list %}
@@ -61,6 +83,24 @@
       </a>
     </p>
   {% endfor %}
+
+  {% if is_paginated %}
+    <div>
+      {% if page_obj.has_previous %}
+        <a href="{% querystring page=page_obj.previous_page_number %}">
+          Previous
+        </a>
+      {% endif %}
+
+      <span>{{ page_obj.number }}</span>
+
+      {% if page_obj.has_next %}
+        <a href="{% querystring page=page_obj.next_page_number %}">
+          Next
+        </a>
+      {% endif %}
+    </div>
+  {% endif %}
 
   {% if request.GET.search and not cleaning_list %}
     <p>No cleanings found for "{{ request.GET.search }}".</p>

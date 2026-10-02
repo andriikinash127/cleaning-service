@@ -271,5 +271,185 @@
     "status": "canceled",
     "notes": "Cleaning was canceled by the owner"
   }
+},
+  {
+  "model": "cleaning.property",
+  "pk": 6,
+  "fields": {
+    "name": "Central Apartment",
+    "address": "3 Svobody Avenue",
+    "apartment_number": 12,
+    "property_type": "Apartment",
+    "rooms": 2,
+    "owner": 4
+  }
+},
+{
+  "model": "cleaning.property",
+  "pk": 7,
+  "fields": {
+    "name": "Modern House",
+    "address": "56 Zelena Street",
+    "apartment_number": null,
+    "property_type": "House",
+    "rooms": 6,
+    "owner": 2
+  }
+},
+{
+  "model": "cleaning.property",
+  "pk": 8,
+  "fields": {
+    "name": "Old Town Apartment",
+    "address": "19 Virmenska Street",
+    "apartment_number": 5,
+    "property_type": "Apartment",
+    "rooms": 1,
+    "owner": 3
+  }
+},
+{
+  "model": "cleaning.property",
+  "pk": 9,
+  "fields": {
+    "name": "Family House",
+    "address": "33 Stryiska Street",
+    "apartment_number": null,
+    "property_type": "House",
+    "rooms": 5,
+    "owner": 4
+  }
+},
+{
+  "model": "cleaning.property",
+  "pk": 10,
+  "fields": {
+    "name": "Park View Apartment",
+    "address": "10 Bandery Avenue",
+    "apartment_number": 31,
+    "property_type": "Apartment",
+    "rooms": 3,
+    "owner": 2
+  }
+},
+{
+  "model": "cleaning.property",
+  "pk": 11,
+  "fields": {
+    "name": "Quiet House",
+    "address": "27 Horikhova Street",
+    "apartment_number": null,
+    "property_type": "House",
+    "rooms": 3,
+    "owner": 3
+  }
+},
+{
+  "model": "cleaning.property",
+  "pk": 12,
+  "fields": {
+    "name": "Luxury Apartment",
+    "address": "5 Kotliarevskoho Street",
+    "apartment_number": 18,
+    "property_type": "Apartment",
+    "rooms": 5,
+    "owner": 4
+  }
+},
+{
+  "model": "cleaning.property",
+  "pk": 13,
+  "fields": {
+    "name": "Garden House",
+    "address": "44 Velykoho Street",
+    "apartment_number": null,
+    "property_type": "House",
+    "rooms": 4,
+    "owner": 2
+  }
+},
+{
+  "model": "cleaning.property",
+  "pk": 14,
+  "fields": {
+    "name": "Bright Apartment",
+    "address": "16 Kulparkivska Street",
+    "apartment_number": 9,
+    "property_type": "Apartment",
+    "rooms": 2,
+    "owner": 3
+  }
+},
+{
+  "model": "cleaning.property",
+  "pk": 15,
+  "fields": {
+    "name": "Lake House",
+    "address": "72 Pasichna Street",
+    "apartment_number": null,
+    "property_type": "House",
+    "rooms": 6,
+    "owner": 4
+  }
+},
+{
+  "model": "cleaning.property",
+  "pk": 16,
+  "fields": {
+    "name": "Minimalist Apartment",
+    "address": "21 Chornovola Avenue",
+    "apartment_number": 27,
+    "property_type": "Apartment",
+    "rooms": 3,
+    "owner": 2
+  }
+},
+{
+  "model": "cleaning.property",
+  "pk": 17,
+  "fields": {
+    "name": "Large Family House",
+    "address": "39 Washington Street",
+    "apartment_number": null,
+    "property_type": "House",
+    "rooms": 7,
+    "owner": 3
+  }
+},
+{
+  "model": "cleaning.property",
+  "pk": 18,
+  "fields": {
+    "name": "City Center Apartment",
+    "address": "7 Doroshenka Street",
+    "apartment_number": 16,
+    "property_type": "Apartment",
+    "rooms": 4,
+    "owner": 4
+  }
+},
+{
+  "model": "cleaning.property",
+  "pk": 19,
+  "fields": {
+    "name": "Small House",
+    "address": "63 Horodotska Street",
+    "apartment_number": null,
+    "property_type": "House",
+    "rooms": 3,
+    "owner": 2
+  }
+},
+{
+  "model": "cleaning.property",
+  "pk": 20,
+  "fields": {
+    "name": "Elegant Apartment",
+    "address": "11 Levytskoho Street",
+    "apartment_number": 4,
+    "property_type": "Apartment",
+    "rooms": 2,
+    "owner": 3
+  }
 }
 ]

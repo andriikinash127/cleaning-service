@@ -1,5 +1,3 @@
-from multiprocessing.connection import address_type
-
 from django.db.models import Q
 from django.shortcuts import render
 from django.urls import reverse_lazy
@@ -30,6 +28,7 @@ def home(request):
 class PropertyListView(ListView):
     model = Property
     template_name = "cleaning/property_list.html"
+    paginate_by = 5
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -43,8 +42,6 @@ class PropertyListView(ListView):
         if property_type:
             queryset = queryset.filter(property_type=property_type)
         return queryset
-
-
 
 
 class PropertyDetailView(DetailView):
@@ -74,6 +71,7 @@ class PropertyDeleteView(DeleteView):
 class CleanerListView(ListView):
     model = Cleaner
     template_name = "cleaning/cleaner_list.html"
+    paginate_by = 2
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -121,6 +119,7 @@ class CleanerCreateView(CreateView):
 class CleaningListView(ListView):
     model = Cleaning
     template_name = "cleaning/cleaning_list.html"
+    paginate_by = 2
 
     def get_queryset(self):
         queryset = super().get_queryset()
