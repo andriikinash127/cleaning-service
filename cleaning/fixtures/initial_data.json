@@ -1,455 +1,1122 @@
 [
-{
-  "model": "cleaning.user",
-  "pk": 2,
-  "fields": {
-    "password": "pbkdf2_sha256$1500000$asfzQolZCBFWHzWGiV6ILL$HjBqhIFg8X6c/kLYP/JDNlzzkQxP93NfHZoV9N6HpnY=",
-    "last_login": null,
-    "is_superuser": false,
-    "username": "john_smith",
-    "first_name": "John",
-    "last_name": "Smith",
-    "email": "john@example.com",
-    "is_staff": false,
-    "is_active": true,
-    "date_joined": "2026-09-30T17:14:53Z",
-    "groups": [],
-    "user_permissions": []
-  }
-},
-{
-  "model": "cleaning.user",
-  "pk": 3,
-  "fields": {
-    "password": "pbkdf2_sha256$1500000$WR3D4ERamO4cUw8pQF7EIJ$t8GPUgIOOsRoVyeRVoAJ2NoUnm+eBF3xLygTh9IAlEc=",
-    "last_login": null,
-    "is_superuser": false,
-    "username": "anna_wilson",
-    "first_name": "Anna",
-    "last_name": "Wilson",
-    "email": "anna@example.com",
-    "is_staff": false,
-    "is_active": true,
-    "date_joined": "2026-09-30T17:16:48Z",
-    "groups": [],
-    "user_permissions": []
-  }
-},
-{
-  "model": "cleaning.user",
-  "pk": 4,
-  "fields": {
-    "password": "pbkdf2_sha256$1500000$VwOnpTDoawXd88Trog52Sh$fb3Vwta9HXKpaFXjX3JIJ+Ddho6rNTekwFRiPLybtqA=",
-    "last_login": null,
-    "is_superuser": false,
-    "username": "michael_brown",
-    "first_name": "Michael",
-    "last_name": "Broun",
-    "email": "michael@example.com",
-    "is_staff": false,
-    "is_active": true,
-    "date_joined": "2026-09-30T17:17:38Z",
-    "groups": [],
-    "user_permissions": []
-  }
-},
-{
-  "model": "cleaning.property",
-  "pk": 1,
-  "fields": {
-    "name": "House 1",
-    "address": "Test st. 1",
-    "apartment_number": null,
-    "property_type": "House",
-    "rooms": 6,
-    "owner": 3
-  }
-},
-{
-  "model": "cleaning.property",
-  "pk": 2,
-  "fields": {
-    "name": "Downtown Apartment",
-    "address": "12 Shevchenka Street",
-    "apartment_number": 15,
-    "property_type": "Apartment",
-    "rooms": 2,
-    "owner": 2
-  }
-},
-{
-  "model": "cleaning.property",
-  "pk": 3,
-  "fields": {
-    "name": "Green Park Apartment",
-    "address": "25 Franka Street",
-    "apartment_number": 8,
-    "property_type": "Apartment",
-    "rooms": 3,
-    "owner": 3
-  }
-},
-{
-  "model": "cleaning.property",
-  "pk": 4,
-  "fields": {
-    "name": "Riverside Apartment",
-    "address": "7 Horodotska Street",
-    "apartment_number": 21,
-    "property_type": "Apartment",
-    "rooms": 1,
-    "owner": 4
-  }
-},
-{
-  "model": "cleaning.property",
-  "pk": 5,
-  "fields": {
-    "name": "Sunny House",
-    "address": "45 Lychakivska Street",
-    "apartment_number": null,
-    "property_type": "House",
-    "rooms": 5,
-    "owner": 2
-  }
-},
-{
-  "model": "cleaning.cleaningtype",
-  "pk": 1,
-  "fields": {
-    "name": "Regular",
-    "description": "Routine cleaning to keep the property clean and tidy."
-  }
-},
-{
-  "model": "cleaning.cleaningtype",
-  "pk": 2,
-  "fields": {
-    "name": "General",
-    "description": "Thorough cleaning of the main areas and surfaces of the property."
-  }
-},
-{
-  "model": "cleaning.cleaningtype",
-  "pk": 3,
-  "fields": {
-    "name": "Deep cleaning",
-    "description": "Detailed cleaning of hard-to-reach areas, surfaces, and equipment."
-  }
-},
-{
-  "model": "cleaning.cleaningtype",
-  "pk": 4,
-  "fields": {
-    "name": "Move in / Move out",
-    "description": "Comprehensive cleaning before moving in or after moving out of a property."
-  }
-},
-{
-  "model": "cleaning.cleaner",
-  "pk": 1,
-  "fields": {
-    "first_name": "Daniel",
-    "last_name": "Miller",
-    "phone": "+380501112233",
-    "cleaning_types": [
-      1,
-      2
-    ]
-  }
-},
-{
-  "model": "cleaning.cleaner",
-  "pk": 2,
-  "fields": {
-    "first_name": "Emily",
-    "last_name": "Davis",
-    "phone": "+380502223344",
-    "cleaning_types": [
-      1,
-      3
-    ]
-  }
-},
-{
-  "model": "cleaning.cleaner",
-  "pk": 3,
-  "fields": {
-    "first_name": "James",
-    "last_name": "Willson",
-    "phone": "+380503334455",
-    "cleaning_types": [
-      2,
-      3,
-      4
-    ]
-  }
-},
-{
-  "model": "cleaning.cleaner",
-  "pk": 4,
-  "fields": {
-    "first_name": "Sophia",
-    "last_name": "Tailor",
-    "phone": "+380504445566",
-    "cleaning_types": [
-      1,
-      2,
-      3,
-      4
-    ]
-  }
-},
-{
-  "model": "cleaning.cleaning",
-  "pk": 1,
-  "fields": {
-    "date": "2026-10-02",
-    "cleaning_type": 1,
-    "property": 2,
-    "cleaner": 1,
-    "status": "planned",
-    "notes": "Weekly cleaning"
-  }
-},
-{
-  "model": "cleaning.cleaning",
-  "pk": 2,
-  "fields": {
-    "date": "2026-10-03",
-    "cleaning_type": 2,
-    "property": 3,
-    "cleaner": 2,
-    "status": "planned",
-    "notes": "Kitchen and bathroom cleaning"
-  }
-},
-{
-  "model": "cleaning.cleaning",
-  "pk": 3,
-  "fields": {
-    "date": "2026-10-05",
-    "cleaning_type": 3,
-    "property": 4,
-    "cleaner": 2,
-    "status": "in progress",
-    "notes": "Detailed cleaning before guests arrive"
-  }
-},
-{
-  "model": "cleaning.cleaning",
-  "pk": 4,
-  "fields": {
-    "date": "2026-10-07",
-    "cleaning_type": 2,
-    "property": 5,
-    "cleaner": 3,
-    "status": "finished",
-    "notes": "Cleaning completed successfully"
-  }
-},
-{
-  "model": "cleaning.cleaning",
-  "pk": 5,
-  "fields": {
-    "date": "2026-10-10",
-    "cleaning_type": 4,
-    "property": 2,
-    "cleaner": 3,
-    "status": "planned",
-    "notes": "Moving preparation"
-  }
-},
-{
-  "model": "cleaning.cleaning",
-  "pk": 6,
-  "fields": {
-    "date": "2026-10-12",
-    "cleaning_type": 3,
-    "property": 3,
-    "cleaner": 4,
-    "status": "canceled",
-    "notes": "Cleaning was canceled by the owner"
-  }
-},
   {
-  "model": "cleaning.property",
-  "pk": 6,
-  "fields": {
-    "name": "Central Apartment",
-    "address": "3 Svobody Avenue",
-    "apartment_number": 12,
-    "property_type": "Apartment",
-    "rooms": 2,
-    "owner": 4
+    "model": "cleaning.user",
+    "pk": 2,
+    "fields": {
+      "password": "pbkdf2_sha256$1500000$asfzQolZCBFWHzWGiV6ILL$HjBqhIFg8X6c/kLYP/JDNlzzkQxP93NfHZoV9N6HpnY=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "john_smith",
+      "first_name": "John",
+      "last_name": "Smith",
+      "email": "john@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2026-09-30T17:14:53Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "cleaning.user",
+    "pk": 3,
+    "fields": {
+      "password": "pbkdf2_sha256$1500000$WR3D4ERamO4cUw8pQF7EIJ$t8GPUgIOOsRoVyeRVoAJ2NoUnm+eBF3xLygTh9IAlEc=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "anna_wilson",
+      "first_name": "Anna",
+      "last_name": "Wilson",
+      "email": "anna@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2026-09-30T17:16:48Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "cleaning.user",
+    "pk": 4,
+    "fields": {
+      "password": "pbkdf2_sha256$1500000$VwOnpTDoawXd88Trog52Sh$fb3Vwta9HXKpaFXjX3JIJ+Ddho6rNTekwFRiPLybtqA=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "michael_brown",
+      "first_name": "Michael",
+      "last_name": "Brown",
+      "email": "michael@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2026-09-30T17:17:38Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "cleaning.user",
+    "pk": 5,
+    "fields": {
+      "password": "pbkdf2_sha256$1500000$asfzQolZCBFWHzWGiV6ILL$HjBqhIFg8X6c/kLYP/JDNlzzkQxP93NfHZoV9N6HpnY=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "olivia_taylor",
+      "first_name": "Olivia",
+      "last_name": "Taylor",
+      "email": "olivia@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2026-09-30T18:00:00Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "cleaning.user",
+    "pk": 6,
+    "fields": {
+      "password": "pbkdf2_sha256$1500000$asfzQolZCBFWHzWGiV6ILL$HjBqhIFg8X6c/kLYP/JDNlzzkQxP93NfHZoV9N6HpnY=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "liam_jones",
+      "first_name": "Liam",
+      "last_name": "Jones",
+      "email": "liam@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2026-09-30T18:01:00Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "cleaning.user",
+    "pk": 7,
+    "fields": {
+      "password": "pbkdf2_sha256$1500000$asfzQolZCBFWHzWGiV6ILL$HjBqhIFg8X6c/kLYP/JDNlzzkQxP93NfHZoV9N6HpnY=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "emma_clark",
+      "first_name": "Emma",
+      "last_name": "Clark",
+      "email": "emma@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2026-09-30T18:02:00Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "cleaning.user",
+    "pk": 8,
+    "fields": {
+      "password": "pbkdf2_sha256$1500000$asfzQolZCBFWHzWGiV6ILL$HjBqhIFg8X6c/kLYP/JDNlzzkQxP93NfHZoV9N6HpnY=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "noah_walker",
+      "first_name": "Noah",
+      "last_name": "Walker",
+      "email": "noah@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2026-09-30T18:03:00Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "cleaning.user",
+    "pk": 9,
+    "fields": {
+      "password": "pbkdf2_sha256$1500000$asfzQolZCBFWHzWGiV6ILL$HjBqhIFg8X6c/kLYP/JDNlzzkQxP93NfHZoV9N6HpnY=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "lucas_hall",
+      "first_name": "Lucas",
+      "last_name": "Hall",
+      "email": "lucas@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2026-09-30T18:04:00Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+
+  {
+    "model": "cleaning.property",
+    "pk": 1,
+    "fields": {
+      "name": "House 1",
+      "address": "Test st. 1",
+      "apartment_number": null,
+      "property_type": "House",
+      "rooms": 6,
+      "owner": 3
+    }
+  },
+  {
+    "model": "cleaning.property",
+    "pk": 2,
+    "fields": {
+      "name": "Downtown Apartment",
+      "address": "12 Shevchenka Street",
+      "apartment_number": 15,
+      "property_type": "Apartment",
+      "rooms": 2,
+      "owner": 2
+    }
+  },
+  {
+    "model": "cleaning.property",
+    "pk": 3,
+    "fields": {
+      "name": "Green Park Apartment",
+      "address": "25 Franka Street",
+      "apartment_number": 8,
+      "property_type": "Apartment",
+      "rooms": 3,
+      "owner": 3
+    }
+  },
+  {
+    "model": "cleaning.property",
+    "pk": 4,
+    "fields": {
+      "name": "Riverside Apartment",
+      "address": "7 Horodotska Street",
+      "apartment_number": 21,
+      "property_type": "Apartment",
+      "rooms": 1,
+      "owner": 4
+    }
+  },
+  {
+    "model": "cleaning.property",
+    "pk": 5,
+    "fields": {
+      "name": "Sunny House",
+      "address": "45 Lychakivska Street",
+      "apartment_number": null,
+      "property_type": "House",
+      "rooms": 5,
+      "owner": 2
+    }
+  },
+  {
+    "model": "cleaning.property",
+    "pk": 6,
+    "fields": {
+      "name": "Central Apartment",
+      "address": "3 Svobody Avenue",
+      "apartment_number": 12,
+      "property_type": "Apartment",
+      "rooms": 2,
+      "owner": 4
+    }
+  },
+  {
+    "model": "cleaning.property",
+    "pk": 7,
+    "fields": {
+      "name": "Modern House",
+      "address": "56 Zelena Street",
+      "apartment_number": null,
+      "property_type": "House",
+      "rooms": 6,
+      "owner": 2
+    }
+  },
+  {
+    "model": "cleaning.property",
+    "pk": 8,
+    "fields": {
+      "name": "Old Town Apartment",
+      "address": "19 Virmenska Street",
+      "apartment_number": 5,
+      "property_type": "Apartment",
+      "rooms": 1,
+      "owner": 3
+    }
+  },
+  {
+    "model": "cleaning.property",
+    "pk": 9,
+    "fields": {
+      "name": "Family House",
+      "address": "33 Stryiska Street",
+      "apartment_number": null,
+      "property_type": "House",
+      "rooms": 5,
+      "owner": 4
+    }
+  },
+  {
+    "model": "cleaning.property",
+    "pk": 10,
+    "fields": {
+      "name": "Park View Apartment",
+      "address": "10 Bandery Avenue",
+      "apartment_number": 31,
+      "property_type": "Apartment",
+      "rooms": 3,
+      "owner": 2
+    }
+  },
+  {
+    "model": "cleaning.property",
+    "pk": 11,
+    "fields": {
+      "name": "Quiet House",
+      "address": "27 Horikhova Street",
+      "apartment_number": null,
+      "property_type": "House",
+      "rooms": 3,
+      "owner": 3
+    }
+  },
+  {
+    "model": "cleaning.property",
+    "pk": 12,
+    "fields": {
+      "name": "Luxury Apartment",
+      "address": "5 Kotliarevskoho Street",
+      "apartment_number": 18,
+      "property_type": "Apartment",
+      "rooms": 5,
+      "owner": 4
+    }
+  },
+  {
+    "model": "cleaning.property",
+    "pk": 13,
+    "fields": {
+      "name": "Garden House",
+      "address": "44 Velykoho Street",
+      "apartment_number": null,
+      "property_type": "House",
+      "rooms": 4,
+      "owner": 2
+    }
+  },
+  {
+    "model": "cleaning.property",
+    "pk": 14,
+    "fields": {
+      "name": "Bright Apartment",
+      "address": "16 Kulparkivska Street",
+      "apartment_number": 9,
+      "property_type": "Apartment",
+      "rooms": 2,
+      "owner": 3
+    }
+  },
+  {
+    "model": "cleaning.property",
+    "pk": 15,
+    "fields": {
+      "name": "Lake House",
+      "address": "72 Pasichna Street",
+      "apartment_number": null,
+      "property_type": "House",
+      "rooms": 6,
+      "owner": 4
+    }
+  },
+  {
+    "model": "cleaning.property",
+    "pk": 16,
+    "fields": {
+      "name": "Minimalist Apartment",
+      "address": "21 Chornovola Avenue",
+      "apartment_number": 27,
+      "property_type": "Apartment",
+      "rooms": 3,
+      "owner": 2
+    }
+  },
+  {
+    "model": "cleaning.property",
+    "pk": 17,
+    "fields": {
+      "name": "Large Family House",
+      "address": "39 Washington Street",
+      "apartment_number": null,
+      "property_type": "House",
+      "rooms": 7,
+      "owner": 3
+    }
+  },
+  {
+    "model": "cleaning.property",
+    "pk": 18,
+    "fields": {
+      "name": "City Center Apartment",
+      "address": "7 Doroshenka Street",
+      "apartment_number": 16,
+      "property_type": "Apartment",
+      "rooms": 4,
+      "owner": 4
+    }
+  },
+  {
+    "model": "cleaning.property",
+    "pk": 19,
+    "fields": {
+      "name": "Small House",
+      "address": "63 Horodotska Street",
+      "apartment_number": null,
+      "property_type": "House",
+      "rooms": 3,
+      "owner": 2
+    }
+  },
+  {
+    "model": "cleaning.property",
+    "pk": 20,
+    "fields": {
+      "name": "Elegant Apartment",
+      "address": "11 Levytskoho Street",
+      "apartment_number": 4,
+      "property_type": "Apartment",
+      "rooms": 2,
+      "owner": 3
+    }
+  },
+  {
+    "model": "cleaning.property",
+    "pk": 21,
+    "fields": {
+      "name": "West Side Apartment",
+      "address": "14 Horodotska Street",
+      "apartment_number": 11,
+      "property_type": "Apartment",
+      "rooms": 2,
+      "owner": 5
+    }
+  },
+  {
+    "model": "cleaning.property",
+    "pk": 22,
+    "fields": {
+      "name": "Forest House",
+      "address": "8 Bryukhovytska Street",
+      "apartment_number": null,
+      "property_type": "House",
+      "rooms": 5,
+      "owner": 6
+    }
+  },
+  {
+    "model": "cleaning.property",
+    "pk": 23,
+    "fields": {
+      "name": "Cozy Apartment",
+      "address": "22 Zamarstynivska Street",
+      "apartment_number": 7,
+      "property_type": "Apartment",
+      "rooms": 1,
+      "owner": 7
+    }
+  },
+  {
+    "model": "cleaning.property",
+    "pk": 24,
+    "fields": {
+      "name": "Hilltop House",
+      "address": "31 Shevchenka Street",
+      "apartment_number": null,
+      "property_type": "House",
+      "rooms": 4,
+      "owner": 8
+    }
+  },
+  {
+    "model": "cleaning.property",
+    "pk": 25,
+    "fields": {
+      "name": "Sunny Apartment",
+      "address": "42 Franka Street",
+      "apartment_number": 19,
+      "property_type": "Apartment",
+      "rooms": 3,
+      "owner": 9
+    }
+  },
+  {
+    "model": "cleaning.property",
+    "pk": 26,
+    "fields": {
+      "name": "Royal House",
+      "address": "18 Pekarska Street",
+      "apartment_number": null,
+      "property_type": "House",
+      "rooms": 8,
+      "owner": 5
+    }
+  },
+  {
+    "model": "cleaning.property",
+    "pk": 27,
+    "fields": {
+      "name": "Small Central Apartment",
+      "address": "9 Svobody Avenue",
+      "apartment_number": 3,
+      "property_type": "Apartment",
+      "rooms": 1,
+      "owner": 6
+    }
+  },
+  {
+    "model": "cleaning.property",
+    "pk": 28,
+    "fields": {
+      "name": "Green Valley House",
+      "address": "52 Zelena Street",
+      "apartment_number": null,
+      "property_type": "House",
+      "rooms": 6,
+      "owner": 7
+    }
+  },
+  {
+    "model": "cleaning.property",
+    "pk": 29,
+    "fields": {
+      "name": "Modern City Apartment",
+      "address": "6 Doroshenka Street",
+      "apartment_number": 24,
+      "property_type": "Apartment",
+      "rooms": 4,
+      "owner": 8
+    }
+  },
+  {
+    "model": "cleaning.property",
+    "pk": 30,
+    "fields": {
+      "name": "Quiet Family House",
+      "address": "73 Stryiska Street",
+      "apartment_number": null,
+      "property_type": "House",
+      "rooms": 5,
+      "owner": 9
+    }
+  },
+  {
+    "model": "cleaning.property",
+    "pk": 31,
+    "fields": {
+      "name": "Blue Apartment",
+      "address": "17 Kulparkivska Street",
+      "apartment_number": 14,
+      "property_type": "Apartment",
+      "rooms": 2,
+      "owner": 5
+    }
+  },
+  {
+    "model": "cleaning.property",
+    "pk": 32,
+    "fields": {
+      "name": "Garden View House",
+      "address": "28 Pasichna Street",
+      "apartment_number": null,
+      "property_type": "House",
+      "rooms": 4,
+      "owner": 6
+    }
+  },
+  {
+    "model": "cleaning.property",
+    "pk": 33,
+    "fields": {
+      "name": "Old City Apartment",
+      "address": "4 Virmenska Street",
+      "apartment_number": 10,
+      "property_type": "Apartment",
+      "rooms": 2,
+      "owner": 7
+    }
+  },
+  {
+    "model": "cleaning.property",
+    "pk": 34,
+    "fields": {
+      "name": "Large Modern House",
+      "address": "61 Lychakivska Street",
+      "apartment_number": null,
+      "property_type": "House",
+      "rooms": 7,
+      "owner": 8
+    }
+  },
+  {
+    "model": "cleaning.property",
+    "pk": 35,
+    "fields": {
+      "name": "Park Apartment",
+      "address": "15 Bandery Avenue",
+      "apartment_number": 6,
+      "property_type": "Apartment",
+      "rooms": 3,
+      "owner": 9
+    }
+  },
+  {
+    "model": "cleaning.property",
+    "pk": 36,
+    "fields": {
+      "name": "Comfort House",
+      "address": "35 Chornovola Avenue",
+      "apartment_number": null,
+      "property_type": "House",
+      "rooms": 5,
+      "owner": 5
+    }
+  },
+  {
+    "model": "cleaning.property",
+    "pk": 37,
+    "fields": {
+      "name": "Bright City Apartment",
+      "address": "23 Levytskoho Street",
+      "apartment_number": 13,
+      "property_type": "Apartment",
+      "rooms": 2,
+      "owner": 6
+    }
+  },
+  {
+    "model": "cleaning.property",
+    "pk": 38,
+    "fields": {
+      "name": "Family Garden House",
+      "address": "47 Velykoho Street",
+      "apartment_number": null,
+      "property_type": "House",
+      "rooms": 6,
+      "owner": 7
+    }
+  },
+  {
+    "model": "cleaning.property",
+    "pk": 39,
+    "fields": {
+      "name": "Luxury City Apartment",
+      "address": "30 Franka Street",
+      "apartment_number": 22,
+      "property_type": "Apartment",
+      "rooms": 5,
+      "owner": 8
+    }
+  },
+  {
+    "model": "cleaning.property",
+    "pk": 40,
+    "fields": {
+      "name": "Riverside House",
+      "address": "81 Pasichna Street",
+      "apartment_number": null,
+      "property_type": "House",
+      "rooms": 4,
+      "owner": 9
+    }
+  },
+
+  {
+    "model": "cleaning.cleaningtype",
+    "pk": 1,
+    "fields": {
+      "name": "Regular",
+      "description": "Routine cleaning to keep the property clean and tidy."
+    }
+  },
+  {
+    "model": "cleaning.cleaningtype",
+    "pk": 2,
+    "fields": {
+      "name": "General",
+      "description": "Thorough cleaning of the main areas and surfaces of the property."
+    }
+  },
+  {
+    "model": "cleaning.cleaningtype",
+    "pk": 3,
+    "fields": {
+      "name": "Deep cleaning",
+      "description": "Detailed cleaning of hard-to-reach areas, surfaces, and equipment."
+    }
+  },
+  {
+    "model": "cleaning.cleaningtype",
+    "pk": 4,
+    "fields": {
+      "name": "Move in / Move out",
+      "description": "Comprehensive cleaning before moving in or after moving out of a property."
+    }
+  },
+
+  {
+    "model": "cleaning.cleaner",
+    "pk": 1,
+    "fields": {
+      "first_name": "Daniel",
+      "last_name": "Miller",
+      "phone": "+380501112233",
+      "cleaning_types": [1, 2]
+    }
+  },
+  {
+    "model": "cleaning.cleaner",
+    "pk": 2,
+    "fields": {
+      "first_name": "Emily",
+      "last_name": "Davis",
+      "phone": "+380502223344",
+      "cleaning_types": [1, 3]
+    }
+  },
+  {
+    "model": "cleaning.cleaner",
+    "pk": 3,
+    "fields": {
+      "first_name": "James",
+      "last_name": "Willson",
+      "phone": "+380503334455",
+      "cleaning_types": [2, 3, 4]
+    }
+  },
+  {
+    "model": "cleaning.cleaner",
+    "pk": 4,
+    "fields": {
+      "first_name": "Sophia",
+      "last_name": "Tailor",
+      "phone": "+380504445566",
+      "cleaning_types": [1, 2, 3, 4]
+    }
+  },
+  {
+    "model": "cleaning.cleaner",
+    "pk": 5,
+    "fields": {
+      "first_name": "Olivia",
+      "last_name": "Taylor",
+      "phone": "+380505556677",
+      "cleaning_types": [1]
+    }
+  },
+  {
+    "model": "cleaning.cleaner",
+    "pk": 6,
+    "fields": {
+      "first_name": "Liam",
+      "last_name": "Jones",
+      "phone": "+380506667788",
+      "cleaning_types": [1, 2]
+    }
+  },
+  {
+    "model": "cleaning.cleaner",
+    "pk": 7,
+    "fields": {
+      "first_name": "Noah",
+      "last_name": "Walker",
+      "phone": "+380507778899",
+      "cleaning_types": [3]
+    }
+  },
+  {
+    "model": "cleaning.cleaner",
+    "pk": 8,
+    "fields": {
+      "first_name": "Emma",
+      "last_name": "Clark",
+      "phone": "+380508889900",
+      "cleaning_types": [2, 3]
+    }
+  },
+  {
+    "model": "cleaning.cleaner",
+    "pk": 9,
+    "fields": {
+      "first_name": "Lucas",
+      "last_name": "Hall",
+      "phone": "+380509990011",
+      "cleaning_types": [4]
+    }
+  },
+  {
+    "model": "cleaning.cleaner",
+    "pk": 10,
+    "fields": {
+      "first_name": "Mia",
+      "last_name": "Young",
+      "phone": "+380500101122",
+      "cleaning_types": [1, 2, 3]
+    }
+  },
+
+  {
+    "model": "cleaning.cleaning",
+    "pk": 1,
+    "fields": {
+      "date": "2026-10-02",
+      "cleaning_type": 1,
+      "property": 2,
+      "cleaner": 1,
+      "status": "planned",
+      "notes": "Weekly cleaning"
+    }
+  },
+  {
+    "model": "cleaning.cleaning",
+    "pk": 2,
+    "fields": {
+      "date": "2026-10-03",
+      "cleaning_type": 2,
+      "property": 3,
+      "cleaner": 1,
+      "status": "planned",
+      "notes": "Kitchen and bathroom cleaning"
+    }
+  },
+  {
+    "model": "cleaning.cleaning",
+    "pk": 3,
+    "fields": {
+      "date": "2026-10-05",
+      "cleaning_type": 3,
+      "property": 4,
+      "cleaner": 2,
+      "status": "in progress",
+      "notes": "Detailed cleaning before guests arrive"
+    }
+  },
+  {
+    "model": "cleaning.cleaning",
+    "pk": 4,
+    "fields": {
+      "date": "2026-10-07",
+      "cleaning_type": 2,
+      "property": 5,
+      "cleaner": 3,
+      "status": "finished",
+      "notes": "Cleaning completed successfully"
+    }
+  },
+  {
+    "model": "cleaning.cleaning",
+    "pk": 5,
+    "fields": {
+      "date": "2026-10-10",
+      "cleaning_type": 4,
+      "property": 2,
+      "cleaner": 3,
+      "status": "planned",
+      "notes": "Moving preparation"
+    }
+  },
+  {
+    "model": "cleaning.cleaning",
+    "pk": 6,
+    "fields": {
+      "date": "2026-10-12",
+      "cleaning_type": 3,
+      "property": 3,
+      "cleaner": 4,
+      "status": "canceled",
+      "notes": "Cleaning was canceled by the owner"
+    }
+  },
+  {
+    "model": "cleaning.cleaning",
+    "pk": 7,
+    "fields": {
+      "date": "2026-10-14",
+      "cleaning_type": 1,
+      "property": 6,
+      "cleaner": 5,
+      "status": "finished",
+      "notes": "Regular apartment cleaning"
+    }
+  },
+  {
+    "model": "cleaning.cleaning",
+    "pk": 8,
+    "fields": {
+      "date": "2026-10-16",
+      "cleaning_type": 2,
+      "property": 7,
+      "cleaner": 6,
+      "status": "finished",
+      "notes": "General house cleaning"
+    }
+  },
+  {
+    "model": "cleaning.cleaning",
+    "pk": 9,
+    "fields": {
+      "date": "2026-10-18",
+      "cleaning_type": 3,
+      "property": 8,
+      "cleaner": 7,
+      "status": "planned",
+      "notes": "Deep cleaning of the apartment"
+    }
+  },
+  {
+    "model": "cleaning.cleaning",
+    "pk": 10,
+    "fields": {
+      "date": "2026-10-20",
+      "cleaning_type": 4,
+      "property": 9,
+      "cleaner": 9,
+      "status": "planned",
+      "notes": "Cleaning before moving in"
+    }
+  },
+  {
+    "model": "cleaning.cleaning",
+    "pk": 11,
+    "fields": {
+      "date": "2026-10-22",
+      "cleaning_type": 1,
+      "property": 10,
+      "cleaner": 6,
+      "status": "in progress",
+      "notes": "Routine apartment cleaning"
+    }
+  },
+  {
+    "model": "cleaning.cleaning",
+    "pk": 12,
+    "fields": {
+      "date": "2026-10-24",
+      "cleaning_type": 2,
+      "property": 11,
+      "cleaner": 8,
+      "status": "finished",
+      "notes": "General house cleaning"
+    }
+  },
+  {
+    "model": "cleaning.cleaning",
+    "pk": 13,
+    "fields": {
+      "date": "2026-10-26",
+      "cleaning_type": 3,
+      "property": 12,
+      "cleaner": 10,
+      "status": "planned",
+      "notes": "Deep cleaning of a large apartment"
+    }
+  },
+  {
+    "model": "cleaning.cleaning",
+    "pk": 14,
+    "fields": {
+      "date": "2026-10-28",
+      "cleaning_type": 4,
+      "property": 13,
+      "cleaner": 3,
+      "status": "finished",
+      "notes": "Move out cleaning"
+    }
+  },
+  {
+    "model": "cleaning.cleaning",
+    "pk": 15,
+    "fields": {
+      "date": "2026-10-30",
+      "cleaning_type": 1,
+      "property": 14,
+      "cleaner": 2,
+      "status": "planned",
+      "notes": "Regular cleaning"
+    }
+  },
+  {
+    "model": "cleaning.cleaning",
+    "pk": 16,
+    "fields": {
+      "date": "2026-11-02",
+      "cleaning_type": 2,
+      "property": 15,
+      "cleaner": 6,
+      "status": "canceled",
+      "notes": "Cleaning canceled by the owner"
+    }
+  },
+  {
+    "model": "cleaning.cleaning",
+    "pk": 17,
+    "fields": {
+      "date": "2026-11-04",
+      "cleaning_type": 3,
+      "property": 16,
+      "cleaner": 4,
+      "status": "finished",
+      "notes": "Detailed cleaning of the apartment"
+    }
+  },
+  {
+    "model": "cleaning.cleaning",
+    "pk": 18,
+    "fields": {
+      "date": "2026-11-06",
+      "cleaning_type": 4,
+      "property": 17,
+      "cleaner": 4,
+      "status": "planned",
+      "notes": "Moving preparation"
+    }
+  },
+  {
+    "model": "cleaning.cleaning",
+    "pk": 19,
+    "fields": {
+      "date": "2026-11-08",
+      "cleaning_type": 1,
+      "property": 18,
+      "cleaner": 10,
+      "status": "finished",
+      "notes": "Regular city apartment cleaning"
+    }
+  },
+  {
+    "model": "cleaning.cleaning",
+    "pk": 20,
+    "fields": {
+      "date": "2026-11-10",
+      "cleaning_type": 2,
+      "property": 19,
+      "cleaner": 1,
+      "status": "in progress",
+      "notes": "General house cleaning"
+    }
+  },
+  {
+    "model": "cleaning.cleaning",
+    "pk": 21,
+    "fields": {
+      "date": "2026-11-12",
+      "cleaning_type": 3,
+      "property": 20,
+      "cleaner": 2,
+      "status": "planned",
+      "notes": "Deep cleaning before guests arrive"
+    }
+  },
+  {
+    "model": "cleaning.cleaning",
+    "pk": 22,
+    "fields": {
+      "date": "2026-11-14",
+      "cleaning_type": 4,
+      "property": 21,
+      "cleaner": 9,
+      "status": "finished",
+      "notes": "Move in cleaning"
+    }
+  },
+  {
+    "model": "cleaning.cleaning",
+    "pk": 23,
+    "fields": {
+      "date": "2026-11-16",
+      "cleaning_type": 1,
+      "property": 22,
+      "cleaner": 5,
+      "status": "planned",
+      "notes": "Regular house cleaning"
+    }
+  },
+  {
+    "model": "cleaning.cleaning",
+    "pk": 24,
+    "fields": {
+      "date": "2026-11-18",
+      "cleaning_type": 2,
+      "property": 23,
+      "cleaner": 8,
+      "status": "finished",
+      "notes": "General apartment cleaning"
+    }
+  },
+  {
+    "model": "cleaning.cleaning",
+    "pk": 25,
+    "fields": {
+      "date": "2026-11-20",
+      "cleaning_type": 3,
+      "property": 24,
+      "cleaner": 10,
+      "status": "in progress",
+      "notes": "Deep cleaning of the house"
+    }
+  },
+  {
+    "model": "cleaning.cleaning",
+    "pk": 26,
+    "fields": {
+      "date": "2026-11-22",
+      "cleaning_type": 4,
+      "property": 25,
+      "cleaner": 4,
+      "status": "planned",
+      "notes": "Move out preparation"
+    }
+  },
+  {
+    "model": "cleaning.cleaning",
+    "pk": 27,
+    "fields": {
+      "date": "2026-11-24",
+      "cleaning_type": 1,
+      "property": 26,
+      "cleaner": 1,
+      "status": "finished",
+      "notes": "Regular house cleaning"
+    }
+  },
+  {
+    "model": "cleaning.cleaning",
+    "pk": 28,
+    "fields": {
+      "date": "2026-11-26",
+      "cleaning_type": 2,
+      "property": 27,
+      "cleaner": 6,
+      "status": "planned",
+      "notes": "General apartment cleaning"
+    }
+  },
+  {
+    "model": "cleaning.cleaning",
+    "pk": 29,
+    "fields": {
+      "date": "2026-11-28",
+      "cleaning_type": 3,
+      "property": 28,
+      "cleaner": 7,
+      "status": "canceled",
+      "notes": "Deep cleaning was canceled"
+    }
+  },
+  {
+    "model": "cleaning.cleaning",
+    "pk": 30,
+    "fields": {
+      "date": "2026-11-30",
+      "cleaning_type": 4,
+      "property": 29,
+      "cleaner": 3,
+      "status": "finished",
+      "notes": "Move in cleaning completed"
+    }
   }
-},
-{
-  "model": "cleaning.property",
-  "pk": 7,
-  "fields": {
-    "name": "Modern House",
-    "address": "56 Zelena Street",
-    "apartment_number": null,
-    "property_type": "House",
-    "rooms": 6,
-    "owner": 2
-  }
-},
-{
-  "model": "cleaning.property",
-  "pk": 8,
-  "fields": {
-    "name": "Old Town Apartment",
-    "address": "19 Virmenska Street",
-    "apartment_number": 5,
-    "property_type": "Apartment",
-    "rooms": 1,
-    "owner": 3
-  }
-},
-{
-  "model": "cleaning.property",
-  "pk": 9,
-  "fields": {
-    "name": "Family House",
-    "address": "33 Stryiska Street",
-    "apartment_number": null,
-    "property_type": "House",
-    "rooms": 5,
-    "owner": 4
-  }
-},
-{
-  "model": "cleaning.property",
-  "pk": 10,
-  "fields": {
-    "name": "Park View Apartment",
-    "address": "10 Bandery Avenue",
-    "apartment_number": 31,
-    "property_type": "Apartment",
-    "rooms": 3,
-    "owner": 2
-  }
-},
-{
-  "model": "cleaning.property",
-  "pk": 11,
-  "fields": {
-    "name": "Quiet House",
-    "address": "27 Horikhova Street",
-    "apartment_number": null,
-    "property_type": "House",
-    "rooms": 3,
-    "owner": 3
-  }
-},
-{
-  "model": "cleaning.property",
-  "pk": 12,
-  "fields": {
-    "name": "Luxury Apartment",
-    "address": "5 Kotliarevskoho Street",
-    "apartment_number": 18,
-    "property_type": "Apartment",
-    "rooms": 5,
-    "owner": 4
-  }
-},
-{
-  "model": "cleaning.property",
-  "pk": 13,
-  "fields": {
-    "name": "Garden House",
-    "address": "44 Velykoho Street",
-    "apartment_number": null,
-    "property_type": "House",
-    "rooms": 4,
-    "owner": 2
-  }
-},
-{
-  "model": "cleaning.property",
-  "pk": 14,
-  "fields": {
-    "name": "Bright Apartment",
-    "address": "16 Kulparkivska Street",
-    "apartment_number": 9,
-    "property_type": "Apartment",
-    "rooms": 2,
-    "owner": 3
-  }
-},
-{
-  "model": "cleaning.property",
-  "pk": 15,
-  "fields": {
-    "name": "Lake House",
-    "address": "72 Pasichna Street",
-    "apartment_number": null,
-    "property_type": "House",
-    "rooms": 6,
-    "owner": 4
-  }
-},
-{
-  "model": "cleaning.property",
-  "pk": 16,
-  "fields": {
-    "name": "Minimalist Apartment",
-    "address": "21 Chornovola Avenue",
-    "apartment_number": 27,
-    "property_type": "Apartment",
-    "rooms": 3,
-    "owner": 2
-  }
-},
-{
-  "model": "cleaning.property",
-  "pk": 17,
-  "fields": {
-    "name": "Large Family House",
-    "address": "39 Washington Street",
-    "apartment_number": null,
-    "property_type": "House",
-    "rooms": 7,
-    "owner": 3
-  }
-},
-{
-  "model": "cleaning.property",
-  "pk": 18,
-  "fields": {
-    "name": "City Center Apartment",
-    "address": "7 Doroshenka Street",
-    "apartment_number": 16,
-    "property_type": "Apartment",
-    "rooms": 4,
-    "owner": 4
-  }
-},
-{
-  "model": "cleaning.property",
-  "pk": 19,
-  "fields": {
-    "name": "Small House",
-    "address": "63 Horodotska Street",
-    "apartment_number": null,
-    "property_type": "House",
-    "rooms": 3,
-    "owner": 2
-  }
-},
-{
-  "model": "cleaning.property",
-  "pk": 20,
-  "fields": {
-    "name": "Elegant Apartment",
-    "address": "11 Levytskoho Street",
-    "apartment_number": 4,
-    "property_type": "Apartment",
-    "rooms": 2,
-    "owner": 3
-  }
-}
 ]
