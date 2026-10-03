@@ -35,6 +35,29 @@ from .forms import (
 def home(request):
     return render(request, "home.html")
 
+
+def filter_cleanings_for_user(queryset, user):
+    if user.role == UserRole.OWNER:
+        return queryset.filter(property__owner=user)
+    if user.role == UserRole.CLEANER:
+        return queryset.filter(cleaner=user.cleaner)
+    return queryset
+
+
+def filter_properties_for_user(queryset, user):
+    if user.role == UserRole.OWNER:
+        return queryset.filter(owner=user)
+    return queryset
+
+
+def is_manager(user):
+    return user.role == UserRole.MANAGER
+
+
+def can_manage_properties(user):
+    return user.role in [UserRole.OWNER, UserRole.MANAGER]
+
+
 class UserLoginView(LoginView):
     template_name = "registration/login.html"
 
@@ -117,11 +140,14 @@ class PropertyListView(LoginRequiredMixin, ListView):
     model = Property
     template_name = "cleaning/property_list.html"
     paginate_by = 10
+    ordering = "id"
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        if self.request.user.role == UserRole.OWNER:
-            queryset = queryset.filter(owner=self.request.user)
+        queryset = filter_properties_for_user(
+            queryset,
+            self.request.user,
+        )
         search = self.request.GET.get("search")
         property_type = self.request.GET.get("property_type")
         if search:
@@ -140,9 +166,10 @@ class PropertyDetailView(LoginRequiredMixin, DetailView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        if self.request.user.role == UserRole.OWNER:
-            queryset = queryset.filter(owner=self.request.user)
-        return queryset
+        return filter_properties_for_user(
+            queryset,
+            self.request.user,
+        )
 
 
 class PropertyCreateView(LoginRequiredMixin, CreateView):
@@ -152,7 +179,7 @@ class PropertyCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy("cleaning:property-list")
 
     def dispatch(self, request, *args, **kwargs):
-        if request.user.role not in [UserRole.OWNER, UserRole.MANAGER]:
+        if not can_manage_properties(request.user):
             return redirect("cleaning:property-list")
         return super().dispatch(request, *args, **kwargs)
 
@@ -169,12 +196,13 @@ class PropertyUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        if self.request.user.role == UserRole.OWNER:
-            queryset = queryset.filter(owner=self.request.user)
-        return queryset
+        return filter_properties_for_user(
+            queryset,
+            self.request.user,
+        )
 
     def dispatch(self, request, *args, **kwargs):
-        if request.user.role not in [UserRole.OWNER, UserRole.MANAGER]:
+        if not can_manage_properties(request.user):
             return redirect("cleaning:property-list")
         return super().dispatch(request, *args, **kwargs)
 
@@ -185,12 +213,13 @@ class PropertyDeleteView(LoginRequiredMixin, DeleteView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        if self.request.user.role == UserRole.OWNER:
-            queryset = queryset.filter(owner=self.request.user)
-        return queryset
+        return filter_properties_for_user(
+            queryset,
+            self.request.user,
+        )
 
     def dispatch(self, request, *args, **kwargs):
-        if request.user.role not in [UserRole.OWNER, UserRole.MANAGER]:
+        if not can_manage_properties(request.user):
             return redirect("cleaning:property-list")
         return super().dispatch(request, *args, **kwargs)
 
@@ -199,6 +228,7 @@ class CleanerListView(ListView):
     model = Cleaner
     template_name = "cleaning/cleaner_list.html"
     paginate_by = 5
+    ordering = "id"
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -228,7 +258,7 @@ class CleanerUpdateView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy("cleaning:cleaner-list")
 
     def dispatch(self, request, *args, **kwargs):
-        if request.user.role != UserRole.MANAGER:
+        if not is_manager(request.user):
             return redirect("cleaning:cleaner-list")
         return super().dispatch(request, *args, **kwargs)
 
@@ -238,7 +268,7 @@ class CleanerDeleteView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy("cleaning:cleaner-list")
 
     def dispatch(self, request, *args, **kwargs):
-        if request.user.role != UserRole.MANAGER:
+        if not is_manager(request.user):
             return redirect("cleaning:cleaner-list")
         return super().dispatch(request, *args, **kwargs)
 
@@ -250,7 +280,7 @@ class CleanerCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy("cleaning:cleaner-list")
 
     def dispatch(self, request, *args, **kwargs):
-        if request.user.role != UserRole.MANAGER:
+        if not is_manager(request.user):
             return redirect("cleaning:cleaner-list")
         return super().dispatch(request, *args, **kwargs)
 
@@ -259,13 +289,14 @@ class CleaningListView(LoginRequiredMixin, ListView):
     model = Cleaning
     template_name = "cleaning/cleaning_list.html"
     paginate_by = 10
+    ordering = "id"
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        if self.request.user.role == UserRole.OWNER:
-            queryset = queryset.filter(property__owner=self.request.user)
-        if self.request.user.role == UserRole.CLEANER:
-            queryset = queryset.filter(cleaner=self.request.user.cleaner)
+        queryset = filter_cleanings_for_user(
+            queryset,
+            self.request.user,
+        )
         search = self.request.GET.get("search")
         status = self.request.GET.get("status")
         cleaning_type = self.request.GET.get("cleaning_type")
@@ -296,11 +327,10 @@ class CleaningDetailView(LoginRequiredMixin, DetailView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        if self.request.user.role == UserRole.OWNER:
-            queryset = queryset.filter(property__owner=self.request.user)
-        if self.request.user.role == UserRole.CLEANER:
-            queryset = queryset.filter(cleaner=self.request.user.cleaner)
-        return queryset
+        return filter_cleanings_for_user(
+            queryset,
+            self.request.user,
+        )
 
 
 class CleaningCreateView(LoginRequiredMixin, CreateView):
@@ -318,7 +348,7 @@ class CleaningCreateView(LoginRequiredMixin, CreateView):
         if self.request.user.role == UserRole.OWNER:
             if form.instance.property.owner != self.request.user:
                 return redirect("cleaning:cleaning-list")
-        if self.request.user.role == UserRole.CLEANER:
+        elif self.request.user.role == UserRole.CLEANER:
             form.instance.cleaner = self.request.user.cleaner
         return super().form_valid(form)
 
@@ -331,11 +361,11 @@ class CleaningUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        if self.request.user.role == UserRole.OWNER:
-            queryset = queryset.filter(property__owner=self.request.user)
-        if self.request.user.role == UserRole.CLEANER:
-            queryset = queryset.filter(cleaner=self.request.user.cleaner)
-        return queryset
+        return filter_cleanings_for_user(
+            queryset,
+            self.request.user,
+        )
+
 
 class CleaningDeleteView(LoginRequiredMixin, DeleteView):
     model = Cleaning
@@ -343,11 +373,11 @@ class CleaningDeleteView(LoginRequiredMixin, DeleteView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        if self.request.user.role == UserRole.OWNER:
-            queryset = queryset.filter(property__owner=self.request.user)
-        if self.request.user.role == UserRole.CLEANER:
-            queryset = queryset.filter(cleaner=self.request.user.cleaner)
-        return queryset
+        return filter_cleanings_for_user(
+            queryset,
+            self.request.user,
+        )
+
 
 class CleaningTypeListView(ListView):
     model = CleaningType

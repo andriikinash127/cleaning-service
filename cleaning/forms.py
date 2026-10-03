@@ -45,7 +45,8 @@ class CleaningForm(forms.ModelForm):
         if cleaner and cleaning_type:
             if cleaning_type not in cleaner.cleaning_types.all():
                 raise forms.ValidationError(
-                    "This cleaner does not have experience with this cleaning type."
+                    "This cleaner does not have "
+                    "experience with this cleaning type."
                 )
         return cleaned_data
 
