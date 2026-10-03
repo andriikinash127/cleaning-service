@@ -55,7 +55,10 @@ def is_manager(user):
 
 
 def can_manage_properties(user):
-    return user.role in [UserRole.OWNER, UserRole.MANAGER]
+    return user.is_authenticated and user.role in [
+        UserRole.OWNER,
+        UserRole.MANAGER,
+    ]
 
 
 class UserLoginView(LoginView):
@@ -178,10 +181,14 @@ class PropertyCreateView(LoginRequiredMixin, CreateView):
     template_name = "cleaning/property_form.html"
     success_url = reverse_lazy("cleaning:property-list")
 
+
     def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return super().dispatch(request, *args, **kwargs)
         if not can_manage_properties(request.user):
             return redirect("cleaning:property-list")
         return super().dispatch(request, *args, **kwargs)
+
 
     def form_valid(self, form):
         form.instance.owner = self.request.user
@@ -279,7 +286,10 @@ class CleanerCreateView(LoginRequiredMixin, CreateView):
     template_name = "cleaning/cleaner_form.html"
     success_url = reverse_lazy("cleaning:cleaner-list")
 
+
     def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return super().dispatch(request, *args, **kwargs)
         if not is_manager(request.user):
             return redirect("cleaning:cleaner-list")
         return super().dispatch(request, *args, **kwargs)
