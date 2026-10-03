@@ -41,6 +41,7 @@ class CleaningForm(forms.ModelForm):
         cleaner = cleaned_data.get("cleaner")
         if self.user and self.user.role == UserRole.CLEANER:
             cleaner = self.user.cleaner
+            cleaned_data["cleaner"] = cleaner
         cleaning_type = cleaned_data.get("cleaning_type")
         if cleaner and cleaning_type:
             if cleaning_type not in cleaner.cleaning_types.all():
