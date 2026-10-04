@@ -48,14 +48,11 @@ class PropertyModelTests(TestCase):
             owner=self.user,
         )
 
-
     def test_property_creation(self):
         self.assertEqual(Property.objects.count(), 2)
 
-
     def test_property_str(self):
         self.assertEqual(str(self.house), "Test House")
-
 
     def test_apartment_address_and_number_are_unique(self):
         with self.assertRaises(IntegrityError):
@@ -67,7 +64,6 @@ class PropertyModelTests(TestCase):
                 rooms=3,
                 owner=self.user,
             )
-
 
     def test_house_address_is_unique(self):
         with self.assertRaises(IntegrityError):
@@ -112,14 +108,11 @@ class CleanerModelTests(TestCase):
             description="General cleaning",
         )
 
-
     def test_cleaner_creation(self):
         self.assertEqual(Cleaner.objects.count(), 1)
 
-
     def test_cleaner_str(self):
         self.assertEqual(str(self.cleaner), "John Smith")
-
 
     def test_cleaner_can_have_cleaning_type(self):
         self.cleaner.cleaning_types.add(self.cleaning_type)
@@ -144,7 +137,7 @@ class CleanerModelTests(TestCase):
 
 class CleaningTypeModelTests(TestCase):
     def test_cleaning_type_creation(self):
-        cleaning_type = CleaningType.objects.create(
+        CleaningType.objects.create(
             name="Regular",
             description="Regular cleaning",
         )
@@ -190,10 +183,8 @@ class CleaningModelTests(TestCase):
             status=StatusChoices.PLANNED,
         )
 
-
     def test_cleaning_creation(self):
         self.assertEqual(Cleaning.objects.count(), 1)
-
 
     def test_cleaning_str(self):
         self.assertEqual(
@@ -201,14 +192,11 @@ class CleaningModelTests(TestCase):
             f"{self.cleaner} works on {self.property} at 2026-10-03",
         )
 
-
     def test_cleaning_property(self):
         self.assertEqual(self.cleaning.property, self.property)
 
-
     def test_cleaning_cleaner(self):
         self.assertEqual(self.cleaning.cleaner, self.cleaner)
-
 
     def test_cleaning_type(self):
         self.assertEqual(
@@ -216,13 +204,11 @@ class CleaningModelTests(TestCase):
             self.cleaning_type,
         )
 
-
     def test_cleaning_status(self):
         self.assertEqual(
             self.cleaning.status,
             StatusChoices.PLANNED,
         )
-
 
     def test_cleaning_date_property_cleaner_are_unique(self):
         with self.assertRaises(IntegrityError):
@@ -254,7 +240,6 @@ class PropertyFormTests(TestCase):
         })
         self.assertTrue(form.is_valid())
 
-
     def test_invalid_form_without_name(self):
         form = PropertyForm(data={
             "name": "",
@@ -265,7 +250,6 @@ class PropertyFormTests(TestCase):
             "owner": self.user.pk,
         })
         self.assertFalse(form.is_valid())
-
 
     def test_invalid_form_without_address(self):
         form = PropertyForm(data={
@@ -278,7 +262,6 @@ class PropertyFormTests(TestCase):
         })
         self.assertFalse(form.is_valid())
 
-
     def test_invalid_form_without_rooms(self):
         form = PropertyForm(data={
             "name": "Test House",
@@ -289,7 +272,6 @@ class PropertyFormTests(TestCase):
             "owner": self.user.pk,
         })
         self.assertFalse(form.is_valid())
-
 
     def test_invalid_form_without_property_type(self):
         form = PropertyForm(data={
@@ -323,7 +305,6 @@ class CleanerFormTests(TestCase):
         })
         self.assertTrue(form.is_valid())
 
-
     def test_invalid_form_without_first_name(self):
         form = CleanerForm(data={
             "first_name": "",
@@ -332,7 +313,6 @@ class CleanerFormTests(TestCase):
             "cleaning_types": [self.cleaning_type.pk],
         })
         self.assertFalse(form.is_valid())
-
 
     def test_invalid_form_without_last_name(self):
         form = CleanerForm(data={
@@ -343,7 +323,6 @@ class CleanerFormTests(TestCase):
         })
         self.assertFalse(form.is_valid())
 
-
     def test_invalid_form_without_phone(self):
         form = CleanerForm(data={
             "first_name": "John",
@@ -353,7 +332,6 @@ class CleanerFormTests(TestCase):
         })
         self.assertFalse(form.is_valid())
 
-
     def test_invalid_form_without_cleaning_types(self):
         form = CleanerForm(data={
             "first_name": "John",
@@ -362,7 +340,6 @@ class CleanerFormTests(TestCase):
             "cleaning_types": [],
         })
         self.assertFalse(form.is_valid())
-
 
     def test_valid_form_with_multiple_cleaning_types(self):
         form = CleanerForm(data={
@@ -407,11 +384,9 @@ class CleaningFormTests(TestCase):
         )
         self.cleaner.cleaning_types.add(self.cleaning_type)
 
-
     def test_manager_can_see_cleaner_field(self):
         form = CleaningForm(user=self.user)
         self.assertIn("cleaner", form.fields)
-
 
     def test_cleaner_cannot_see_cleaner_field(self):
         cleaner_user = self.cleaner.user
@@ -433,7 +408,6 @@ class CleaningFormTests(TestCase):
             user=self.cleaner.user,
         )
         self.assertFalse(form.is_valid())
-
 
     def test_cleaner_can_use_supported_cleaning_type(self):
         form = CleaningForm(
@@ -463,7 +437,6 @@ class CleaningFormTests(TestCase):
             user=self.user,
         )
         self.assertFalse(form.is_valid())
-
 
     def test_manager_can_assign_supported_cleaning_type(self):
         form = CleaningForm(
@@ -523,7 +496,6 @@ class AuthenticationTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertFalse(response.wsgi_request.user.is_authenticated)
 
-
     def test_nonexistent_user_cannot_login(self):
         response = self.client.post(
             reverse("cleaning:login"),
@@ -535,7 +507,6 @@ class AuthenticationTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertFalse(response.wsgi_request.user.is_authenticated)
 
-
     def test_user_can_logout(self):
         self.client.login(
             username="testuser",
@@ -546,7 +517,6 @@ class AuthenticationTests(TestCase):
         )
         self.assertRedirects(response, "/")
         self.assertFalse(response.wsgi_request.user.is_authenticated)
-
 
     def test_unauthenticated_user_cannot_access_properties(self):
         response = self.client.get(
@@ -577,13 +547,11 @@ class PropertyViewTests(TestCase):
             password="testpassword1",
         )
 
-
     def test_property_list_view(self):
         response = self.client.get(
             reverse("cleaning:property-list"),
         )
         self.assertEqual(response.status_code, 200)
-
 
     def test_property_detail_view(self):
         response = self.client.get(
@@ -594,7 +562,6 @@ class PropertyViewTests(TestCase):
         )
         self.assertEqual(response.status_code, 200)
 
-
     def test_property_detail_view_with_invalid_pk(self):
         response = self.client.get(
             reverse(
@@ -603,7 +570,6 @@ class PropertyViewTests(TestCase):
             )
         )
         self.assertEqual(response.status_code, 404)
-
 
     def test_property_create_view_creates_property(self):
         response = self.client.post(
@@ -620,7 +586,6 @@ class PropertyViewTests(TestCase):
         self.assertTrue(
             Property.objects.filter(name="New House").exists()
         )
-
 
     def test_property_update_view_updates_property(self):
         response = self.client.post(
@@ -642,7 +607,6 @@ class PropertyViewTests(TestCase):
         self.assertEqual(self.property.address, "updated st. 20")
         self.assertEqual(self.property.rooms, 5)
 
-
     def test_property_delete_view_deletes_property(self):
         response = self.client.post(
             reverse(
@@ -655,7 +619,6 @@ class PropertyViewTests(TestCase):
             Property.objects.filter(pk=self.property.pk).exists()
         )
 
-
     def test_unauthenticated_user_cannot_create_property(self):
         self.client.logout()
         response = self.client.get(
@@ -666,9 +629,8 @@ class PropertyViewTests(TestCase):
             "/login/?next=/properties/create/",
         )
 
-
     def test_owner_can_create_property(self):
-        owner = User.objects.create_user(
+        User.objects.create_user(
             username="owner",
             password="password123",
             role=UserRole.OWNER,
@@ -682,9 +644,8 @@ class PropertyViewTests(TestCase):
         )
         self.assertEqual(response.status_code, 200)
 
-
     def test_cleaner_cannot_create_property(self):
-        cleaner = User.objects.create_user(
+        User.objects.create_user(
             username="cleaner",
             password="password123",
             role=UserRole.CLEANER,
@@ -700,7 +661,6 @@ class PropertyViewTests(TestCase):
             response,
             reverse("cleaning:property-list"),
         )
-
 
     def test_property_search(self):
         Property.objects.create(
@@ -724,7 +684,6 @@ class PropertyViewTests(TestCase):
         )
         self.assertContains(response, "Big House")
         self.assertNotContains(response, "Small Apartment")
-
 
     def test_property_pagination(self):
         for i in range(11):
@@ -764,13 +723,11 @@ class CleanerViewTests(TestCase):
             phone="+380991234567",
         )
 
-
     def test_cleaner_list_view(self):
         response = self.client.get(
             reverse("cleaning:cleaner-list"),
         )
         self.assertEqual(response.status_code, 200)
-
 
     def test_cleaner_detail_view(self):
         response = self.client.get(
@@ -781,7 +738,6 @@ class CleanerViewTests(TestCase):
         )
         self.assertEqual(response.status_code, 200)
 
-
     def test_cleaner_detail_view_with_invalid_pk(self):
         response = self.client.get(
             reverse(
@@ -790,7 +746,6 @@ class CleanerViewTests(TestCase):
             )
         )
         self.assertEqual(response.status_code, 404)
-
 
     def test_cleaner_create_view_creates_cleaner(self):
         response = self.client.post(
@@ -803,7 +758,6 @@ class CleanerViewTests(TestCase):
             },
         )
         self.assertEqual(response.status_code, 302)
-
 
     def test_cleaner_update_view_updates_cleaner(self):
         response = self.client.post(
@@ -824,7 +778,6 @@ class CleanerViewTests(TestCase):
         self.assertEqual(self.cleaner.last_name, "Cleaner")
         self.assertEqual(self.cleaner.phone, "+380991234567")
 
-
     def test_cleaner_delete_view_deletes_cleaner(self):
         response = self.client.post(
             reverse(
@@ -837,7 +790,6 @@ class CleanerViewTests(TestCase):
             Cleaner.objects.filter(pk=self.cleaner.pk).exists()
         )
 
-
     def test_unauthenticated_user_cannot_create_cleaner(self):
         self.client.logout()
         response = self.client.get(
@@ -848,9 +800,8 @@ class CleanerViewTests(TestCase):
             "/login/?next=/cleaners/create/",
         )
 
-
     def test_owner_cannot_create_cleaner(self):
-        owner = User.objects.create_user(
+        User.objects.create_user(
             username="owner",
             password="password123",
             role=UserRole.OWNER,
@@ -867,9 +818,8 @@ class CleanerViewTests(TestCase):
             reverse("cleaning:cleaner-list"),
         )
 
-
     def test_cleaner_cannot_create_cleaner(self):
-        cleaner = User.objects.create_user(
+        User.objects.create_user(
             username="cleaner",
             password="password123",
             role=UserRole.CLEANER,
@@ -903,13 +853,11 @@ class CleaningTypeViewTests(TestCase):
             description="Regular cleaning",
         )
 
-
     def test_cleaning_type_list_view(self):
         response = self.client.get(
             reverse("cleaning:cleaning-type-list"),
         )
         self.assertEqual(response.status_code, 200)
-
 
     def test_cleaning_type_detail_view(self):
         response = self.client.get(
@@ -920,7 +868,6 @@ class CleaningTypeViewTests(TestCase):
         )
         self.assertEqual(response.status_code, 200)
 
-
     def test_cleaning_type_detail_view_with_invalid_pk(self):
         response = self.client.get(
             reverse(
@@ -929,7 +876,6 @@ class CleaningTypeViewTests(TestCase):
             )
         )
         self.assertEqual(response.status_code, 404)
-
 
     def test_unauthenticated_user_can_view_cleaning_type_list(self):
         self.client.logout()
@@ -975,13 +921,11 @@ class CleaningViewTests(TestCase):
             password="testpassword1",
         )
 
-
     def test_cleaning_list_view(self):
         response = self.client.get(
             reverse("cleaning:cleaning-list"),
         )
         self.assertEqual(response.status_code, 200)
-
 
     def test_cleaning_detail_view(self):
         response = self.client.get(
@@ -992,7 +936,6 @@ class CleaningViewTests(TestCase):
         )
         self.assertEqual(response.status_code, 200)
 
-
     def test_cleaning_detail_view_with_invalid_pk(self):
         response = self.client.get(
             reverse(
@@ -1001,7 +944,6 @@ class CleaningViewTests(TestCase):
             )
         )
         self.assertEqual(response.status_code, 404)
-
 
     def test_cleaning_create_view_creates_cleaning(self):
         response = self.client.post(
@@ -1023,7 +965,6 @@ class CleaningViewTests(TestCase):
                 cleaner=self.cleaner,
             ).exists()
         )
-
 
     def test_cleaning_update_view_updates_cleaning(self):
         response = self.client.post(
@@ -1050,7 +991,6 @@ class CleaningViewTests(TestCase):
             StatusChoices.DONE,
         )
 
-
     def test_cleaning_delete_view_deletes_cleaning(self):
         response = self.client.post(
             reverse(
@@ -1065,7 +1005,6 @@ class CleaningViewTests(TestCase):
             ).exists()
         )
 
-
     def test_unauthenticated_user_cannot_create_cleaning(self):
         self.client.logout()
         response = self.client.get(
@@ -1075,7 +1014,6 @@ class CleaningViewTests(TestCase):
             response,
             "/login/?next=/cleanings/create/",
         )
-
 
     def test_cleaner_is_assigned_to_created_cleaning(self):
         cleaner_user = User.objects.create_user(
@@ -1113,9 +1051,8 @@ class CleaningViewTests(TestCase):
             cleaner_user.cleaner,
         )
 
-
     def test_owner_cannot_create_cleaning_for_other_property(self):
-        owner = User.objects.create_user(
+        User.objects.create_user(
             username="owner",
             password="password123",
             role=UserRole.OWNER,
@@ -1138,7 +1075,6 @@ class CleaningViewTests(TestCase):
             response,
             reverse("cleaning:cleaning-list"),
         )
-
 
     def test_cleaning_filter_by_status(self):
         Cleaning.objects.create(
