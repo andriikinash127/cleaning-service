@@ -78,8 +78,8 @@ class OwnerRegisterView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["user_form"] = UserRegistrationForm()
-        context["property_form"] = OwnerPropertyForm()
+        context.setdefault("user_form", UserRegistrationForm())
+        context.setdefault("property_form", OwnerPropertyForm())
         return context
 
     def post(self, request, *args, **kwargs):
@@ -112,8 +112,8 @@ class CleanerRegisterView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["user_form"] = UserRegistrationForm()
-        context["cleaner_form"] = CleanerForm()
+        context.setdefault("user_form", UserRegistrationForm())
+        context.setdefault("cleaner_form", CleanerForm())
         return context
 
     def post(self, request, *args, **kwargs):

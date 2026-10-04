@@ -22,6 +22,13 @@
         <img src="{% static 'cleaning/images/logo.svg' %}" alt="Tidy Critters Cleaning Service — Home" class="logo">
       </a>
 
+      <input type="checkbox" id="nav-toggle" class="nav-toggle-checkbox">
+      <label for="nav-toggle" class="nav-toggle-label" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </label>
+
       <nav>
         <a href="{% url 'cleaning:property-list' %}">Properties</a>
         <a href="{% url 'cleaning:cleaner-list' %}">Cleaners</a>

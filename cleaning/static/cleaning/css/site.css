@@ -120,6 +120,106 @@ body {
   color: #000;
 }
 
+/* Keep the nav on the same row as the logo on laptop-size screens
+   (otherwise the logo + full-size nav text are too wide and the nav
+   wraps onto its own line below the logo). */
+@media (max-width: 1366px) {
+  .site-header .navbar-inner {
+    padding: 0 1rem;
+  }
+
+  .site-header .logo {
+    height: 64px;
+  }
+
+  .site-header nav {
+    gap: 0.15rem;
+    margin-right: -0.6rem;
+  }
+
+  .site-header nav a,
+  .site-header nav .nav-logout-form button {
+    font-size: 0.95rem;
+    padding: 0.5rem 0.6rem;
+  }
+}
+
+/* ---- Hamburger menu (mobile) ---- */
+
+.nav-toggle-checkbox {
+  display: none;
+}
+
+.nav-toggle-label {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.nav-toggle-label span {
+  display: block;
+  width: 100%;
+  height: 2.5px;
+  background: var(--ink);
+  border-radius: 2px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+@media (max-width: 640px) {
+  .nav-toggle-label {
+    display: flex;
+  }
+
+  .site-header .logo {
+    height: 56px;
+  }
+
+  .site-header nav {
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    flex-basis: 100%;
+    width: 100%;
+    gap: 0.15rem;
+    margin-right: 0;
+    margin-top: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
+
+  .nav-toggle-checkbox:checked ~ nav {
+    display: flex;
+  }
+
+  .nav-toggle-checkbox:checked ~ .nav-toggle-label span:nth-child(1) {
+    transform: translateY(7.5px) rotate(45deg);
+  }
+
+  .nav-toggle-checkbox:checked ~ .nav-toggle-label span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .nav-toggle-checkbox:checked ~ .nav-toggle-label span:nth-child(3) {
+    transform: translateY(-7.5px) rotate(-45deg);
+  }
+
+  .site-header nav a,
+  .site-header nav .nav-logout-form button {
+    width: 100%;
+    text-align: left;
+    font-size: 1.05rem;
+    padding: 0.75rem 1rem;
+  }
+
+  .site-header nav .nav-logout-form {
+    width: 100%;
+  }
+}
+
 /* ---- Shared page design system ---- */
 
 .page-title {
@@ -320,6 +420,17 @@ body {
   outline: none;
   border-color: var(--brand-blue);
   box-shadow: 0 0 0 3px rgba(55, 138, 221, 0.25);
+}
+
+@media (max-width: 640px) {
+  .filters-bar select {
+    flex: 1 1 100%;
+    width: 100%;
+  }
+
+  .filters-bar select:first-of-type {
+    margin-left: 0;
+  }
 }
 
 .search-input-wrap {
@@ -660,6 +771,34 @@ form.styled-form .btn-pill {
 .styled-form--violet textarea:focus {
   border-color: var(--section-color);
   box-shadow: 0 0 0 4px var(--section-color-soft);
+}
+
+/* Validation errors: Django adds aria-invalid="true" to fields with
+   errors and renders <ul class="errorlist"> right before the field's <p>. */
+
+form.styled-form .errorlist {
+  list-style: none;
+  margin: 0 0 0.4rem;
+  padding: 0;
+  color: #E34948;
+  font-family: var(--apple-font);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+form.styled-form input[aria-invalid="true"],
+form.styled-form select[aria-invalid="true"],
+form.styled-form textarea[aria-invalid="true"] {
+  border-color: #E34948;
+  background: #FCEEEE;
+}
+
+form.styled-form input[aria-invalid="true"]:focus,
+form.styled-form select[aria-invalid="true"]:focus,
+form.styled-form textarea[aria-invalid="true"]:focus {
+  background: #fff;
+  border-color: #E34948;
+  box-shadow: 0 0 0 4px rgba(227, 73, 72, 0.15);
 }
 
 /* Checkbox / radio option groups (e.g. cleaning types) styled as chips.
