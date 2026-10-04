@@ -1,19 +1,41 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
-  <h1>Update Cleaner</h1>
+  <div class="page-hero page-hero--pink">
+    <div class="page-hero-inner container">
+    <div class="page-hero-text">
+      <p class="page-hero-title">Cleaners</p>
+    </div>
+    <img
+      src="{% static 'cleaning/images/badge_cleaners_raccoon.svg' %}"
+      alt=""
+      class="page-hero-art"
+    >
+    </div>
+  </div>
 
-  <form method="post">
-    {% csrf_token %}
-    {{ form }}
+  <h1 class="page-title">
+    {% if object %}
+      Update Cleaner
+    {% else %}
+      Create Cleaner
+    {% endif %}
+  </h1>
 
-    <button type="submit">
-      {% if object %}
-        Update
-      {% else %}
-        Create
-      {% endif %}
-    </button>
-  </form>
+  <div class="form-card">
+    <form method="post" class="styled-form styled-form--pink">
+      {% csrf_token %}
+      {{ form.as_p }}
+
+      <button type="submit" class="btn-pill btn-pill-hero--pink">
+        {% if object %}
+          Update
+        {% else %}
+          Create
+        {% endif %}
+      </button>
+    </form>
+  </div>
 
 {% endblock %}

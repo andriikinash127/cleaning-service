@@ -1,17 +1,29 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
-  <h1>Cleaners</h1>
-  <a href="{% url 'cleaning:cleaner-create' %}">
-    Create Cleaner
-  </a>
+  <div class="page-hero page-hero--pink">
+    <div class="page-hero-inner container">
+    <div class="page-hero-text">
+      <h1 class="page-hero-title">Cleaners</h1>
+      <a href="{% url 'cleaning:cleaner-create' %}" class="btn-pill btn-pill-hero--pink page-hero-action">
+        Create Cleaner
+      </a>
+    </div>
+    <img
+      src="{% static 'cleaning/images/badge_cleaners_raccoon.svg' %}"
+      alt=""
+      class="page-hero-art"
+    >
+    </div>
+  </div>
 
-  <br>
-  <form method="get">
-    <input type="text" name="search" value="{{ request.GET.search }}">
-    <a href="{% url 'cleaning:cleaner-list' %}">×</a>
-    <button type="submit">Search</button>
-
+  <form method="get" class="filters-bar">
+    <div class="search-input-wrap">
+      <input type="text" name="search" value="{{ request.GET.search }}" placeholder="Search cleaners">
+      <a href="{% url 'cleaning:cleaner-list' %}" class="search-clear search-clear--pink">×</a>
+    </div>
+    <button type="submit" class="btn-pill btn-pill-outline">Search</button>
 
     <select name="cleaning_type" onchange="this.form.submit()">
       <option value="" {% if request.GET.cleaning_type == "" %}selected{% endif %}>
@@ -46,19 +58,26 @@
       Move in / Move out
       </option>
     </select>
-
-
   </form>
-  {% for cleaner in cleaner_list %}
-    <p>
-      <a href="{% url 'cleaning:cleaner-detail' cleaner.pk %}">
-        {{ cleaner.first_name }} {{ cleaner.last_name }}
-      </a>
-    </p>
-  {% endfor %}
+
+  <ul class="list-cards">
+    {% for cleaner in cleaner_list %}
+      <li>
+        <a href="{% url 'cleaning:cleaner-detail' cleaner.pk %}" class="list-card list-card--pink">
+          <span class="list-card-icon list-card-icon--pink">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="8" r="4"/>
+              <path d="M4 20c0-4 3.5-6 8-6s8 2 8 6"/>
+            </svg>
+          </span>
+          <div class="title">{{ cleaner.first_name }} {{ cleaner.last_name }}</div>
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
 
   {% if is_paginated %}
-    <div>
+    <div class="pagination pagination--pink">
       {% if page_obj.has_previous %}
         <a href="{% querystring page=page_obj.previous_page_number %}">
           Previous
@@ -74,7 +93,7 @@
   {% endif %}
 
   {% if request.GET.search and not cleaner_list %}
-    <p>No cleaners found for "{{ request.GET.search }}".</p>
+    <p class="empty-state">No cleaners found for "{{ request.GET.search }}".</p>
   {% endif %}
 
 {% endblock %}

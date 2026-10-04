@@ -1,16 +1,32 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
-  <h1>Properties</h1>
+  <div class="page-hero page-hero--blue">
+    <div class="page-hero-inner container">
+    <div class="page-hero-text">
+      <h1 class="page-hero-title">Properties</h1>
+      <a href="{% url 'cleaning:property-create' %}" class="btn-pill btn-pill-hero--blue page-hero-action">
+        Create Property
+      </a>
+    </div>
+    <img
+      src="{% static 'cleaning/images/badge_properties_fox.svg' %}"
+      alt=""
+      class="page-hero-art"
+    >
+    </div>
+  </div>
 
-  <form method="get">
+  <form method="get" class="filters-bar">
     <input
       type="text"
       name="search"
       value="{{ request.GET.search }}"
+      placeholder="Search properties"
     >
 
-    <button type="submit">Search</button>
+    <button type="submit" class="btn-pill btn-pill-outline">Search</button>
 
    <select name="property_type" onchange="this.form.submit()">
      <option value="" {% if request.GET.property_type == "" %}selected{% endif %}>
@@ -34,27 +50,39 @@
 
   </form>
 
-  {% for property in property_list %}
-    <p>
-      <a href="{% url 'cleaning:property-detail' property.pk %}">
-        {{ property.name }}
-      </a>
-      — {{ property.address }}
-    </p>
-  {% endfor %}
+  <ul class="list-cards">
+    {% for property in property_list %}
+      <li>
+        <a href="{% url 'cleaning:property-detail' property.pk %}" class="list-card list-card--blue">
+          <span class="list-card-icon list-card-icon--blue">
+            {% if property.property_type == "House" %}
+              <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 11l8-7 8 7"/>
+                <path d="M6 10v10h12V10"/>
+                <path d="M10 20v-4h4v4"/>
+              </svg>
+            {% else %}
+              <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="5" y="3" width="14" height="18" rx="1"/>
+                <path d="M9 7h2M13 7h2M9 11h2M13 11h2M9 15h2M13 15h2"/>
+              </svg>
+            {% endif %}
+          </span>
+          <span>
+            <div class="title">{{ property.name }}</div>
+            <div class="meta">{{ property.address }}</div>
+          </span>
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
 
   {% if request.GET.search and not property_list %}
-    <p>No properties found for "{{ request.GET.search }}".</p>
+    <p class="empty-state">No properties found for "{{ request.GET.search }}".</p>
   {% endif %}
 
-  <div>
-    <a href="{% url 'cleaning:property-create' %}">
-      Create Property
-    </a>
-  </div>
-
   {% if is_paginated %}
-    <div>
+    <div class="pagination pagination--blue">
       {% if page_obj.has_previous %}
         <a href="{% querystring page=page_obj.previous_page_number %}">
           Previous

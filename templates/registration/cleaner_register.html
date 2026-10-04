@@ -1,12 +1,28 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
-  <h1>Cleaner registration</h1>
+  <div class="page-hero page-hero--violet">
+    <div class="page-hero-inner container">
+      <div class="page-hero-text">
+        <h1 class="page-hero-title">Account</h1>
+      </div>
+      <img
+        src="{% static 'cleaning/images/badge_account_frog.svg' %}"
+        alt=""
+        class="page-hero-art"
+      >
+    </div>
+  </div>
 
-  <form method="post">
-    {% csrf_token %}
-    {{ user_form.as_p }}
-    {{ cleaner_form.as_p }}
-    <button type="submit">Register</button>
-  </form>
+  <h1 class="page-title">Cleaner registration</h1>
+
+  <div class="form-card">
+    <form method="post" class="styled-form styled-form--violet">
+      {% csrf_token %}
+      {{ user_form.as_p }}
+      {{ cleaner_form.as_p }}
+      <button type="submit" class="btn-pill btn-pill-hero--violet">Register</button>
+    </form>
+  </div>
 {% endblock %}

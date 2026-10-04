@@ -1,21 +1,53 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
-  <a
-    href="{% url 'cleaning:property-list' %}"
-    class="btn btn-secondary"
-  >
-    Back to properties
-  </a>
-  <h1>{{ property.name }}</h1>
-  <p>Address: {{ property.address }}</p>
-  <p>Type: {{ property.property_type }}</p>
-  <p>Rooms: {{ property.rooms }}</p>
-  <p>Owner: {{ property.owner.first_name }} {{ property.owner.last_name }}</p>
-  <a href="{% url 'cleaning:property-update' property.pk %}">
-    Update
-  </a>
-  <a href="{% url 'cleaning:property-delete' property.pk %}">
-    Delete
-  </a>
+  <div class="page-hero page-hero--blue">
+    <div class="page-hero-inner container">
+    <div class="page-hero-text">
+      <p class="page-hero-title">Properties</p>
+    </div>
+    <img
+      src="{% static 'cleaning/images/badge_properties_fox.svg' %}"
+      alt=""
+      class="page-hero-art"
+    >
+    </div>
+  </div>
+
+  <div class="actions-row actions-row--top">
+    <a
+      href="{% url 'cleaning:property-list' %}"
+      class="btn-pill btn-pill-outline"
+    >
+      Back to properties
+    </a>
+  </div>
+
+  <h1 class="page-title">{{ property.name }}</h1>
+
+  <div class="detail-card">
+    <dl>
+      <dt>Address</dt>
+      <dd>{{ property.address }}</dd>
+
+      <dt>Type</dt>
+      <dd>{{ property.property_type }}</dd>
+
+      <dt>Rooms</dt>
+      <dd>{{ property.rooms }}</dd>
+
+      <dt>Owner</dt>
+      <dd>{{ property.owner.first_name }} {{ property.owner.last_name }}</dd>
+    </dl>
+  </div>
+
+  <div class="actions-row">
+    <a href="{% url 'cleaning:property-update' property.pk %}" class="btn-pill btn-pill-hero--blue">
+      Update
+    </a>
+    <a href="{% url 'cleaning:property-delete' property.pk %}" class="btn-pill btn-pill-hero-outline--blue">
+      Delete
+    </a>
+  </div>
 {% endblock %}

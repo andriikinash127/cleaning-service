@@ -1,9 +1,24 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
-  <h1>Choose your role</h1>
+  <div class="page-hero page-hero--violet">
+    <div class="page-hero-inner container">
+      <div class="page-hero-text">
+        <h1 class="page-hero-title">Account</h1>
+      </div>
+      <img
+        src="{% static 'cleaning/images/badge_account_frog.svg' %}"
+        alt=""
+        class="page-hero-art"
+      >
+    </div>
+  </div>
 
-  <a href="{% url 'cleaning:register-owner' %}">Owner</a>
-  <a href="{% url 'cleaning:register-cleaner' %}">Cleaner</a>
+  <h1 class="page-title">Choose your role</h1>
 
+  <div class="actions-row actions-row--top">
+    <a href="{% url 'cleaning:register-owner' %}" class="btn-pill btn-pill-hero--violet">Owner</a>
+    <a href="{% url 'cleaning:register-cleaner' %}" class="btn-pill btn-pill-hero--violet">Cleaner</a>
+  </div>
 {% endblock %}

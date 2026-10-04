@@ -1,12 +1,32 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
-  <h1>{{ cleaning_type.name }}</h1>
+  <div class="page-hero page-hero--yellow">
+    <div class="page-hero-inner container">
+    <div class="page-hero-text">
+      <p class="page-hero-title">Cleaning Types</p>
+    </div>
+    <img
+      src="{% static 'cleaning/images/badge_cleaning_types_rabbit.svg' %}"
+      alt=""
+      class="page-hero-art"
+    >
+    </div>
+  </div>
 
-  <p>Description: {{ cleaning_type.description }}</p>
+  <h1 class="page-title">{{ cleaning_type.name }}</h1>
 
-  <a href="{% url 'cleaning:cleaning-type-list' %}">
-    Back to cleaning types
-  </a>
+  <div class="detail-card">
+    <dl>
+      <dt>Description</dt>
+      <dd>{{ cleaning_type.description }}</dd>
+    </dl>
+  </div>
 
+  <div class="actions-row">
+    <a href="{% url 'cleaning:cleaning-type-list' %}" class="btn-pill btn-pill-outline">
+      Back to cleaning types
+    </a>
+  </div>
 {% endblock %}

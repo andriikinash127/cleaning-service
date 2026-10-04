@@ -4,7 +4,7 @@
   "pk": 1,
   "fields": {
     "name": "Regular",
-    "description": "Routine cleaning to keep the property clean and tidy."
+    "description": "Our Regular cleaning keeps your home consistently fresh between deeper cleans. It covers dusting all surfaces, vacuuming and mopping floors, wiping down kitchen and bathroom counters, emptying trash bins, and tidying up living spaces. It's ideal for weekly or bi-weekly visits, helping you maintain a tidy, comfortable home with minimal effort."
   }
 },
 {
@@ -12,7 +12,7 @@
   "pk": 2,
   "fields": {
     "name": "General",
-    "description": "Thorough cleaning of the main areas and surfaces of the property."
+    "description": "Our General cleaning goes a step further than a routine tidy-up, giving the main living areas a thorough refresh. It includes detailed surface cleaning, kitchen appliance exteriors, bathroom fixtures, baseboards, door handles, and window sills, on top of the usual dusting, vacuuming, and mopping. It's a great choice when your home needs a bit more attention than a quick clean, without going into a full deep clean."
   }
 },
 {
@@ -20,7 +20,7 @@
   "pk": 3,
   "fields": {
     "name": "Deep cleaning",
-    "description": "Detailed cleaning of hard-to-reach areas, surfaces, and equipment."
+    "description": "Deep cleaning is our most intensive service, reaching the spots that everyday cleaning tends to skip. It covers behind and under furniture and appliances, inside ovens and fridges, grout and tile scrubbing, window tracks, vents, and light fixtures, along with a complete top-to-bottom clean of every room. We recommend it a few times a year, before a big event, or whenever a property needs a true reset."
   }
 },
 {
@@ -28,7 +28,7 @@
   "pk": 4,
   "fields": {
     "name": "Move in / Move out",
-    "description": "Comprehensive cleaning before moving in or after moving out of a property."
+    "description": "Moving is stressful enough without worrying about the cleaning. This service gives an empty property a complete, deep clean from top to bottom, including inside cabinets and closets, appliances, windows, and all floors and surfaces, so a new tenant walks into a spotless home or the previous one leaves it in great condition. Perfect for the handover between residents."
   }
 }
 ]

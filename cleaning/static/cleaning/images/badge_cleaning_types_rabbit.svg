@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 200" role="img" aria-label="Кролик витирає пил на полиці">
+<rect width="220" height="200" rx="14" fill="#FAEEDA"/>
+<path d="M0 155H220V186A14 14 0 0 1 206 200H14A14 14 0 0 1 0 186Z" fill="#FAC775"/>
+<rect y="151" width="220" height="4" fill="#EF9F27"/>
+<rect x="28" y="46" width="164" height="7" rx="2" fill="#BA7517"/>
+<rect x="28" y="90" width="164" height="7" rx="2" fill="#BA7517"/>
+<rect x="38" y="20" width="12" height="26" fill="#1D9E75"/><rect x="51" y="16" width="10" height="30" fill="#D85A30"/><rect x="62" y="24" width="14" height="22" fill="#7F77DD"/><rect x="77" y="18" width="10" height="28" fill="#378ADD"/>
+<rect x="150" y="34" width="22" height="12" rx="2" fill="#D85A30"/><circle cx="158" cy="28" r="7" fill="#97C459"/><circle cx="167" cy="24" r="6" fill="#639922"/>
+<rect x="38" y="66" width="14" height="24" fill="#D4537E"/><rect x="53" y="62" width="10" height="28" fill="#1D9E75"/><rect x="64" y="68" width="12" height="22" fill="#378ADD"/>
+<rect x="164" y="64" width="14" height="26" fill="#7F77DD"/><rect x="179" y="68" width="10" height="22" fill="#D85A30"/>
+<path d="M130 90q-7-10 0-20h12q7 10 0 20z" fill="#85B7EB"/><circle cx="133" cy="64" r="5" fill="#D4537E"/><circle cx="141" cy="62" r="5" fill="#FAC775"/>
+<g fill="#B4B2A9"><circle cx="122" cy="84" r="2"/><circle cx="140" cy="80" r="2.5"/><circle cx="152" cy="86" r="2"/></g>
+<ellipse cx="110" cy="186" rx="34" ry="5" fill="#000" opacity=".08"/>
+<circle cx="84" cy="166" r="7" fill="#fff"/>
+<ellipse cx="98" cy="182" rx="11" ry="5" fill="#FBEAF0"/><ellipse cx="122" cy="182" rx="11" ry="5" fill="#FBEAF0"/>
+<ellipse cx="110" cy="152" rx="24" ry="28" fill="#F48FB1"/>
+<ellipse cx="110" cy="158" rx="13" ry="19" fill="#FBEAF0"/>
+<ellipse cx="88" cy="152" rx="6" ry="14" transform="rotate(-10 88 152)" fill="#F48FB1"/>
+<g transform="translate(130,142)">
+<line x1="0" y1="0" x2="0" y2="-44" stroke="#F48FB1" stroke-width="9" stroke-linecap="round"/>
+<circle cx="0" cy="-46" r="6" fill="#F48FB1"/>
+<line x1="0" y1="-46" x2="0" y2="-62" stroke="#854F0B" stroke-width="3" stroke-linecap="round"/>
+<ellipse cx="0" cy="-72" rx="9" ry="13" fill="#5DCAA5"/><ellipse cx="-7" cy="-70" rx="5" ry="11" transform="rotate(-25 -7 -70)" fill="#9FE1CB"/><ellipse cx="7" cy="-70" rx="5" ry="11" transform="rotate(25 7 -70)" fill="#9FE1CB"/>
+</g>
+<g transform="translate(100,104) rotate(-8)"><ellipse cx="-1" cy="-20" rx="7" ry="22" fill="#F48FB1"/><ellipse cx="-1" cy="-20" rx="3.5" ry="16" fill="#FBEAF0"/></g>
+<g transform="translate(120,104) rotate(8)"><ellipse cx="1" cy="-20" rx="7" ry="22" fill="#F48FB1"/><ellipse cx="1" cy="-20" rx="3.5" ry="16" fill="#FBEAF0"/></g>
+<circle cx="110" cy="120" r="21" fill="#F48FB1"/>
+<ellipse cx="110" cy="127" rx="10" ry="7" fill="#FBEAF0"/>
+<circle cx="102" cy="117" r="3" fill="#2C2C2A"/><circle cx="118" cy="117" r="3" fill="#2C2C2A"/>
+<ellipse cx="110" cy="123" rx="3" ry="2" fill="#D4537E"/>
+<path d="M106 128Q110 131 114 128" stroke="#2C2C2A" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+<rect x="108" y="129" width="4" height="5" rx="1" fill="#fff"/>
+</svg>

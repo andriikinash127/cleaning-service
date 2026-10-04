@@ -1,17 +1,34 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
-  <h1>Delete Cleaner</h1>
+  <div class="page-hero page-hero--pink">
+    <div class="page-hero-inner container">
+    <div class="page-hero-text">
+      <p class="page-hero-title">Cleaners</p>
+    </div>
+    <img
+      src="{% static 'cleaning/images/badge_cleaners_raccoon.svg' %}"
+      alt=""
+      class="page-hero-art"
+    >
+    </div>
+  </div>
 
-  <p>Are you sure you want to delete "{{ cleaner }}"?</p>
-  <form method="post">
-      {% csrf_token %}
-      <button type="submit">Delete</button>
-  </form>
+  <h1 class="page-title">Delete Cleaner</h1>
 
-  <a href="{% url 'cleaning:cleaner-detail' cleaner.pk %}">
-    Cancel
-  </a>
+  <div class="confirm-box">
+    <p>Are you sure you want to delete "{{ cleaner }}"?</p>
 
+    <div class="actions-row">
+      <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn-pill btn-pill-hero-outline--pink">Delete</button>
+      </form>
 
+      <a href="{% url 'cleaning:cleaner-detail' cleaner.pk %}" class="btn-pill btn-pill-outline">
+        Cancel
+      </a>
+    </div>
+  </div>
 {% endblock %}

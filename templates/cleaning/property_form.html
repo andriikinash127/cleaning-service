@@ -1,16 +1,39 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
-  <h1>Create Property</h1>
-  <form method="post">
-    {% csrf_token %}
-    {{ form }}
-    <button type="submit">
+  <div class="page-hero page-hero--blue">
+    <div class="page-hero-inner container">
+    <div class="page-hero-text">
+      <p class="page-hero-title">Properties</p>
+    </div>
+    <img
+      src="{% static 'cleaning/images/badge_properties_fox.svg' %}"
+      alt=""
+      class="page-hero-art"
+    >
+    </div>
+  </div>
+
+  <h1 class="page-title">
     {% if object %}
-      Update
+      Update Property
     {% else %}
-      Create
+      Create Property
     {% endif %}
-</button>
-  </form>
+  </h1>
+
+  <div class="form-card">
+    <form method="post" class="styled-form styled-form--blue">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn-pill btn-pill-hero--blue">
+      {% if object %}
+        Update
+      {% else %}
+        Create
+      {% endif %}
+      </button>
+    </form>
+  </div>
 {% endblock %}

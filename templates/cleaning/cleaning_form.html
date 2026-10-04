@@ -1,8 +1,22 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
 
-<h1>
+<div class="page-hero page-hero--green">
+  <div class="page-hero-inner container">
+    <div class="page-hero-text">
+      <p class="page-hero-title">Cleanings</p>
+    </div>
+    <img
+      src="{% static 'cleaning/images/badge_cleanings_bear.svg' %}"
+      alt=""
+      class="page-hero-art"
+    >
+  </div>
+</div>
+
+<h1 class="page-title">
     {% if object %}
         Update Cleaning
     {% else %}
@@ -10,17 +24,19 @@
     {% endif %}
 </h1>
 
-<form method="post">
-    {% csrf_token %}
-    {{ form }}
+<div class="form-card">
+  <form method="post" class="styled-form styled-form--green">
+      {% csrf_token %}
+      {{ form.as_p }}
 
-    <button type="submit">
-        {% if object %}
-            Update
-        {% else %}
-            Create
-        {% endif %}
-    </button>
-</form>
+      <button type="submit" class="btn-pill btn-pill-hero--green">
+          {% if object %}
+              Update
+          {% else %}
+              Create
+          {% endif %}
+      </button>
+  </form>
+</div>
 
 {% endblock %}

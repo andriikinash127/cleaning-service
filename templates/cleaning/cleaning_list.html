@@ -1,22 +1,35 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
-  <h1>Cleanings</h1>
-
-  <a href="{% url 'cleaning:cleaning-create' %}">
-    Create Cleaning
-  </a>
-
-  <form method="get">
-    <input
-      type="text"
-      name="search"
-      value="{{ request.GET.search }}"
+  <div class="page-hero page-hero--green">
+    <div class="page-hero-inner container">
+    <div class="page-hero-text">
+      <h1 class="page-hero-title">Cleanings</h1>
+      <a href="{% url 'cleaning:cleaning-create' %}" class="btn-pill btn-pill-hero--green page-hero-action">
+        Create Cleaning
+      </a>
+    </div>
+    <img
+      src="{% static 'cleaning/images/badge_cleanings_bear.svg' %}"
+      alt=""
+      class="page-hero-art"
     >
+    </div>
+  </div>
 
-    <a href="{% url 'cleaning:cleaning-list' %}">×</a>
+  <form method="get" class="filters-bar">
+    <div class="search-input-wrap">
+      <input
+        type="text"
+        name="search"
+        value="{{ request.GET.search }}"
+        placeholder="Search cleanings"
+      >
+      <a href="{% url 'cleaning:cleaning-list' %}" class="search-clear search-clear--green">×</a>
+    </div>
 
-    <button type="submit">Search</button>
+    <button type="submit" class="btn-pill btn-pill-outline">Search</button>
 
     <select name="status" onchange="this.form.submit()">
       <option
@@ -76,16 +89,47 @@
     </select>
   </form>
 
-  {% for cleaning in cleaning_list %}
-    <p>
-      <a href="{% url 'cleaning:cleaning-detail' cleaning.pk %}">
-        {{ cleaning }}
-      </a>
-    </p>
-  {% endfor %}
+  <ul class="list-cards">
+    {% for cleaning in cleaning_list %}
+      <li>
+        <a href="{% url 'cleaning:cleaning-detail' cleaning.pk %}" class="list-card list-card--green">
+          <span class="list-card-icon list-card-icon--green">
+            {% if cleaning.cleaning_type.name == "Regular" %}
+              <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 12a9 9 0 0 1 15-6.7L21 8"/>
+                <path d="M21 3v5h-5"/>
+                <path d="M21 12a9 9 0 0 1-15 6.7L3 16"/>
+                <path d="M3 21v-5h5"/>
+              </svg>
+            {% elif cleaning.cleaning_type.name == "General" %}
+              <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="8" y="9" width="8" height="13" rx="2"/>
+                <path d="M11 9V5a1 1 0 0 1 1-1 1 1 0 0 1 1 1v4"/>
+                <path d="M15 4h3l2 2"/>
+                <path d="M18.5 2.5l1 1M19.5 6.5l1-1"/>
+              </svg>
+            {% elif cleaning.cleaning_type.name == "Deep cleaning" %}
+              <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="10" cy="10" r="6"/>
+                <path d="M15 15l5 5"/>
+                <path d="M10 7v6M7 10h6"/>
+              </svg>
+            {% else %}
+              <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 11l8-7 8 7"/>
+                <path d="M6 10v10h12V10"/>
+                <path d="M10 20v-4h4v4"/>
+              </svg>
+            {% endif %}
+          </span>
+          <div class="title">{{ cleaning }}</div>
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
 
   {% if is_paginated %}
-    <div>
+    <div class="pagination pagination--green">
       {% if page_obj.has_previous %}
         <a href="{% querystring page=page_obj.previous_page_number %}">
           Previous
@@ -103,7 +147,7 @@
   {% endif %}
 
   {% if request.GET.search and not cleaning_list %}
-    <p>No cleanings found for "{{ request.GET.search }}".</p>
+    <p class="empty-state">No cleanings found for "{{ request.GET.search }}".</p>
   {% endif %}
 
 {% endblock %}
