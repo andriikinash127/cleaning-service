@@ -168,7 +168,9 @@ class PropertyDetailView(LoginRequiredMixin, DetailView):
     template_name = "cleaning/property_detail.html"
 
     def get_queryset(self):
-        queryset = super().get_queryset()
+        queryset = super().get_queryset().select_related(
+            "owner",
+        )
         return filter_properties_for_user(
             queryset,
             self.request.user,
@@ -181,14 +183,12 @@ class PropertyCreateView(LoginRequiredMixin, CreateView):
     template_name = "cleaning/property_form.html"
     success_url = reverse_lazy("cleaning:property-list")
 
-
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
             return super().dispatch(request, *args, **kwargs)
         if not can_manage_properties(request.user):
             return redirect("cleaning:property-list")
         return super().dispatch(request, *args, **kwargs)
-
 
     def form_valid(self, form):
         form.instance.owner = self.request.user
@@ -238,7 +238,9 @@ class CleanerListView(ListView):
     ordering = "id"
 
     def get_queryset(self):
-        queryset = super().get_queryset()
+        queryset = super().get_queryset().prefetch_related(
+            "cleaning_types",
+        )
         search = self.request.GET.get("search")
         cleaning_type = self.request.GET.get("cleaning_type")
         if search:
@@ -256,6 +258,11 @@ class CleanerListView(ListView):
 class CleanerDetailView(DetailView):
     model = Cleaner
     template_name = "cleaning/cleaner_detail.html"
+
+    def get_queryset(self):
+        return super().get_queryset().prefetch_related(
+            "cleaning_types",
+        )
 
 
 class CleanerUpdateView(LoginRequiredMixin, UpdateView):
@@ -290,7 +297,6 @@ class CleanerCreateView(LoginRequiredMixin, CreateView):
     template_name = "cleaning/cleaner_form.html"
     success_url = reverse_lazy("cleaning:cleaner-list")
 
-
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
             return super().dispatch(request, *args, **kwargs)
@@ -306,7 +312,11 @@ class CleaningListView(LoginRequiredMixin, ListView):
     ordering = "id"
 
     def get_queryset(self):
-        queryset = super().get_queryset()
+        queryset = super().get_queryset().select_related(
+            "property",
+            "cleaner",
+            "cleaning_type",
+        )
         queryset = filter_cleanings_for_user(
             queryset,
             self.request.user,
@@ -314,7 +324,6 @@ class CleaningListView(LoginRequiredMixin, ListView):
         search = self.request.GET.get("search")
         status = self.request.GET.get("status")
         cleaning_type = self.request.GET.get("cleaning_type")
-
         if search:
             queryset = queryset.filter(
                 Q(property__name__icontains=search) |
@@ -322,7 +331,6 @@ class CleaningListView(LoginRequiredMixin, ListView):
                 Q(cleaner__last_name__icontains=search) |
                 Q(cleaning_type__name__icontains=search)
             )
-
         if status:
             queryset = queryset.filter(status=status)
         if cleaning_type:
@@ -340,7 +348,11 @@ class CleaningDetailView(LoginRequiredMixin, DetailView):
     template_name = "cleaning/cleaning_detail.html"
 
     def get_queryset(self):
-        queryset = super().get_queryset()
+        queryset = super().get_queryset().select_related(
+            "property",
+            "cleaner",
+            "cleaning_type",
+        )
         return filter_cleanings_for_user(
             queryset,
             self.request.user,
