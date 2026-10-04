@@ -265,6 +265,8 @@ class CleanerUpdateView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy("cleaning:cleaner-list")
 
     def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return super().dispatch(request, *args, **kwargs)
         if not is_manager(request.user):
             return redirect("cleaning:cleaner-list")
         return super().dispatch(request, *args, **kwargs)
@@ -275,6 +277,8 @@ class CleanerDeleteView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy("cleaning:cleaner-list")
 
     def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return super().dispatch(request, *args, **kwargs)
         if not is_manager(request.user):
             return redirect("cleaning:cleaner-list")
         return super().dispatch(request, *args, **kwargs)
