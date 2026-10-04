@@ -667,6 +667,41 @@ class PropertyViewTests(TestCase):
         )
 
 
+    def test_owner_can_create_property(self):
+        owner = User.objects.create_user(
+            username="owner",
+            password="password123",
+            role=UserRole.OWNER,
+        )
+        self.client.login(
+            username="owner",
+            password="password123",
+        )
+        response = self.client.get(
+            reverse("cleaning:property-create"),
+        )
+        self.assertEqual(response.status_code, 200)
+
+
+    def test_cleaner_cannot_create_property(self):
+        cleaner = User.objects.create_user(
+            username="cleaner",
+            password="password123",
+            role=UserRole.CLEANER,
+        )
+        self.client.login(
+            username="cleaner",
+            password="password123",
+        )
+        response = self.client.get(
+            reverse("cleaning:property-create"),
+        )
+        self.assertRedirects(
+            response,
+            reverse("cleaning:property-list"),
+        )
+
+
 class CleanerViewTests(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(
@@ -770,6 +805,44 @@ class CleanerViewTests(TestCase):
         self.assertRedirects(
             response,
             "/login/?next=/cleaners/create/",
+        )
+
+
+    def test_owner_cannot_create_cleaner(self):
+        owner = User.objects.create_user(
+            username="owner",
+            password="password123",
+            role=UserRole.OWNER,
+        )
+        self.client.login(
+            username="owner",
+            password="password123",
+        )
+        response = self.client.get(
+            reverse("cleaning:cleaner-create"),
+        )
+        self.assertRedirects(
+            response,
+            reverse("cleaning:cleaner-list"),
+        )
+
+
+    def test_cleaner_cannot_create_cleaner(self):
+        cleaner = User.objects.create_user(
+            username="cleaner",
+            password="password123",
+            role=UserRole.CLEANER,
+        )
+        self.client.login(
+            username="cleaner",
+            password="password123",
+        )
+        response = self.client.get(
+            reverse("cleaning:cleaner-create"),
+        )
+        self.assertRedirects(
+            response,
+            reverse("cleaning:cleaner-list"),
         )
 
 
@@ -961,3 +1034,67 @@ class CleaningViewTests(TestCase):
             response,
             "/login/?next=/cleanings/create/",
         )
+
+
+    def test_cleaner_is_assigned_to_created_cleaning(self):
+        cleaner_user = User.objects.create_user(
+            username="cleaner",
+            password="password123",
+            role=UserRole.CLEANER,
+        )
+        Cleaner.objects.create(
+            user=cleaner_user,
+            first_name="Mike",
+            last_name="Brown",
+            phone="+380991234567",
+        )
+        cleaner_user.cleaner.cleaning_types.add(self.cleaning_type)
+        self.client.login(
+            username="cleaner",
+            password="password123",
+        )
+        response = self.client.post(
+            reverse("cleaning:cleaning-create"),
+            {
+                "date": "2026-10-10",
+                "cleaning_type": self.cleaning_type.pk,
+                "property": self.property.pk,
+                "status": StatusChoices.PLANNED,
+            },
+        )
+        self.assertEqual(response.status_code, 302)
+        cleaning = Cleaning.objects.get(
+            date="2026-10-10",
+            property=self.property,
+        )
+        self.assertEqual(
+            cleaning.cleaner,
+            cleaner_user.cleaner,
+        )
+
+
+    def test_owner_cannot_create_cleaning_for_other_property(self):
+        owner = User.objects.create_user(
+            username="owner",
+            password="password123",
+            role=UserRole.OWNER,
+        )
+        self.client.login(
+            username="owner",
+            password="password123",
+        )
+        response = self.client.post(
+            reverse("cleaning:cleaning-create"),
+            {
+                "date": "2026-10-10",
+                "cleaning_type": self.cleaning_type.pk,
+                "property": self.property.pk,
+                "cleaner": self.cleaner.pk,
+                "status": StatusChoices.PLANNED,
+            },
+        )
+        self.assertRedirects(
+            response,
+            reverse("cleaning:cleaning-list"),
+        )
+
