@@ -702,6 +702,47 @@ class PropertyViewTests(TestCase):
         )
 
 
+    def test_property_search(self):
+        Property.objects.create(
+            name="Big House",
+            address="Main Street 10",
+            property_type=PropertyType.HOUSE,
+            rooms=5,
+            owner=self.user,
+        )
+        Property.objects.create(
+            name="Small Apartment",
+            address="Other Street 5",
+            apartment_number=10,
+            property_type=PropertyType.APARTMENT,
+            rooms=2,
+            owner=self.user,
+        )
+        response = self.client.get(
+            reverse("cleaning:property-list"),
+            {"search": "Big"},
+        )
+        self.assertContains(response, "Big House")
+        self.assertNotContains(response, "Small Apartment")
+
+
+    def test_property_pagination(self):
+        for i in range(11):
+            Property.objects.create(
+                name=f"Property {i}",
+                address=f"Street {i}",
+                property_type=PropertyType.HOUSE,
+                rooms=3,
+                owner=self.user,
+            )
+        response = self.client.get(
+            reverse("cleaning:property-list"),
+            {"page": 2},
+        )
+        self.assertContains(response, "Property 10")
+        self.assertNotContains(response, "Property 0")
+
+
 class CleanerViewTests(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(
@@ -1098,3 +1139,18 @@ class CleaningViewTests(TestCase):
             reverse("cleaning:cleaning-list"),
         )
 
+
+    def test_cleaning_filter_by_status(self):
+        Cleaning.objects.create(
+            date="2026-10-10",
+            cleaning_type=self.cleaning_type,
+            property=self.property,
+            cleaner=self.cleaner,
+            status=StatusChoices.DONE,
+        )
+        response = self.client.get(
+            reverse("cleaning:cleaning-list"),
+            {"status": StatusChoices.DONE},
+        )
+        self.assertContains(response, "2026-10-10")
+        self.assertNotContains(response, "2026-10-03")
