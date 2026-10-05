@@ -7,7 +7,6 @@ Cleaning Service is a web application for managing cleaning services.
 The application allows users to manage properties, cleaners, cleaning types, and cleaning tasks. 
 Users have different roles with different access levels to the system.
 
-
 ## Features
 
 - User authentication and registration
@@ -21,7 +20,6 @@ Users have different roles with different access levels to the system.
 - Django admin panel
 - Responsive user interface
 
-
 ## Technologies
 
 - Python 3.14
@@ -34,7 +32,6 @@ Users have different roles with different access levels to the system.
 - Git and GitHub
 - Flake8
 
-
 ## Models
 
 The application includes the following main models:
@@ -45,7 +42,6 @@ The application includes the following main models:
 - **CleaningType** — defines the type of cleaning service.
 - **Cleaning** — represents a scheduled cleaning task and connects a property, cleaner, and cleaning type.
 
-
 ## User roles
 
 The application supports three user roles:
@@ -54,29 +50,42 @@ The application supports three user roles:
 - **Owner** — can manage their own properties and cleanings.
 - **Cleaner** — can view their assigned cleanings and create cleaning tasks for themselves. A cleaner can only be assigned to a cleaning if they have experience with the selected cleaning type.
 
-
 ## Installation
 
 Clone the repository:
-""git clone git@github.com:andriikinash127/cleaning-service.git""
-""cd cleaning-service""
+
+```bash
+git clone git@github.com:andriikinash127/cleaning-service.git
+cd cleaning-service
+```
 
 Create and activate a virtual environment:
-""python -m venv .venv""
-""source .venv/bin/activate""
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+```
 
 Install the dependencies:
-""pip install -r requirements.txt""
 
-Apply database migrations:
-""python manage.py migrate""
-""python manage.py loaddata demo_data""
+```bash
+pip install -r requirements.txt
+```
+
+Apply database migrations and load demo data:
+
+```bash
+python manage.py migrate
+python manage.py loaddata demo_data
+```
 
 Run the development server:
-""python manage.py runserver""
 
-Open the application in your browser at http://127.0.0.1:8000/.
+```bash
+python manage.py runserver
+```
 
+Open the application in your browser at [http://127.0.0.1:8000/](http://127.0.0.1:8000/).
 
 ## Usage
 
@@ -102,33 +111,26 @@ After logging in, users can access the parts of the application available to the
 - Create cleaning tasks for themselves
 - View cleaning types they are experienced in
 
-
 ## Demo accounts
 
 The project includes test accounts for checking different user roles.
 
-### Manager
-* **Username:** фAndrii
-* **Password:** TestPassword123!
-
-### Owner
-* **Username:** olena_owner
-* **Password:** Olena12345!
-
-### Cleaner
-* **Username:** cleaner_olena
-* **Password:** Olena12345!
-* **Name:** Olena Koval
-
+| Role    | Username       | Password          | Name         |
+|---------|-----------------|-------------------|--------------|
+| Manager | `фAndrii`       | `TestPassword123!`| —            |
+| Owner   | `olena_owner`   | `Olena12345!`     | —            |
+| Cleaner | `cleaner_olena` | `Olena12345!`     | Olena Koval  |
 
 ## Database structure
 
 The database structure is shown in the diagram below.
 ![Database structure](docs/cleaning_database_diagram.png)
 
-
 ## Tests
 
-Run the test suite with:
-""python manage.py test""
-""Flake8""
+Run the test suite and linter with:
+
+```bash
+python manage.py test
+flake8
+```
