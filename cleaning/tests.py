@@ -30,7 +30,6 @@ class PropertyModelTests(TestCase):
             password="testpassword1",
             role=UserRole.MANAGER,
         )
-
         self.house = Property.objects.create(
             name="Test House",
             address="test st. 10",
@@ -38,7 +37,6 @@ class PropertyModelTests(TestCase):
             rooms=4,
             owner=self.user,
         )
-
         self.apartment = Property.objects.create(
             name="Test Apartment",
             address="test st. 20",

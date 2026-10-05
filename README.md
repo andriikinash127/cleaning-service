@@ -70,6 +70,7 @@ Install the dependencies:
 
 Apply database migrations:
 ""python manage.py migrate""
+""python manage.py loaddata demo_data""
 
 Run the development server:
 ""python manage.py runserver""
