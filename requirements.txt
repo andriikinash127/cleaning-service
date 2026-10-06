@@ -9,3 +9,4 @@ pycodestyle==2.15.0
 pyflakes==4.0.1
 sqlparse==0.6.0
 psycopg==3.3.6
+whitenoise==6.12.0
