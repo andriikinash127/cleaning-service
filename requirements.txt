@@ -5,3 +5,4 @@ mccabe==0.7.0
 pycodestyle==2.15.0
 pyflakes==4.0.1
 sqlparse==0.6.0
+gunicorn==23.0.0
