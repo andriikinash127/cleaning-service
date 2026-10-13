@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+  <link rel="stylesheet" href="{% static 'cleaning/css/cleaner_detail.css' %}">
+
+  <div class="page-hero page-hero--pink">
+    <div class="page-hero-inner container">
+    <div class="page-hero-text">
+      <p class="page-hero-title">Cleaners</p>
+    </div>
+    <img
+      src="{% static 'cleaning/images/badge_cleaners_raccoon.svg' %}"
+      alt=""
+      class="page-hero-art"
+    >
+    </div>
+  </div>
+
+  <h1 class="page-title">{{ cleaner.first_name }} {{ cleaner.last_name }}</h1>
+
+  <div class="detail-card">
+    <dl>
+      <dt>Phone</dt>
+      <dd>{{ cleaner.phone }}</dd>
+    </dl>
+
+    <div class="section-title">Cleaning types</div>
+    {% for cleaning_type in cleaner.cleaning_types.all %}
+      <p class="type-item">{{ cleaning_type.name }}</p>
+    {% endfor %}
+  </div>
+
+  <div class="actions-row">
+    <a href="{% url 'cleaning:cleaner-update' cleaner.pk %}" class="btn-pill btn-pill-hero--pink">
+      Update
+    </a>
+    <a href="{% url 'cleaning:cleaner-delete' cleaner.pk %}" class="btn-pill btn-pill-hero-outline--pink">
+      Delete
+    </a>
+    <a href="{% url 'cleaning:cleaner-list' %}" class="btn-pill btn-pill-outline">
+      Back to cleaners
+    </a>
+  </div>
+{% endblock %}

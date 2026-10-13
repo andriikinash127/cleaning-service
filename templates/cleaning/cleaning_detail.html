@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+  <div class="page-hero page-hero--green">
+    <div class="page-hero-inner container">
+    <div class="page-hero-text">
+      <p class="page-hero-title">Cleanings</p>
+    </div>
+    <img
+      src="{% static 'cleaning/images/badge_cleanings_bear.svg' %}"
+      alt=""
+      class="page-hero-art"
+    >
+    </div>
+  </div>
+
+  <h1 class="page-title">Cleaning details</h1>
+
+  <div class="detail-card">
+    <dl>
+      <dt>Date</dt>
+      <dd>{{ cleaning.date }}</dd>
+
+      <dt>Cleaning type</dt>
+      <dd>{{ cleaning.cleaning_type }}</dd>
+
+      <dt>Property</dt>
+      <dd>{{ cleaning.property }}</dd>
+
+      <dt>Cleaner</dt>
+      <dd>{{ cleaning.cleaner }}</dd>
+
+      <dt>Status</dt>
+      <dd>{{ cleaning.status }}</dd>
+
+      <dt>Notes</dt>
+      <dd>{{ cleaning.notes }}</dd>
+    </dl>
+  </div>
+
+  <div class="actions-row">
+    <a href="{% url 'cleaning:cleaning-update' cleaning.pk %}" class="btn-pill btn-pill-hero--green">
+      Update
+    </a>
+    <a href="{% url 'cleaning:cleaning-delete' cleaning.pk %}" class="btn-pill btn-pill-hero-outline--green">
+      Delete
+    </a>
+    <a href="{% url 'cleaning:cleaning-list' %}" class="btn-pill btn-pill-outline">
+      Back to cleanings
+    </a>
+  </div>
+{% endblock %}

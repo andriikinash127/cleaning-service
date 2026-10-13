@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 200" role="img" aria-label="Лис миє вікно">
+<rect width="220" height="200" rx="14" fill="#E6F1FB"/>
+<path d="M0 155H220V186A14 14 0 0 1 206 200H14A14 14 0 0 1 0 186Z" fill="#B5D4F4"/>
+<rect y="151" width="220" height="4" fill="#85B7EB"/>
+<rect x="58" y="16" width="112" height="90" rx="5" fill="#fff" stroke="#378ADD" stroke-width="4"/>
+<rect x="63" y="21" width="102" height="80" fill="#CFE6FA"/>
+<ellipse cx="88" cy="40" rx="14" ry="6" fill="#fff"/><ellipse cx="99" cy="36" rx="9" ry="6" fill="#fff"/><ellipse cx="146" cy="84" rx="13" ry="5" fill="#fff"/>
+<g fill="#5F5E5A"><circle cx="82" cy="72" r="9"/><circle cx="132" cy="46" r="7"/><circle cx="150" cy="64" r="8"/><circle cx="104" cy="88" r="6"/></g>
+<path d="M114 21V101M63 61H165" stroke="#fff" stroke-width="3"/>
+<rect x="52" y="104" width="124" height="6" rx="2" fill="#85B7EB"/>
+<g transform="translate(78,34)"><path fill="#fff" d="M0-7L2-2L7 0L2 2L0 7L-2 2L-7 0L-2-2Z"/></g>
+<g transform="translate(148,52)"><path fill="#fff" d="M0-7L2-2L7 0L2 2L0 7L-2 2L-7 0L-2-2Z"/></g>
+<g transform="translate(126,86)"><path fill="#fff" d="M0-7L2-2L7 0L2 2L0 7L-2 2L-7 0L-2-2Z"/></g>
+<ellipse cx="104" cy="186" rx="34" ry="5" fill="#000" opacity=".08"/>
+<g transform="translate(80,160)"><ellipse cx="-14" cy="-6" rx="22" ry="9" transform="rotate(35 -14 -6)" fill="#F5871F"/><ellipse cx="-29" cy="-16" rx="7" ry="5" transform="rotate(35 -29 -16)" fill="#fff"/></g>
+<ellipse cx="94" cy="182" rx="9" ry="5" fill="#8A3E0B"/><ellipse cx="114" cy="182" rx="9" ry="5" fill="#8A3E0B"/>
+<ellipse cx="104" cy="152" rx="24" ry="28" fill="#F5871F"/>
+<ellipse cx="104" cy="158" rx="13" ry="19" fill="#fff"/>
+<ellipse cx="82" cy="150" rx="6" ry="14" transform="rotate(-10 82 150)" fill="#F5871F"/>
+<g transform="translate(122,140)">
+<line x1="0" y1="0" x2="0" y2="-70" stroke="#F5871F" stroke-width="9" stroke-linecap="round"/>
+<rect x="-21" y="-82" width="42" height="8" rx="3" fill="#0C447C"/><rect x="-21" y="-75" width="42" height="3" fill="#B5D4F4"/>
+<circle cx="0" cy="-68" r="6" fill="#F5871F"/>
+</g>
+<polygon points="86,104 88,80 102,96" fill="#F5871F"/><polygon points="122,104 120,80 106,96" fill="#F5871F"/>
+<polygon points="89,98 90,87 98,95" fill="#FAC775"/><polygon points="119,98 118,87 110,95" fill="#FAC775"/>
+<circle cx="104" cy="116" r="22" fill="#F5871F"/>
+<ellipse cx="104" cy="126" rx="13" ry="9" fill="#fff"/>
+<circle cx="95" cy="113" r="3" fill="#2C2C2A"/><circle cx="113" cy="113" r="3" fill="#2C2C2A"/>
+<ellipse cx="104" cy="122" rx="3.5" ry="2.5" fill="#2C2C2A"/>
+<path d="M99 128Q104 132 109 128" stroke="#2C2C2A" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+</svg>

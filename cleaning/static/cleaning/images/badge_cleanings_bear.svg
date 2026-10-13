@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 200" role="img" aria-label="Ведмідь чистить ванну">
+<rect width="220" height="200" rx="14" fill="#EAF3DE"/>
+<path d="M0 38H220M0 76H220M0 114H220M44 0V151M88 0V151M132 0V151M176 0V151" stroke="#C0DD97" stroke-width="1" opacity=".7"/>
+<path d="M0 155H220V186A14 14 0 0 1 206 200H14A14 14 0 0 1 0 186Z" fill="#C0DD97"/>
+<rect y="151" width="220" height="4" fill="#97C459"/>
+<path d="M30 100V60Q30 44 46 44H62" stroke="#888780" stroke-width="5" fill="none" stroke-linecap="round"/><rect x="58" y="40" width="10" height="9" rx="2" fill="#888780"/>
+<circle cx="63" cy="56" r="2.5" fill="#378ADD"/>
+<rect x="184" y="34" width="24" height="3" rx="1.5" fill="#888780"/><rect x="186" y="37" width="20" height="40" rx="3" fill="#FAC775"/><rect x="186" y="50" width="20" height="5" fill="#EF9F27"/>
+<ellipse cx="110" cy="190" rx="60" ry="5" fill="#000" opacity=".08"/>
+<ellipse cx="112" cy="142" rx="36" ry="26" fill="#4A9BEA"/>
+<circle cx="90" cy="82" r="9" fill="#4A9BEA"/><circle cx="134" cy="82" r="9" fill="#4A9BEA"/><circle cx="90" cy="82" r="5" fill="#85B7EB"/><circle cx="134" cy="82" r="5" fill="#85B7EB"/>
+<circle cx="112" cy="104" r="26" fill="#4A9BEA"/>
+<ellipse cx="112" cy="114" rx="13" ry="10" fill="#E6F1FB"/>
+<circle cx="101" cy="100" r="3.2" fill="#042C53"/><circle cx="123" cy="100" r="3.2" fill="#042C53"/>
+<ellipse cx="112" cy="109" rx="4.5" ry="3" fill="#042C53"/>
+<path d="M112 112v4M106 118q6 4 12 0" stroke="#042C53" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+<circle cx="94" cy="112" r="4" fill="#F4C0D1" opacity=".7"/><circle cx="130" cy="112" r="4" fill="#F4C0D1" opacity=".7"/>
+<rect x="24" y="140" width="172" height="42" rx="8" fill="#fff" stroke="#D3D1C7" stroke-width="2"/>
+<rect x="22" y="132" width="176" height="10" rx="5" fill="#F1EFE8" stroke="#D3D1C7" stroke-width="1.5"/>
+<rect x="30" y="160" width="160" height="5" rx="2.5" fill="#B5D4F4"/>
+<circle cx="44" cy="186" r="5" fill="#888780"/><circle cx="176" cy="186" r="5" fill="#888780"/>
+<ellipse cx="58" cy="126" rx="12" ry="8" fill="#FFD54A"/><circle cx="64" cy="116" r="7" fill="#FFD54A"/><ellipse cx="72" cy="118" rx="4" ry="2" fill="#F5871F"/><circle cx="65" cy="115" r="1.2" fill="#2C2C2A"/>
+<g fill="#fff" stroke="#85B7EB" stroke-width="1.2"><circle cx="118" cy="140" r="5"/><circle cx="138" cy="146" r="4"/><circle cx="152" cy="138" r="6"/><circle cx="104" cy="144" r="3.5"/></g>
+<g transform="translate(60,152)"><path fill="#B5D4F4" d="M0-7L2-2L7 0L2 2L0 7L-2 2L-7 0L-2-2Z"/></g>
+<g transform="translate(170,150)"><path fill="#B5D4F4" d="M0-7L2-2L7 0L2 2L0 7L-2 2L-7 0L-2-2Z"/></g>
+<g transform="translate(136,126)">
+<line x1="0" y1="0" x2="0" y2="28" stroke="#4A9BEA" stroke-width="9" stroke-linecap="round"/>
+<rect x="-13" y="22" width="26" height="14" rx="4" fill="#FAC775"/><circle cx="-5" cy="29" r="1.6" fill="#EF9F27"/><circle cx="3" cy="31" r="1.6" fill="#EF9F27"/><circle cx="7" cy="27" r="1.4" fill="#EF9F27"/>
+<circle cx="0" cy="22" r="5" fill="#4A9BEA"/>
+</g>
+</svg>

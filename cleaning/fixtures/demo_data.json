@@ -1,0 +1,125 @@
+[
+{
+  "model": "cleaning.user",
+  "pk": 13,
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$5LEUMSwMOp0HzJhUa5EoYa$tlBbdtBAqnO2ugD6bKrXvV+oYKxaYLyTPGdthhyMLkM=",
+    "last_login": "2026-10-03T05:49:51.099Z",
+    "is_superuser": false,
+    "username": "cleaner_olena",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-02T13:12:43.010Z",
+    "role": "cleaner",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "cleaning.user",
+  "pk": 12,
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$n2gCNbOrQeujZySpfI63Ji$v9xxcYbFdeAr0LLDlRtE152GCaqxUe4f0ctODmOKusU=",
+    "last_login": "2026-10-03T05:49:10.654Z",
+    "is_superuser": false,
+    "username": "olena_owner",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-02T12:25:33.931Z",
+    "role": "owner",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "cleaning.user",
+  "pk": 10,
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$QV1lPMRBl8uXTMdMUICmJu$fU5XTVcDsDVW28wWU7vI3wo/pekgpmNRlQ/fl6kiTcA=",
+    "last_login": "2026-10-04T17:32:11.266Z",
+    "is_superuser": true,
+    "username": "фAndrii",
+    "first_name": "",
+    "last_name": "",
+    "email": "andrii@andrii.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-10-02T09:54:50Z",
+    "role": "manager",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "cleaning.cleaningtype",
+  "pk": 1,
+  "fields": {
+    "name": "Regular",
+    "description": "Routine cleaning to keep the property clean and tidy."
+  }
+},
+{
+  "model": "cleaning.cleaningtype",
+  "pk": 3,
+  "fields": {
+    "name": "Deep cleaning",
+    "description": "Detailed cleaning of hard-to-reach areas, surfaces, and equipment."
+  }
+},
+{
+  "model": "cleaning.property",
+  "pk": 42,
+  "fields": {
+    "name": "Sunny Apartment24",
+    "address": "Franko Street 183",
+    "apartment_number": 5,
+    "property_type": "Apartment",
+    "rooms": 2,
+    "owner": 12
+  }
+},
+{
+  "model": "cleaning.property",
+  "pk": 43,
+  "fields": {
+    "name": "Manager Test House",
+    "address": "Shevchenko Street 25",
+    "apartment_number": null,
+    "property_type": "House",
+    "rooms": 4,
+    "owner": 10
+  }
+},
+{
+  "model": "cleaning.cleaner",
+  "pk": 11,
+  "fields": {
+    "user": 13,
+    "first_name": "Olena",
+    "last_name": "Kovel",
+    "phone": "+380502223300",
+    "cleaning_types": [
+      1,
+      3
+    ]
+  }
+},
+{
+  "model": "cleaning.cleaning",
+  "pk": 37,
+  "fields": {
+    "date": "2026-10-10",
+    "cleaning_type": 3,
+    "property": 42,
+    "cleaner": 11,
+    "status": "planned",
+    "notes": ""
+  }
+}
+]
