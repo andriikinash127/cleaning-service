@@ -1,7 +1,6 @@
 from django.urls import path
 
 from .views import (
-    home,
     PropertyListView,
     PropertyDetailView,
     PropertyCreateView,
@@ -24,12 +23,13 @@ from .views import (
     RegisterView,
     OwnerRegisterView,
     CleanerRegisterView,
+    HomeView
 )
 
 app_name = "cleaning"
 
 urlpatterns = [
-    path("", home, name="home"),
+    path("", HomeView.as_view(), name="home"),
     path("properties/",
          PropertyListView.as_view(),
          name="property-list"

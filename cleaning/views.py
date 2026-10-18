@@ -32,8 +32,8 @@ from .forms import (
 )
 
 
-def home(request):
-    return render(request, "home.html")
+class HomeView(TemplateView):
+    template_name = "home.html"
 
 
 def filter_cleanings_for_user(queryset, user):
