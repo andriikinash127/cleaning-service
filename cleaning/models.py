@@ -4,6 +4,8 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+from cleaning.managers import PropertyManager, CleaningManager
+
 
 class UserRole(models.TextChoices):
     MANAGER = "manager", "Manager"
@@ -25,6 +27,8 @@ class PropertyType(models.TextChoices):
 
 
 class Property(models.Model):
+    objects = PropertyManager()
+
     name = models.CharField(max_length=255)
     address = models.CharField(max_length=255)
     apartment_number = models.PositiveIntegerField(
@@ -111,6 +115,8 @@ class StatusChoices(models.TextChoices):
 
 
 class Cleaning(models.Model):
+    objects = CleaningManager()
+
     date = models.DateTimeField()
 
     cleaning_type = models.ForeignKey(

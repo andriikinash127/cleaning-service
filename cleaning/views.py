@@ -27,19 +27,6 @@ class HomeView(TemplateView):
     template_name = "home.html"
 
 
-def filter_cleanings_for_user(queryset, user):
-    if user.role == UserRole.OWNER:
-        return queryset.filter(property__owner=user)
-    if user.role == UserRole.CLEANER:
-        return queryset.filter(cleaner=user.cleaner)
-    return queryset
-
-def filter_properties_for_user(queryset, user):
-    if user.role == UserRole.OWNER:
-        return queryset.filter(owner=user)
-    return queryset
-
-
 class PropertyListView(LoginRequiredMixin, ListView):
     model = Property
     template_name = "cleaning/property_list.html"
@@ -47,20 +34,20 @@ class PropertyListView(LoginRequiredMixin, ListView):
     ordering = "id"
 
     def get_queryset(self):
-        queryset = super().get_queryset()
-        queryset = filter_properties_for_user(
-            queryset,
-            self.request.user,
-        )
+        queryset = Property.objects.for_user(self.request.user)
+
         search = self.request.GET.get("search")
         property_type = self.request.GET.get("property_type")
+
         if search:
             queryset = queryset.filter(
                 Q(name__icontains=search) |
                 Q(address__icontains=search)
             )
+
         if property_type:
             queryset = queryset.filter(property_type=property_type)
+
         return queryset
 
 
@@ -69,13 +56,7 @@ class PropertyDetailView(LoginRequiredMixin, DetailView):
     template_name = "cleaning/property_detail.html"
 
     def get_queryset(self):
-        queryset = super().get_queryset().select_related(
-            "owner",
-        )
-        return filter_properties_for_user(
-            queryset,
-            self.request.user,
-        )
+        return Property.objects.for_user(self.request.user)
 
 
 class PropertyCreateView(
@@ -104,11 +85,7 @@ class PropertyUpdateView(
     success_url = reverse_lazy("cleaning:property-list")
 
     def get_queryset(self):
-        queryset = super().get_queryset()
-        return filter_properties_for_user(
-            queryset,
-            self.request.user,
-        )
+        return Property.objects.for_user(self.request.user)
 
 
 class PropertyDeleteView(
@@ -120,11 +97,7 @@ class PropertyDeleteView(
     success_url = reverse_lazy("cleaning:property-list")
 
     def get_queryset(self):
-        queryset = super().get_queryset()
-        return filter_properties_for_user(
-            queryset,
-            self.request.user,
-        )
+        return Property.objects.for_user(self.request.user)
 
 
 class CleaningListView(LoginRequiredMixin, ListView):
@@ -134,18 +107,18 @@ class CleaningListView(LoginRequiredMixin, ListView):
     ordering = "id"
 
     def get_queryset(self):
-        queryset = super().get_queryset().select_related(
+        queryset = Cleaning.objects.for_user(
+            self.request.user
+        ).select_related(
             "property",
             "cleaner",
             "cleaning_type",
         )
-        queryset = filter_cleanings_for_user(
-            queryset,
-            self.request.user,
-        )
+
         search = self.request.GET.get("search")
         status = self.request.GET.get("status")
         cleaning_type = self.request.GET.get("cleaning_type")
+
         if search:
             queryset = queryset.filter(
                 Q(property__name__icontains=search) |
@@ -153,10 +126,13 @@ class CleaningListView(LoginRequiredMixin, ListView):
                 Q(cleaner__last_name__icontains=search) |
                 Q(cleaning_type__name__icontains=search)
             )
+
         if status:
             queryset = queryset.filter(status=status)
+
         if cleaning_type:
             queryset = queryset.filter(cleaning_type=cleaning_type)
+
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -170,14 +146,12 @@ class CleaningDetailView(LoginRequiredMixin, DetailView):
     template_name = "cleaning/cleaning_detail.html"
 
     def get_queryset(self):
-        queryset = super().get_queryset().select_related(
+        return Cleaning.objects.for_user(
+            self.request.user
+        ).select_related(
             "property",
             "cleaner",
             "cleaning_type",
-        )
-        return filter_cleanings_for_user(
-            queryset,
-            self.request.user,
         )
 
 
@@ -208,11 +182,7 @@ class CleaningUpdateView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy("cleaning:cleaning-list")
 
     def get_queryset(self):
-        queryset = super().get_queryset()
-        return filter_cleanings_for_user(
-            queryset,
-            self.request.user,
-        )
+        return Cleaning.objects.for_user(self.request.user)
 
 
 class CleaningDeleteView(LoginRequiredMixin, DeleteView):
@@ -220,11 +190,7 @@ class CleaningDeleteView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy("cleaning:cleaning-list")
 
     def get_queryset(self):
-        queryset = super().get_queryset()
-        return filter_cleanings_for_user(
-            queryset,
-            self.request.user,
-        )
+        return Cleaning.objects.for_user(self.request.user)
 
 
 class CleaningTypeListView(ListView):
