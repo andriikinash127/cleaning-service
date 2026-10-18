@@ -1,16 +1,26 @@
+
 """
 WSGI config for cleaning_service project.
-
-It exposes the WSGI callable as a module-level variable named ``application``.
-
-For more information on this file, see
-https://docs.djangoproject.com/en/6.1/howto/deployment/wsgi/
 """
 
 import os
 
 from django.core.wsgi import get_wsgi_application
+from django.db import connection
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'cleaning_service.settings')
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "cleaning_service.settings")
 
 application = get_wsgi_application()
+
+try:
+    connection.ensure_connection()
+    print(
+        f"DATABASE CHECK: vendor={connection.vendor}, connected=True",
+        flush=True,
+    )
+except Exception as exc:
+    print(
+        f"DATABASE CHECK FAILED: vendor={connection.vendor}, "
+        f"error={type(exc).__name__}",
+        flush=True,
+    )
