@@ -1,11 +1,6 @@
-from django.contrib.auth import login
-from django.contrib.auth.views import (
-    LoginView,
-    LogoutView
-)
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import (
     DetailView,
@@ -17,18 +12,13 @@ from django.views.generic import (
 )
 from .models import (
     Property,
-    Cleaner,
     Cleaning,
     CleaningType,
     UserRole,
 )
 from .forms import (
     PropertyForm,
-    CleanerForm,
     CleaningForm,
-    UserRegistrationForm,
-    OwnerPropertyForm,
-
 )
 
 
@@ -43,100 +33,16 @@ def filter_cleanings_for_user(queryset, user):
         return queryset.filter(cleaner=user.cleaner)
     return queryset
 
-
 def filter_properties_for_user(queryset, user):
     if user.role == UserRole.OWNER:
         return queryset.filter(owner=user)
     return queryset
-
-
-def is_manager(user):
-    return user.role == UserRole.MANAGER
-
 
 def can_manage_properties(user):
     return user.is_authenticated and user.role in [
         UserRole.OWNER,
         UserRole.MANAGER,
     ]
-
-
-class UserLoginView(LoginView):
-    template_name = "registration/login.html"
-
-
-class UserLogoutView(LogoutView):
-    next_page = "/"
-
-
-class RegisterView(TemplateView):
-    template_name = "registration/register.html"
-
-
-class OwnerRegisterView(TemplateView):
-    template_name = "registration/owner_register.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context.setdefault("user_form", UserRegistrationForm())
-        context.setdefault("property_form", OwnerPropertyForm())
-        return context
-
-    def post(self, request, *args, **kwargs):
-        user_form = UserRegistrationForm(request.POST)
-        property_form = OwnerPropertyForm(request.POST)
-
-        if user_form.is_valid() and property_form.is_valid():
-            user = user_form.save(commit=False)
-            user.role = UserRole.OWNER
-            user.save()
-
-            property = property_form.save(commit=False)
-            property.owner = user
-            property.save()
-
-            login(request, user)
-
-            return redirect("cleaning:home")
-
-        return self.render_to_response(
-            self.get_context_data(
-                user_form=user_form,
-                property_form=property_form,
-            )
-        )
-
-
-class CleanerRegisterView(TemplateView):
-    template_name = "registration/cleaner_register.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context.setdefault("user_form", UserRegistrationForm())
-        context.setdefault("cleaner_form", CleanerForm())
-        return context
-
-    def post(self, request, *args, **kwargs):
-        user_form = UserRegistrationForm(request.POST)
-        cleaner_form = CleanerForm(request.POST)
-
-        if user_form.is_valid() and cleaner_form.is_valid():
-            user = user_form.save(commit=False)
-            user.role = UserRole.CLEANER
-            user.save()
-            cleaner = cleaner_form.save(commit=False)
-            cleaner.user = user
-            cleaner.save()
-            cleaner_form.save_m2m()
-            login(request, user)
-            return redirect("cleaning:home")
-
-        return self.render_to_response(
-            self.get_context_data(
-                user_form=user_form,
-                cleaner_form=cleaner_form,
-            )
-        )
 
 
 class PropertyListView(LoginRequiredMixin, ListView):
@@ -228,80 +134,6 @@ class PropertyDeleteView(LoginRequiredMixin, DeleteView):
     def dispatch(self, request, *args, **kwargs):
         if not can_manage_properties(request.user):
             return redirect("cleaning:property-list")
-        return super().dispatch(request, *args, **kwargs)
-
-
-class CleanerListView(ListView):
-    model = Cleaner
-    template_name = "cleaning/cleaner_list.html"
-    paginate_by = 5
-    ordering = "id"
-
-    def get_queryset(self):
-        queryset = super().get_queryset().prefetch_related(
-            "cleaning_types",
-        )
-        search = self.request.GET.get("search")
-        cleaning_type = self.request.GET.get("cleaning_type")
-        if search:
-            queryset = queryset.filter(
-                Q(first_name__icontains=search) |
-                Q(last_name__icontains=search)
-            )
-        if cleaning_type:
-            queryset = queryset.filter(
-                cleaning_types__name=cleaning_type
-            )
-        return queryset
-
-
-class CleanerDetailView(DetailView):
-    model = Cleaner
-    template_name = "cleaning/cleaner_detail.html"
-
-    def get_queryset(self):
-        return super().get_queryset().prefetch_related(
-            "cleaning_types",
-        )
-
-
-class CleanerUpdateView(LoginRequiredMixin, UpdateView):
-    model = Cleaner
-    form_class = CleanerForm
-    template_name = "cleaning/cleaner_form.html"
-    success_url = reverse_lazy("cleaning:cleaner-list")
-
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            return super().dispatch(request, *args, **kwargs)
-        if not is_manager(request.user):
-            return redirect("cleaning:cleaner-list")
-        return super().dispatch(request, *args, **kwargs)
-
-
-class CleanerDeleteView(LoginRequiredMixin, DeleteView):
-    model = Cleaner
-    success_url = reverse_lazy("cleaning:cleaner-list")
-
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            return super().dispatch(request, *args, **kwargs)
-        if not is_manager(request.user):
-            return redirect("cleaning:cleaner-list")
-        return super().dispatch(request, *args, **kwargs)
-
-
-class CleanerCreateView(LoginRequiredMixin, CreateView):
-    model = Cleaner
-    form_class = CleanerForm
-    template_name = "cleaning/cleaner_form.html"
-    success_url = reverse_lazy("cleaning:cleaner-list")
-
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            return super().dispatch(request, *args, **kwargs)
-        if not is_manager(request.user):
-            return redirect("cleaning:cleaner-list")
         return super().dispatch(request, *args, **kwargs)
 
 

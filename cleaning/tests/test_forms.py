@@ -14,9 +14,9 @@ from cleaning.models import (
 
 from cleaning.forms import (
     PropertyForm,
-    CleanerForm,
     CleaningForm,
 )
+from users.forms import CleanerForm
 
 class PropertyFormTests(TestCase):
     def setUp(self):

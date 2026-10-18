@@ -32,13 +32,13 @@
   </div>
 
   <div class="actions-row">
-    <a href="{% url 'cleaning:cleaner-update' cleaner.pk %}" class="btn-pill btn-pill-hero--pink">
+    <a href="{% url 'users:cleaner-update' cleaner.pk %}" class="btn-pill btn-pill-hero--pink">
       Update
     </a>
-    <a href="{% url 'cleaning:cleaner-delete' cleaner.pk %}" class="btn-pill btn-pill-hero-outline--pink">
+    <a href="{% url 'users:cleaner-delete' cleaner.pk %}" class="btn-pill btn-pill-hero-outline--pink">
       Delete
     </a>
-    <a href="{% url 'cleaning:cleaner-list' %}" class="btn-pill btn-pill-outline">
+    <a href="{% url 'users:cleaner-list' %}" class="btn-pill btn-pill-outline">
       Back to cleaners
     </a>
   </div>

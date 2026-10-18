@@ -6,7 +6,7 @@
     <div class="page-hero-inner container">
     <div class="page-hero-text">
       <h1 class="page-hero-title">Cleaners</h1>
-      <a href="{% url 'cleaning:cleaner-create' %}" class="btn-pill btn-pill-hero--pink page-hero-action">
+      <a href="{% url 'users:cleaner-create' %}" class="btn-pill btn-pill-hero--pink page-hero-action">
         Create Cleaner
       </a>
     </div>
@@ -21,7 +21,7 @@
   <form method="get" class="filters-bar">
     <div class="search-input-wrap">
       <input type="text" name="search" value="{{ request.GET.search }}" placeholder="Search cleaners">
-      <a href="{% url 'cleaning:cleaner-list' %}" class="search-clear search-clear--pink">×</a>
+      <a href="{% url 'users:cleaner-list' %}" class="search-clear search-clear--pink">×</a>
     </div>
     <button type="submit" class="btn-pill btn-pill-outline">Search</button>
 
@@ -63,7 +63,7 @@
   <ul class="list-cards">
     {% for cleaner in cleaner_list %}
       <li>
-        <a href="{% url 'cleaning:cleaner-detail' cleaner.pk %}" class="list-card list-card--pink">
+        <a href="{% url 'users:cleaner-detail' cleaner.pk %}" class="list-card list-card--pink">
           <span class="list-card-icon list-card-icon--pink">
             <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="8" r="4"/>

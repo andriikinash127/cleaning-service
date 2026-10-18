@@ -1,3 +1,4 @@
+
 {% extends "base.html" %}
 {% load static %}
 
@@ -18,7 +19,7 @@
   <h1 class="page-title">Choose your role</h1>
 
   <div class="actions-row actions-row--top">
-    <a href="{% url 'cleaning:register-owner' %}" class="btn-pill btn-pill-hero--violet">Owner</a>
-    <a href="{% url 'cleaning:register-cleaner' %}" class="btn-pill btn-pill-hero--violet">Cleaner</a>
+    <a href="{% url 'users:register-owner' %}" class="btn-pill btn-pill-hero--violet">Owner</a>
+    <a href="{% url 'users:register-cleaner' %}" class="btn-pill btn-pill-hero--violet">Cleaner</a>
   </div>
 {% endblock %}

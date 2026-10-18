@@ -1,16 +1,12 @@
 from django.urls import path
 
 from .views import (
+    HomeView,
     PropertyListView,
     PropertyDetailView,
     PropertyCreateView,
     PropertyUpdateView,
     PropertyDeleteView,
-    CleanerListView,
-    CleanerDetailView,
-    CleanerUpdateView,
-    CleanerDeleteView,
-    CleanerCreateView,
     CleaningListView,
     CleaningDetailView,
     CleaningCreateView,
@@ -18,32 +14,20 @@ from .views import (
     CleaningDeleteView,
     CleaningTypeListView,
     CleaningTypeDetailView,
-    UserLoginView,
-    UserLogoutView,
-    RegisterView,
-    OwnerRegisterView,
-    CleanerRegisterView,
-    HomeView
 )
 
 app_name = "cleaning"
 
 urlpatterns = [
     path("", HomeView.as_view(), name="home"),
-    path("properties/",
-         PropertyListView.as_view(),
-         name="property-list"
-         ),
+
+    path("properties/", PropertyListView.as_view(), name="property-list"),
     path(
         "properties/<int:pk>/",
         PropertyDetailView.as_view(),
-        name="property-detail"
+        name="property-detail",
     ),
-    path(
-        "properties/create/",
-        PropertyCreateView.as_view(),
-        name="property-create"
-    ),
+    path("properties/create/", PropertyCreateView.as_view(), name="property-create"),
     path(
         "properties/<int:pk>/update/",
         PropertyUpdateView.as_view(),
@@ -54,89 +38,33 @@ urlpatterns = [
         PropertyDeleteView.as_view(),
         name="property-delete",
     ),
-    path(
-        "cleaners/",
-        CleanerListView.as_view(),
-        name="cleaner-list"
-    ),
-    path(
-        "cleaners/<int:pk>/",
-        CleanerDetailView.as_view(),
-        name="cleaner-detail"
-    ),
-    path(
-        "cleaners/<int:pk>/update/",
-        CleanerUpdateView.as_view(),
-        name="cleaner-update",
-    ),
-    path(
-        "cleaners/<int:pk>/delete/",
-        CleanerDeleteView.as_view(),
-        name="cleaner-delete"
-    ),
-    path(
-        "cleaners/create/",
-        CleanerCreateView.as_view(),
-        name="cleaner-create"
-    ),
-    path(
-        "cleanings/",
-        CleaningListView.as_view(),
-        name="cleaning-list"
-    ),
+
+    path("cleanings/", CleaningListView.as_view(), name="cleaning-list"),
     path(
         "cleanings/<int:pk>/",
         CleaningDetailView.as_view(),
-        name="cleaning-detail"
+        name="cleaning-detail",
     ),
-    path(
-        "cleanings/create/",
-        CleaningCreateView.as_view(),
-        name="cleaning-create"
-    ),
+    path("cleanings/create/", CleaningCreateView.as_view(), name="cleaning-create"),
     path(
         "cleanings/<int:pk>/update/",
         CleaningUpdateView.as_view(),
-        name="cleaning-update"
+        name="cleaning-update",
     ),
     path(
         "cleanings/<int:pk>/delete/",
         CleaningDeleteView.as_view(),
-        name="cleaning-delete"
+        name="cleaning-delete",
     ),
+
     path(
         "cleaning-types/",
         CleaningTypeListView.as_view(),
-        name="cleaning-type-list"
+        name="cleaning-type-list",
     ),
     path(
         "cleaning-types/<int:pk>/",
         CleaningTypeDetailView.as_view(),
         name="cleaning-type-detail",
     ),
-    path(
-        "login/",
-        UserLoginView.as_view(),
-        name="login"),
-    path(
-        "logout/",
-        UserLogoutView.as_view(),
-        name="logout",
-    ),
-    path(
-        "register/",
-        RegisterView.as_view(),
-        name="register",
-    ),
-    path(
-        "register/owner/",
-        OwnerRegisterView.as_view(),
-        name="register-owner",
-    ),
-    path(
-        "register/cleaner/",
-        CleanerRegisterView.as_view(),
-        name="register-cleaner",
-    ),
-
 ]

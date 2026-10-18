@@ -1,4 +1,3 @@
-
 from datetime import timedelta
 
 from django.test import TestCase
@@ -28,7 +27,7 @@ class AuthenticationTests(TestCase):
 
     def test_user_can_login(self):
         response = self.client.post(
-            reverse("cleaning:login"),
+            reverse("users:login"),
             {
                 "username": "testuser",
                 "password": "testpassword1",
@@ -39,7 +38,7 @@ class AuthenticationTests(TestCase):
 
     def test_user_cannot_login_with_wrong_password(self):
         response = self.client.post(
-            reverse("cleaning:login"),
+            reverse("users:login"),
             {
                 "username": "testuser",
                 "password": "wrongpassword",
@@ -50,7 +49,7 @@ class AuthenticationTests(TestCase):
 
     def test_nonexistent_user_cannot_login(self):
         response = self.client.post(
-            reverse("cleaning:login"),
+            reverse("users:login"),
             {
                 "username": "unknownuser",
                 "password": "testpassword1",
@@ -64,7 +63,7 @@ class AuthenticationTests(TestCase):
             username="testuser",
             password="testpassword1",
         )
-        response = self.client.post(reverse("cleaning:logout"))
+        response = self.client.post(reverse("users:logout"))
         self.assertRedirects(response, "/")
         self.assertFalse(response.wsgi_request.user.is_authenticated)
 
@@ -270,13 +269,13 @@ class CleanerViewTests(TestCase):
         )
 
     def test_cleaner_list_view(self):
-        response = self.client.get(reverse("cleaning:cleaner-list"))
+        response = self.client.get(reverse("users:cleaner-list"))
         self.assertEqual(response.status_code, 200)
 
     def test_cleaner_detail_view(self):
         response = self.client.get(
             reverse(
-                "cleaning:cleaner-detail",
+                "users:cleaner-detail",
                 kwargs={"pk": self.cleaner.pk},
             )
         )
@@ -285,7 +284,7 @@ class CleanerViewTests(TestCase):
     def test_cleaner_detail_view_with_invalid_pk(self):
         response = self.client.get(
             reverse(
-                "cleaning:cleaner-detail",
+                "users:cleaner-detail",
                 kwargs={"pk": 9999},
             )
         )
@@ -293,7 +292,7 @@ class CleanerViewTests(TestCase):
 
     def test_cleaner_create_view_creates_cleaner(self):
         response = self.client.post(
-            reverse("cleaning:cleaner-create"),
+            reverse("users:cleaner-create"),
             {
                 "first_name": "Jane",
                 "last_name": "Doe",
@@ -306,7 +305,7 @@ class CleanerViewTests(TestCase):
     def test_cleaner_update_view_updates_cleaner(self):
         response = self.client.post(
             reverse(
-                "cleaning:cleaner-update",
+                "users:cleaner-update",
                 kwargs={"pk": self.cleaner.pk},
             ),
             {
@@ -325,7 +324,7 @@ class CleanerViewTests(TestCase):
     def test_cleaner_delete_view_deletes_cleaner(self):
         response = self.client.post(
             reverse(
-                "cleaning:cleaner-delete",
+                "users:cleaner-delete",
                 kwargs={"pk": self.cleaner.pk},
             )
         )
@@ -337,11 +336,11 @@ class CleanerViewTests(TestCase):
     def test_unauthenticated_user_cannot_create_cleaner(self):
         self.client.logout()
         response = self.client.get(
-            reverse("cleaning:cleaner-create")
+            reverse("users:cleaner-create")
         )
         self.assertRedirects(
             response,
-            "/login/?next=/cleaners/create/",
+            "/login/?next=/users/cleaners/create/",
         )
 
     def test_owner_cannot_create_cleaner(self):
@@ -355,11 +354,11 @@ class CleanerViewTests(TestCase):
             password="password123",
         )
         response = self.client.get(
-            reverse("cleaning:cleaner-create")
+            reverse("users:cleaner-create")
         )
         self.assertRedirects(
             response,
-            reverse("cleaning:cleaner-list"),
+            reverse("users:cleaner-list"),
         )
 
     def test_cleaner_cannot_create_cleaner(self):
@@ -374,11 +373,11 @@ class CleanerViewTests(TestCase):
             role=UserRole.CLEANER,
         )
         response = self.client.get(
-            reverse("cleaning:cleaner-create")
+            reverse("users:cleaner-create")
         )
         self.assertRedirects(
             response,
-            reverse("cleaning:cleaner-list"),
+            reverse("users:cleaner-list"),
         )
 
 

@@ -29,18 +29,18 @@
 
       <nav>
         <a href="{% url 'cleaning:property-list' %}">Properties</a>
-        <a href="{% url 'cleaning:cleaner-list' %}">Cleaners</a>
+        <a href="{% url 'users:cleaner-list' %}">Cleaners</a>
         <a href="{% url 'cleaning:cleaning-list' %}">Cleanings</a>
         <a href="{% url 'cleaning:cleaning-type-list' %}">Cleaning Types</a>
 
         {% if user.is_authenticated %}
-          <form method="post" action="{% url 'cleaning:logout' %}" class="nav-logout-form">
+          <form method="post" action="{% url 'users:logout' %}" class="nav-logout-form">
             {% csrf_token %}
             <button type="submit">Logout</button>
           </form>
         {% else %}
-          <a href="{% url 'cleaning:login' %}">Login</a>
-          <a href="{% url 'cleaning:register' %}">Register</a>
+          <a href="{% url 'users:login' %}">Login</a>
+          <a href="{% url 'users:register' %}">Register</a>
         {% endif %}
 
       </nav>
@@ -81,7 +81,7 @@
         <div class="footer-links-list">
           <a href="{% url 'cleaning:home' %}" class="footer-link footer-link--muted">Home</a>
           <a href="{% url 'cleaning:property-list' %}" class="footer-link footer-link--muted">Properties</a>
-          <a href="{% url 'cleaning:cleaner-list' %}" class="footer-link footer-link--muted">Cleaners</a>
+          <a href="{% url 'users:cleaner-list' %}" class="footer-link footer-link--muted">Cleaners</a>
           <a href="{% url 'cleaning:cleaning-list' %}" class="footer-link footer-link--muted">Cleanings</a>
         </div>
       </div>
