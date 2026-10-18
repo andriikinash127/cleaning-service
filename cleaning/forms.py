@@ -15,6 +15,13 @@ class PropertyForm(forms.ModelForm):
         model = Property
         fields = "__all__"
 
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop("user", None)
+        super().__init__(*args, **kwargs)
+
+        if user and user.role == UserRole.OWNER:
+            self.fields.pop("owner", None)
+
 
 class CleaningForm(forms.ModelForm):
     class Meta:
