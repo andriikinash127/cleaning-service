@@ -1,5 +1,4 @@
 from django.contrib.auth import login
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.db.models import Q
 from django.shortcuts import redirect
@@ -13,16 +12,13 @@ from django.views.generic import (
     UpdateView,
 )
 
+from mixins import ManagerRequiredMixin
 from users.forms import (
     CleanerForm,
     OwnerPropertyForm,
     UserRegistrationForm,
 )
 from cleaning.models import Cleaner, UserRole
-
-
-def is_manager(user):
-    return user.is_authenticated and user.role == UserRole.MANAGER
 
 
 class UserLoginView(LoginView):
@@ -141,47 +137,20 @@ class CleanerDetailView(DetailView):
         )
 
 
-class CleanerUpdateView(LoginRequiredMixin, UpdateView):
+class CleanerUpdateView(ManagerRequiredMixin, UpdateView):
     model = Cleaner
     form_class = CleanerForm
     template_name = "cleaning/cleaner_form.html"
     success_url = reverse_lazy("users:cleaner-list")
 
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            return super().dispatch(request, *args, **kwargs)
 
-        if not is_manager(request.user):
-            return redirect("users:cleaner-list")
-
-        return super().dispatch(request, *args, **kwargs)
-
-
-class CleanerDeleteView(LoginRequiredMixin, DeleteView):
+class CleanerDeleteView(ManagerRequiredMixin, DeleteView):
     model = Cleaner
     success_url = reverse_lazy("users:cleaner-list")
 
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            return super().dispatch(request, *args, **kwargs)
 
-        if not is_manager(request.user):
-            return redirect("users:cleaner-list")
-
-        return super().dispatch(request, *args, **kwargs)
-
-
-class CleanerCreateView(LoginRequiredMixin, CreateView):
+class CleanerCreateView(ManagerRequiredMixin, CreateView):
     model = Cleaner
     form_class = CleanerForm
     template_name = "cleaning/cleaner_form.html"
     success_url = reverse_lazy("users:cleaner-list")
-
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            return super().dispatch(request, *args, **kwargs)
-
-        if not is_manager(request.user):
-            return redirect("users:cleaner-list")
-
-        return super().dispatch(request, *args, **kwargs)

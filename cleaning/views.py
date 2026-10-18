@@ -20,6 +20,7 @@ from .forms import (
     PropertyForm,
     CleaningForm,
 )
+from mixins import PropertyManagementMixin
 
 
 class HomeView(TemplateView):
@@ -37,12 +38,6 @@ def filter_properties_for_user(queryset, user):
     if user.role == UserRole.OWNER:
         return queryset.filter(owner=user)
     return queryset
-
-def can_manage_properties(user):
-    return user.is_authenticated and user.role in [
-        UserRole.OWNER,
-        UserRole.MANAGER,
-    ]
 
 
 class PropertyListView(LoginRequiredMixin, ListView):
@@ -83,25 +78,26 @@ class PropertyDetailView(LoginRequiredMixin, DetailView):
         )
 
 
-class PropertyCreateView(LoginRequiredMixin, CreateView):
+class PropertyCreateView(
+    PropertyManagementMixin,
+    LoginRequiredMixin,
+    CreateView
+):
     model = Property
     form_class = PropertyForm
     template_name = "cleaning/property_form.html"
     success_url = reverse_lazy("cleaning:property-list")
-
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            return super().dispatch(request, *args, **kwargs)
-        if not can_manage_properties(request.user):
-            return redirect("cleaning:property-list")
-        return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
         form.instance.owner = self.request.user
         return super().form_valid(form)
 
 
-class PropertyUpdateView(LoginRequiredMixin, UpdateView):
+class PropertyUpdateView(
+    PropertyManagementMixin,
+    LoginRequiredMixin,
+    UpdateView
+):
     model = Property
     form_class = PropertyForm
     template_name = "cleaning/property_form.html"
@@ -114,13 +110,12 @@ class PropertyUpdateView(LoginRequiredMixin, UpdateView):
             self.request.user,
         )
 
-    def dispatch(self, request, *args, **kwargs):
-        if not can_manage_properties(request.user):
-            return redirect("cleaning:property-list")
-        return super().dispatch(request, *args, **kwargs)
 
-
-class PropertyDeleteView(LoginRequiredMixin, DeleteView):
+class PropertyDeleteView(
+    PropertyManagementMixin,
+    LoginRequiredMixin,
+    DeleteView
+):
     model = Property
     success_url = reverse_lazy("cleaning:property-list")
 
@@ -130,11 +125,6 @@ class PropertyDeleteView(LoginRequiredMixin, DeleteView):
             queryset,
             self.request.user,
         )
-
-    def dispatch(self, request, *args, **kwargs):
-        if not can_manage_properties(request.user):
-            return redirect("cleaning:property-list")
-        return super().dispatch(request, *args, **kwargs)
 
 
 class CleaningListView(LoginRequiredMixin, ListView):
