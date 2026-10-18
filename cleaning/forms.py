@@ -23,6 +23,7 @@ class PropertyForm(forms.ModelForm):
             self.fields.pop("owner", None)
 
 
+
 class CleaningForm(forms.ModelForm):
     class Meta:
         model = Cleaning
