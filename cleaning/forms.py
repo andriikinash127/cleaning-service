@@ -1,7 +1,15 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
+from django.utils import timezone
 
-from .models import Property, Cleaner, Cleaning, User, UserRole
+from .models import (
+    Property,
+    Cleaner,
+    Cleaning,
+    User,
+    UserRole,
+    StatusChoices,
+)
 
 
 class PropertyForm(forms.ModelForm):
@@ -29,26 +37,76 @@ class CleaningForm(forms.ModelForm):
     class Meta:
         model = Cleaning
         fields = "__all__"
+        widgets = {
+            "date": forms.DateTimeInput(
+                format="%Y-%m-%dT%H:%M",
+                attrs={"type": "datetime-local"},
+            ),
+        }
 
     def __init__(self, *args, user=None, **kwargs):
         super().__init__(*args, **kwargs)
         self.user = user
+
         if user and user.role == UserRole.CLEANER:
             self.fields.pop("cleaner")
 
+    def clean_date(self):
+        date = self.cleaned_data.get("date")
+
+        if date and date < timezone.now():
+            raise forms.ValidationError(
+                "Cleaning cannot be scheduled in the past."
+            )
+
+        return date
+
     def clean(self):
         cleaned_data = super().clean()
+
         cleaner = cleaned_data.get("cleaner")
+
         if self.user and self.user.role == UserRole.CLEANER:
-            cleaner = self.user.cleaner
-            cleaned_data["cleaner"] = cleaner
-        cleaning_type = cleaned_data.get("cleaning_type")
-        if cleaner and cleaning_type:
-            if cleaning_type not in cleaner.cleaning_types.all():
+            try:
+                cleaner = self.user.cleaner
+            except Cleaner.DoesNotExist:
                 raise forms.ValidationError(
-                    "This cleaner does not have "
-                    "experience with this cleaning type."
+                    "Your user account is not linked to a cleaner."
                 )
+
+            cleaned_data["cleaner"] = cleaner
+            self.instance.cleaner = cleaner
+
+        cleaning_type = cleaned_data.get("cleaning_type")
+        date = cleaned_data.get("date")
+
+        if cleaner and cleaning_type:
+            if not cleaner.cleaning_types.filter(
+                pk=cleaning_type.pk
+            ).exists():
+                self.add_error(
+                    "cleaning_type",
+                    "This cleaner does not have experience "
+                    "with this cleaning type.",
+                )
+
+        if cleaner and date:
+            conflicts = Cleaning.objects.filter(
+                cleaner=cleaner,
+                date=date,
+            ).exclude(
+                status=StatusChoices.CANCELLED,
+            )
+
+            if self.instance.pk:
+                conflicts = conflicts.exclude(pk=self.instance.pk)
+
+            if conflicts.exists():
+                self.add_error(
+                    "cleaner" if "cleaner" in self.fields else None,
+                    "This cleaner is already booked at this date and time.",
+                )
+
         return cleaned_data
 
 

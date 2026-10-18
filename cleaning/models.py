@@ -1,3 +1,6 @@
+from django.utils import timezone
+
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
@@ -108,7 +111,8 @@ class StatusChoices(models.TextChoices):
 
 
 class Cleaning(models.Model):
-    date = models.DateField()
+    date = models.DateTimeField()
+
     cleaning_type = models.ForeignKey(
         CleaningType,
         on_delete=models.CASCADE,
@@ -127,6 +131,7 @@ class Cleaning(models.Model):
     status = models.CharField(
         max_length=20,
         choices=StatusChoices.choices,
+        default=StatusChoices.PLANNED,
     )
     notes = models.TextField(blank=True)
 
@@ -134,9 +139,28 @@ class Cleaning(models.Model):
         constraints = [
             models.UniqueConstraint(
                 fields=["date", "property", "cleaner"],
-                name="unique_cleaning_combination"
+                name="unique_cleaning_combination",
             )
         ]
+
+    def clean(self):
+        super().clean()
+
+        if self.date and self.date < timezone.now():
+            raise ValidationError({
+                "date": "Cleaning cannot be scheduled in the past."
+            })
+
+        if self.date and self.cleaner_id:
+            conflicting_cleanings = Cleaning.objects.filter(
+                cleaner=self.cleaner,
+                date=self.date,
+            ).exclude(pk=self.pk)
+
+            if conflicting_cleanings.exists():
+                raise ValidationError({
+                    "cleaner": "This cleaner is already booked at this date and time."
+                })
 
     def __str__(self):
         return f"{self.cleaner} works on {self.property} at {self.date}"

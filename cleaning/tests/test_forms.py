@@ -1,4 +1,6 @@
 from django.test import TestCase
+from django.utils import timezone
+from datetime import timedelta
 
 from cleaning.models import (
     User,
@@ -207,14 +209,14 @@ class CleaningFormTests(TestCase):
     def test_cleaner_can_use_supported_cleaning_type(self):
         form = CleaningForm(
             data={
-                "date": "2026-10-03",
+                "date": "2026-10-20T14:30",
                 "cleaning_type": self.cleaning_type.pk,
                 "property": self.property.pk,
                 "status": StatusChoices.PLANNED,
             },
             user=self.cleaner.user,
         )
-        self.assertTrue(form.is_valid())
+        self.assertTrue(form.is_valid(), form.errors)
 
     def test_manager_cannot_assign_unsupported_cleaning_type(self):
         unsupported_cleaning_type = CleaningType.objects.create(
@@ -223,7 +225,7 @@ class CleaningFormTests(TestCase):
         )
         form = CleaningForm(
             data={
-                "date": "2026-10-03",
+                "date": "2026-10-20T14:30",
                 "cleaning_type": unsupported_cleaning_type.pk,
                 "property": self.property.pk,
                 "cleaner": self.cleaner.pk,
@@ -232,11 +234,12 @@ class CleaningFormTests(TestCase):
             user=self.user,
         )
         self.assertFalse(form.is_valid())
+        self.assertIn("cleaning_type", form.errors)
 
     def test_manager_can_assign_supported_cleaning_type(self):
         form = CleaningForm(
             data={
-                "date": "2026-10-03",
+                "date": (timezone.now() + timedelta(days=2)).strftime("%Y-%m-%dT%H:%M"),
                 "cleaning_type": self.cleaning_type.pk,
                 "property": self.property.pk,
                 "cleaner": self.cleaner.pk,
@@ -244,18 +247,18 @@ class CleaningFormTests(TestCase):
             },
             user=self.user,
         )
-        self.assertTrue(form.is_valid())
+        self.assertTrue(form.is_valid(), form.errors)
 
     def test_cleaner_is_assigned_to_himself(self):
         form = CleaningForm(
             data={
-                "date": "2026-10-03",
+                "date": (timezone.now() + timedelta(days=2)).strftime("%Y-%m-%dT%H:%M"),
                 "cleaning_type": self.cleaning_type.pk,
                 "property": self.property.pk,
                 "status": StatusChoices.PLANNED,
             },
             user=self.cleaner.user,
         )
-        self.assertTrue(form.is_valid())
+        self.assertTrue(form.is_valid(), form.errors)
         cleaning = form.save(commit=False)
         self.assertEqual(cleaning.cleaner, self.cleaner)

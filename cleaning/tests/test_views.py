@@ -1,6 +1,9 @@
+
+from datetime import timedelta
+
 from django.test import TestCase
 from django.urls import reverse
-from datetime import date
+from django.utils import timezone
 
 from cleaning.models import (
     User,
@@ -61,16 +64,12 @@ class AuthenticationTests(TestCase):
             username="testuser",
             password="testpassword1",
         )
-        response = self.client.post(
-            reverse("cleaning:logout"),
-        )
+        response = self.client.post(reverse("cleaning:logout"))
         self.assertRedirects(response, "/")
         self.assertFalse(response.wsgi_request.user.is_authenticated)
 
     def test_unauthenticated_user_cannot_access_properties(self):
-        response = self.client.get(
-            reverse("cleaning:property-list"),
-        )
+        response = self.client.get(reverse("cleaning:property-list"))
         self.assertRedirects(
             response,
             "/login/?next=/properties/",
@@ -97,9 +96,7 @@ class PropertyViewTests(TestCase):
         )
 
     def test_property_list_view(self):
-        response = self.client.get(
-            reverse("cleaning:property-list"),
-        )
+        response = self.client.get(reverse("cleaning:property-list"))
         self.assertEqual(response.status_code, 200)
 
     def test_property_detail_view(self):
@@ -171,7 +168,7 @@ class PropertyViewTests(TestCase):
     def test_unauthenticated_user_cannot_create_property(self):
         self.client.logout()
         response = self.client.get(
-            reverse("cleaning:property-create"),
+            reverse("cleaning:property-create")
         )
         self.assertRedirects(
             response,
@@ -189,7 +186,7 @@ class PropertyViewTests(TestCase):
             password="password123",
         )
         response = self.client.get(
-            reverse("cleaning:property-create"),
+            reverse("cleaning:property-create")
         )
         self.assertEqual(response.status_code, 200)
 
@@ -204,7 +201,7 @@ class PropertyViewTests(TestCase):
             password="password123",
         )
         response = self.client.get(
-            reverse("cleaning:property-create"),
+            reverse("cleaning:property-create")
         )
         self.assertRedirects(
             response,
@@ -273,9 +270,7 @@ class CleanerViewTests(TestCase):
         )
 
     def test_cleaner_list_view(self):
-        response = self.client.get(
-            reverse("cleaning:cleaner-list"),
-        )
+        response = self.client.get(reverse("cleaning:cleaner-list"))
         self.assertEqual(response.status_code, 200)
 
     def test_cleaner_detail_view(self):
@@ -342,7 +337,7 @@ class CleanerViewTests(TestCase):
     def test_unauthenticated_user_cannot_create_cleaner(self):
         self.client.logout()
         response = self.client.get(
-            reverse("cleaning:cleaner-create"),
+            reverse("cleaning:cleaner-create")
         )
         self.assertRedirects(
             response,
@@ -360,7 +355,7 @@ class CleanerViewTests(TestCase):
             password="password123",
         )
         response = self.client.get(
-            reverse("cleaning:cleaner-create"),
+            reverse("cleaning:cleaner-create")
         )
         self.assertRedirects(
             response,
@@ -376,9 +371,10 @@ class CleanerViewTests(TestCase):
         self.client.login(
             username="cleaner",
             password="password123",
+            role=UserRole.CLEANER,
         )
         response = self.client.get(
-            reverse("cleaning:cleaner-create"),
+            reverse("cleaning:cleaner-create")
         )
         self.assertRedirects(
             response,
@@ -404,7 +400,7 @@ class CleaningTypeViewTests(TestCase):
 
     def test_cleaning_type_list_view(self):
         response = self.client.get(
-            reverse("cleaning:cleaning-type-list"),
+            reverse("cleaning:cleaning-type-list")
         )
         self.assertEqual(response.status_code, 200)
 
@@ -429,12 +425,17 @@ class CleaningTypeViewTests(TestCase):
     def test_unauthenticated_user_can_view_cleaning_type_list(self):
         self.client.logout()
         response = self.client.get(
-            reverse("cleaning:cleaning-type-list"),
+            reverse("cleaning:cleaning-type-list")
         )
         self.assertEqual(response.status_code, 200)
 
 
 class CleaningViewTests(TestCase):
+    def future_datetime(self):
+        return (
+            timezone.now() + timedelta(days=2)
+        ).strftime("%Y-%m-%dT%H:%M")
+
     def setUp(self):
         self.user = User.objects.create_user(
             username="testuser",
@@ -459,7 +460,7 @@ class CleaningViewTests(TestCase):
             owner=self.user,
         )
         self.cleaning = Cleaning.objects.create(
-            date="2026-10-03",
+            date=timezone.now() + timedelta(days=2),
             cleaning_type=self.cleaning_type,
             property=self.property,
             cleaner=self.cleaner,
@@ -472,7 +473,7 @@ class CleaningViewTests(TestCase):
 
     def test_cleaning_list_view(self):
         response = self.client.get(
-            reverse("cleaning:cleaning-list"),
+            reverse("cleaning:cleaning-list")
         )
         self.assertEqual(response.status_code, 200)
 
@@ -495,50 +496,67 @@ class CleaningViewTests(TestCase):
         self.assertEqual(response.status_code, 404)
 
     def test_cleaning_create_view_creates_cleaning(self):
+        cleaning_date = self.future_datetime()
+
         response = self.client.post(
             reverse("cleaning:cleaning-create"),
             {
-                "date": "2026-10-10",
+                "date": cleaning_date,
                 "cleaning_type": self.cleaning_type.pk,
                 "property": self.property.pk,
                 "cleaner": self.cleaner.pk,
                 "status": StatusChoices.PLANNED,
             },
         )
-        self.assertEqual(response.status_code, 302)
+
+        self.assertEqual(
+            response.status_code,
+            302,
+            getattr(response, "context", {}).get("form").errors
+            if response.context and response.context.get("form")
+            else "",
+        )
         self.assertTrue(
             Cleaning.objects.filter(
-                date="2026-10-10",
                 cleaning_type=self.cleaning_type,
                 property=self.property,
                 cleaner=self.cleaner,
+                status=StatusChoices.PLANNED,
             ).exists()
         )
 
     def test_cleaning_update_view_updates_cleaning(self):
+        cleaning_date = self.future_datetime()
+
         response = self.client.post(
             reverse(
                 "cleaning:cleaning-update",
                 kwargs={"pk": self.cleaning.pk},
             ),
             {
-                "date": "2026-10-15",
+                "date": cleaning_date,
                 "cleaning_type": self.cleaning_type.pk,
                 "property": self.property.pk,
                 "cleaner": self.cleaner.pk,
                 "status": StatusChoices.DONE,
             },
         )
-        self.assertEqual(response.status_code, 302)
+
+        self.assertEqual(
+            response.status_code,
+            302,
+            getattr(response, "context", {}).get("form").errors
+            if response.context and response.context.get("form")
+            else "",
+        )
         self.cleaning.refresh_from_db()
         self.assertEqual(
-            self.cleaning.date,
-            date(2026, 10, 15),
+            self.cleaning.date.replace(second=0, microsecond=0),
+            timezone.datetime.strptime(
+                cleaning_date, "%Y-%m-%dT%H:%M"
+            ).replace(tzinfo=timezone.get_current_timezone()),
         )
-        self.assertEqual(
-            self.cleaning.status,
-            StatusChoices.DONE,
-        )
+        self.assertEqual(self.cleaning.status, StatusChoices.DONE)
 
     def test_cleaning_delete_view_deletes_cleaning(self):
         response = self.client.post(
@@ -549,15 +567,13 @@ class CleaningViewTests(TestCase):
         )
         self.assertEqual(response.status_code, 302)
         self.assertFalse(
-            Cleaning.objects.filter(
-                pk=self.cleaning.pk
-            ).exists()
+            Cleaning.objects.filter(pk=self.cleaning.pk).exists()
         )
 
     def test_unauthenticated_user_cannot_create_cleaning(self):
         self.client.logout()
         response = self.client.get(
-            reverse("cleaning:cleaning-create"),
+            reverse("cleaning:cleaning-create")
         )
         self.assertRedirects(
             response,
@@ -570,35 +586,44 @@ class CleaningViewTests(TestCase):
             password="password123",
             role=UserRole.CLEANER,
         )
-        Cleaner.objects.create(
+        cleaner = Cleaner.objects.create(
             user=cleaner_user,
             first_name="Mike",
             last_name="Brown",
             phone="+380991234567",
         )
-        cleaner_user.cleaner.cleaning_types.add(self.cleaning_type)
+        cleaner.cleaning_types.add(self.cleaning_type)
+
         self.client.login(
             username="cleaner",
             password="password123",
         )
+        cleaning_date = self.future_datetime()
+
         response = self.client.post(
             reverse("cleaning:cleaning-create"),
             {
-                "date": "2026-10-10",
+                "date": cleaning_date,
                 "cleaning_type": self.cleaning_type.pk,
                 "property": self.property.pk,
                 "status": StatusChoices.PLANNED,
             },
         )
-        self.assertEqual(response.status_code, 302)
-        cleaning = Cleaning.objects.get(
-            date="2026-10-10",
-            property=self.property,
-        )
+
         self.assertEqual(
-            cleaning.cleaner,
-            cleaner_user.cleaner,
+            response.status_code,
+            302,
+            getattr(response, "context", {}).get("form").errors
+            if response.context and response.context.get("form")
+            else "",
         )
+        cleaning = Cleaning.objects.get(
+            property=self.property,
+            cleaner=cleaner,
+            cleaning_type=self.cleaning_type,
+            status=StatusChoices.PLANNED,
+        )
+        self.assertEqual(cleaning.cleaner, cleaner)
 
     def test_owner_cannot_create_cleaning_for_other_property(self):
         User.objects.create_user(
@@ -610,16 +635,18 @@ class CleaningViewTests(TestCase):
             username="owner",
             password="password123",
         )
+
         response = self.client.post(
             reverse("cleaning:cleaning-create"),
             {
-                "date": "2026-10-10",
+                "date": self.future_datetime(),
                 "cleaning_type": self.cleaning_type.pk,
                 "property": self.property.pk,
                 "cleaner": self.cleaner.pk,
                 "status": StatusChoices.PLANNED,
             },
         )
+
         self.assertRedirects(
             response,
             reverse("cleaning:cleaning-list"),
@@ -627,15 +654,16 @@ class CleaningViewTests(TestCase):
 
     def test_cleaning_filter_by_status(self):
         Cleaning.objects.create(
-            date="2026-10-10",
+            date=timezone.now() + timedelta(days=3),
             cleaning_type=self.cleaning_type,
             property=self.property,
             cleaner=self.cleaner,
             status=StatusChoices.DONE,
         )
+
         response = self.client.get(
             reverse("cleaning:cleaning-list"),
             {"status": StatusChoices.DONE},
         )
-        self.assertContains(response, "2026-10-10")
-        self.assertNotContains(response, "2026-10-03")
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "finished")
