@@ -1,0 +1,141 @@
+from django.utils import timezone
+
+from django.core.exceptions import ValidationError
+from django.db import models
+
+from cleaning.managers import PropertyManager, CleaningManager
+
+
+class PropertyType(models.TextChoices):
+    APARTMENT = "Apartment"
+    HOUSE = "House"
+
+
+class Property(models.Model):
+    objects = PropertyManager()
+
+    name = models.CharField(max_length=255)
+    address = models.CharField(max_length=255)
+    apartment_number = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+    )
+    property_type = models.CharField(
+        max_length=20,
+        choices=PropertyType.choices,
+    )
+    rooms = models.PositiveIntegerField()
+    owner = models.ForeignKey(
+        "users.User",
+        on_delete=models.CASCADE,
+        related_name="properties"
+    )
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["address", "apartment_number"],
+                condition=models.Q(property_type=PropertyType.APARTMENT),
+                name="unique_apartment_address",
+            ),
+            models.UniqueConstraint(
+                fields=["address"],
+                condition=models.Q(property_type=PropertyType.HOUSE),
+                name="unique_house_address",
+            )
+        ]
+
+    def __str__(self):
+        return self.name
+
+
+class CleaningTypeChoices(models.TextChoices):
+    REGULAR = "Regular"
+    GENERAL = "General"
+    DEEP = "Deep cleaning"
+    MOVE = "Move in / Move out"
+
+
+class CleaningType(models.Model):
+    name = models.CharField(
+        max_length=255,
+        choices=CleaningTypeChoices.choices,
+    )
+    description = models.TextField()
+
+    def __str__(self):
+        return self.name
+
+
+class StatusChoices(models.TextChoices):
+    PLANNED = "planned", "Planned"
+    INPROGRESS = "in progress", "In progress"
+    DONE = "finished", "Finished"
+    CANCELLED = "canceled", "Canceled"
+
+
+class Cleaning(models.Model):
+    objects = CleaningManager()
+
+    date = models.DateTimeField()
+
+    cleaning_type = models.ForeignKey(
+        CleaningType,
+        on_delete=models.CASCADE,
+        related_name="cleanings",
+    )
+    property = models.ForeignKey(
+        Property,
+        on_delete=models.CASCADE,
+        related_name="cleanings",
+    )
+    cleaner = models.ForeignKey(
+        "users.Cleaner",
+        on_delete=models.CASCADE,
+        related_name="cleanings",
+    )
+    status = models.CharField(
+        max_length=20,
+        choices=StatusChoices.choices,
+        default=StatusChoices.PLANNED,
+    )
+    notes = models.TextField(blank=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["date", "property", "cleaner"],
+                name="unique_cleaning_combination",
+            )
+        ]
+
+    def clean(self):
+        super().clean()
+
+        if (
+                self.date
+                and self._state.adding
+                and self.date < timezone.now()
+        ):
+            raise ValidationError({
+                "date": "Cleaning cannot be scheduled in the past."
+            })
+
+        if self.date and self.cleaner_id:
+            conflicting_cleanings = Cleaning.objects.filter(
+                cleaner=self.cleaner,
+                date=self.date,
+            ).exclude(
+                pk=self.pk,
+            ).exclude(
+                status=StatusChoices.CANCELLED,
+            )
+
+            if conflicting_cleanings.exists():
+                raise ValidationError(
+                    "This cleaner is already"
+                    " booked at this date and time."
+                )
+
+    def __str__(self):
+        return f"{self.cleaner} works on {self.property} at {self.date}"

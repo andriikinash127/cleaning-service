@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+  <link rel="stylesheet" href="{% static 'cleaning/css/cleaner_detail.css' %}">
+
+  <div class="page-hero page-hero--pink">
+    <div class="page-hero-inner container">
+      <div class="page-hero-text">
+        <p class="page-hero-title">Me</p>
+      </div>
+    </div>
+  </div>
+
+  <h1 class="page-title">{{ user.get_full_name|default:user.username }}</h1>
+
+  <div class="detail-card">
+    <dl>
+      <dt>Username</dt>
+      <dd>{{ user.username }}</dd>
+
+      <dt>Name</dt>
+      <dd>{{ user.get_full_name|default:"—" }}</dd>
+
+      <dt>Email</dt>
+      <dd>{{ user.email|default:"—" }}</dd>
+
+      <dt>Role</dt>
+      <dd>{{ user.get_role_display }}</dd>
+    </dl>
+
+    {% if user.role == "owner" %}
+      <div class="section-title">My properties</div>
+      {% for property in user.properties.all %}
+        <p class="type-item">
+          <a href="{% url 'cleaning:property-detail' property.pk %}">{{ property.name }}</a>
+        </p>
+      {% empty %}
+        <p class="type-item">No properties yet.</p>
+      {% endfor %}
+    {% elif user.role == "cleaner" %}
+      {% if user.cleaner %}
+        <dl>
+          <dt>Phone</dt>
+          <dd>{{ user.cleaner.phone }}</dd>
+        </dl>
+        <div class="section-title">Cleaning types</div>
+        {% for cleaning_type in user.cleaner.cleaning_types.all %}
+          <p class="type-item">{{ cleaning_type.name }}</p>
+        {% endfor %}
+      {% else %}
+        <p class="type-item">Your account is not linked to a cleaner profile.</p>
+      {% endif %}
+    {% endif %}
+  </div>
+{% endblock %}

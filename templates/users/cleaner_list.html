@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+  <div class="page-hero page-hero--pink">
+    <div class="page-hero-inner container">
+    <div class="page-hero-text">
+      <h1 class="page-hero-title">Cleaners</h1>
+      {% if user.role == "manager" %}
+        <a href="{% url 'users:cleaner-create' %}" class="btn-pill btn-pill-hero--pink page-hero-action">
+          Create Cleaner
+        </a>
+      {% endif %}
+    </div>
+    <img
+      src="{% static 'cleaning/images/badge_cleaners_raccoon.svg' %}"
+      alt=""
+      class="page-hero-art"
+    >
+    </div>
+  </div>
+
+  <form method="get" class="filters-bar">
+    <div class="search-input-wrap">
+      <input type="text" name="search" value="{{ request.GET.search }}" placeholder="Search cleaners">
+      <a href="{% url 'users:cleaner-list' %}" class="search-clear search-clear--pink">×</a>
+    </div>
+    <button type="submit" class="btn-pill btn-pill-outline">Search</button>
+
+    <select name="cleaning_type" onchange="this.form.submit()">
+      <option value="" {% if request.GET.cleaning_type == "" %}selected{% endif %}>
+        All
+      </option>
+
+      <option
+        value="Regular"
+        {% if request.GET.cleaning_type == "Regular" %}selected{% endif %}
+      >
+      Regular
+      </option>
+
+      <option
+        value="General"
+        {% if request.GET.cleaning_type == "General" %}selected{% endif %}
+      >
+      General
+      </option>
+
+      <option
+        value="Deep cleaning"
+        {% if request.GET.cleaning_type == "Deep cleaning" %}selected{% endif %}
+      >
+      Deep cleaning
+      </option>
+
+      <option
+        value="Move in / Move out"
+        {% if request.GET.cleaning_type == "Move in / Move out" %}selected{% endif %}
+      >
+      Move in / Move out
+      </option>
+    </select>
+  </form>
+
+  <ul class="list-cards">
+    {% for cleaner in cleaner_list %}
+      <li>
+        <a href="{% url 'users:cleaner-detail' cleaner.pk %}" class="list-card list-card--pink">
+          <span class="list-card-icon list-card-icon--pink">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="8" r="4"/>
+              <path d="M4 20c0-4 3.5-6 8-6s8 2 8 6"/>
+            </svg>
+          </span>
+          <div class="title">{{ cleaner.first_name }} {{ cleaner.last_name }}</div>
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+
+  {% if is_paginated %}
+    <div class="pagination pagination--pink">
+      {% if page_obj.has_previous %}
+        <a href="{% querystring page=page_obj.previous_page_number %}">
+          Previous
+        </a>
+      {% endif %}
+      <span>{{ page_obj.number }}</span>
+      {% if page_obj.has_next %}
+        <a href="{% querystring page=page_obj.next_page_number %}">
+          Next
+        </a>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  {% if request.GET.search and not cleaner_list %}
+    <p class="empty-state">No cleaners found for "{{ request.GET.search }}".</p>
+  {% endif %}
+
+{% endblock %}

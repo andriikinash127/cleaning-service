@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 200" role="img" aria-label="Єнот миє підлогу">
+<rect width="220" height="200" rx="14" fill="#FBEAF0"/>
+<path d="M0 155H220V186A14 14 0 0 1 206 200H14A14 14 0 0 1 0 186Z" fill="#F4C0D1"/>
+<rect y="151" width="220" height="4" fill="#ED93B1"/>
+<ellipse cx="46" cy="70" rx="22" ry="32" fill="#fff" stroke="#D4537E" stroke-width="3"/><path d="M34 56L44 46" stroke="#B5D4F4" stroke-width="3" stroke-linecap="round"/>
+<rect x="150" y="28" width="46" height="34" rx="3" fill="#fff" stroke="#D4537E" stroke-width="3"/><circle cx="173" cy="45" r="9" fill="#5DCAA5"/>
+<ellipse cx="146" cy="184" rx="34" ry="5" fill="#fff"/>
+<path d="M16 160H44L40 190H20Z" fill="#FAC775" stroke="#BA7517" stroke-width="1.5"/><ellipse cx="30" cy="160" rx="14" ry="3" fill="#85B7EB"/>
+<path d="M18 160Q30 140 42 160" stroke="#854F0B" stroke-width="2" fill="none"/>
+<g fill="#fff" stroke="#85B7EB" stroke-width="1"><circle cx="27" cy="156" r="3"/><circle cx="34" cy="154" r="2.5"/></g>
+<ellipse cx="96" cy="186" rx="34" ry="5" fill="#000" opacity=".08"/>
+<g transform="translate(74,162)">
+<ellipse cx="-16" cy="-6" rx="24" ry="10" transform="rotate(30 -16 -6)" fill="#2BB5A5"/>
+<ellipse cx="-30" cy="-14" rx="3" ry="10" transform="rotate(30 -30 -14)" fill="#2C2C2A"/><ellipse cx="-20" cy="-8" rx="3" ry="10" transform="rotate(30 -20 -8)" fill="#2C2C2A"/><ellipse cx="-9" cy="-2" rx="3" ry="9" transform="rotate(30 -9 -2)" fill="#2C2C2A"/>
+</g>
+<ellipse cx="86" cy="182" rx="9" ry="5" fill="#0F6E56"/><ellipse cx="106" cy="182" rx="9" ry="5" fill="#0F6E56"/>
+<ellipse cx="96" cy="152" rx="24" ry="28" fill="#2BB5A5"/>
+<ellipse cx="96" cy="158" rx="13" ry="19" fill="#B8EBE4"/>
+<ellipse cx="74" cy="150" rx="6" ry="14" transform="rotate(-10 74 150)" fill="#2BB5A5"/>
+<g transform="translate(114,142)">
+<line x1="0" y1="0" x2="14" y2="10" stroke="#2BB5A5" stroke-width="8" stroke-linecap="round"/>
+<line x1="8" y1="2" x2="42" y2="38" stroke="#BA7517" stroke-width="4" stroke-linecap="round"/>
+<circle cx="14" cy="10" r="5.5" fill="#2BB5A5"/>
+<rect x="24" y="38" width="40" height="8" rx="4" fill="#E6F1FB"/>
+<path d="M30 44V54M38 44V55M46 44V54M54 44V55M62 44V53" stroke="#B4B2A9" stroke-width="2" stroke-linecap="round"/>
+</g>
+<circle cx="79" cy="102" r="8" fill="#2BB5A5"/><circle cx="113" cy="102" r="8" fill="#2BB5A5"/><circle cx="79" cy="102" r="4" fill="#2C2C2A"/><circle cx="113" cy="102" r="4" fill="#2C2C2A"/>
+<circle cx="96" cy="120" r="22" fill="#2BB5A5"/>
+<path d="M76 116Q96 106 116 116Q112 128 96 124Q80 128 76 116Z" fill="#2C2C2A"/>
+<ellipse cx="96" cy="130" rx="11" ry="8" fill="#fff"/>
+<circle cx="87" cy="117" r="3.8" fill="#fff"/><circle cx="105" cy="117" r="3.8" fill="#fff"/><circle cx="87" cy="117" r="2" fill="#2C2C2A"/><circle cx="105" cy="117" r="2" fill="#2C2C2A"/>
+<ellipse cx="96" cy="126" rx="3.5" ry="2.5" fill="#2C2C2A"/>
+<path d="M92 132Q96 135 100 132" stroke="#2C2C2A" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+<polygon points="206,164 217,188 195,188" fill="#FAC775" stroke="#854F0B" stroke-width="1.5"/><rect x="204.8" y="171" width="2.4" height="9" fill="#412402"/><circle cx="206" cy="184" r="1.5" fill="#412402"/>
+</svg>
