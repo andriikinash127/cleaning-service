@@ -19,7 +19,6 @@ class ManagerRequiredMixin(UserPassesTestMixin):
         return redirect("users:cleaner-list")
 
 
-
 class PropertyManagementMixin(UserPassesTestMixin):
     def test_func(self):
         return (

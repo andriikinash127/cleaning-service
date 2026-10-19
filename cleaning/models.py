@@ -132,9 +132,10 @@ class Cleaning(models.Model):
             )
 
             if conflicting_cleanings.exists():
-                raise ValidationError({
-                    "cleaner": "This cleaner is already booked at this date and time."
-                })
+                raise ValidationError(
+                    "This cleaner is already"
+                    " booked at this date and time."
+                )
 
     def __str__(self):
         return f"{self.cleaner} works on {self.property} at {self.date}"

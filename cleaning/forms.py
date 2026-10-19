@@ -63,7 +63,8 @@ class CleaningForm(forms.ModelForm):
 
         date_changed = not self.instance.pk or "date" in self.changed_data
         if date_changed and date < timezone.now():
-            raise forms.ValidationError("Cleaning cannot be scheduled in the past.")
+            raise forms.ValidationError("Cleaning cannot be scheduled in "
+                                        "the past.")
 
         return date
 

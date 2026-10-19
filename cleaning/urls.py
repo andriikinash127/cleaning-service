@@ -27,7 +27,11 @@ urlpatterns = [
         PropertyDetailView.as_view(),
         name="property-detail",
     ),
-    path("properties/create/", PropertyCreateView.as_view(), name="property-create"),
+    path(
+        "properties/create/",
+        PropertyCreateView.as_view(),
+        name="property-create"
+    ),
     path(
         "properties/<int:pk>/update/",
         PropertyUpdateView.as_view(),
@@ -45,7 +49,11 @@ urlpatterns = [
         CleaningDetailView.as_view(),
         name="cleaning-detail",
     ),
-    path("cleanings/create/", CleaningCreateView.as_view(), name="cleaning-create"),
+    path(
+        "cleanings/create/",
+        CleaningCreateView.as_view(),
+        name="cleaning-create"
+    ),
     path(
         "cleanings/<int:pk>/update/",
         CleaningUpdateView.as_view(),

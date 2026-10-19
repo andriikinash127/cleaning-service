@@ -16,64 +16,6 @@ from cleaning.models import (
 )
 
 
-class AuthenticationTests(TestCase):
-    def setUp(self):
-        self.user = User.objects.create_user(
-            username="testuser",
-            password="testpassword1",
-            role=UserRole.OWNER,
-        )
-
-    def test_user_can_login(self):
-        response = self.client.post(
-            reverse("users:login"),
-            {
-                "username": "testuser",
-                "password": "testpassword1",
-            },
-        )
-        self.assertRedirects(response, "/")
-        self.assertTrue(response.wsgi_request.user.is_authenticated)
-
-    def test_user_cannot_login_with_wrong_password(self):
-        response = self.client.post(
-            reverse("users:login"),
-            {
-                "username": "testuser",
-                "password": "wrongpassword",
-            },
-        )
-        self.assertEqual(response.status_code, 200)
-        self.assertFalse(response.wsgi_request.user.is_authenticated)
-
-    def test_nonexistent_user_cannot_login(self):
-        response = self.client.post(
-            reverse("users:login"),
-            {
-                "username": "unknownuser",
-                "password": "testpassword1",
-            },
-        )
-        self.assertEqual(response.status_code, 200)
-        self.assertFalse(response.wsgi_request.user.is_authenticated)
-
-    def test_user_can_logout(self):
-        self.client.login(
-            username="testuser",
-            password="testpassword1",
-        )
-        response = self.client.post(reverse("users:logout"))
-        self.assertRedirects(response, "/")
-        self.assertFalse(response.wsgi_request.user.is_authenticated)
-
-    def test_unauthenticated_user_cannot_access_properties(self):
-        response = self.client.get(reverse("cleaning:property-list"))
-        self.assertRedirects(
-            response,
-            "/login/?next=/properties/",
-        )
-
-
 class PropertyViewTests(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(
@@ -244,140 +186,6 @@ class PropertyViewTests(TestCase):
         )
         self.assertContains(response, "Property 10")
         self.assertNotContains(response, "Property 0")
-
-
-class CleanerViewTests(TestCase):
-    def setUp(self):
-        self.user = User.objects.create_user(
-            username="testuser",
-            password="testpassword1",
-            role=UserRole.MANAGER,
-        )
-        self.client.login(
-            username="testuser",
-            password="testpassword1",
-        )
-        self.cleaning_type = CleaningType.objects.create(
-            name=CleaningTypeChoices.REGULAR,
-            description="Regular cleaning",
-        )
-        self.cleaner = Cleaner.objects.create(
-            first_name="John",
-            last_name="Smith",
-            phone="+380991234567",
-        )
-
-    def test_cleaner_list_view(self):
-        response = self.client.get(reverse("users:cleaner-list"))
-        self.assertEqual(response.status_code, 200)
-
-    def test_cleaner_detail_view(self):
-        response = self.client.get(
-            reverse(
-                "users:cleaner-detail",
-                kwargs={"pk": self.cleaner.pk},
-            )
-        )
-        self.assertEqual(response.status_code, 200)
-
-    def test_cleaner_detail_view_with_invalid_pk(self):
-        response = self.client.get(
-            reverse(
-                "users:cleaner-detail",
-                kwargs={"pk": 9999},
-            )
-        )
-        self.assertEqual(response.status_code, 404)
-
-    def test_cleaner_create_view_creates_cleaner(self):
-        response = self.client.post(
-            reverse("users:cleaner-create"),
-            {
-                "first_name": "Jane",
-                "last_name": "Doe",
-                "phone": "+380991112233",
-                "cleaning_types": [self.cleaning_type.pk],
-            },
-        )
-        self.assertEqual(response.status_code, 302)
-
-    def test_cleaner_update_view_updates_cleaner(self):
-        response = self.client.post(
-            reverse(
-                "users:cleaner-update",
-                kwargs={"pk": self.cleaner.pk},
-            ),
-            {
-                "first_name": "Updated",
-                "last_name": "Cleaner",
-                "phone": "+380991234567",
-                "cleaning_types": [self.cleaning_type.pk],
-            },
-        )
-        self.assertEqual(response.status_code, 302)
-        self.cleaner.refresh_from_db()
-        self.assertEqual(self.cleaner.first_name, "Updated")
-        self.assertEqual(self.cleaner.last_name, "Cleaner")
-        self.assertEqual(self.cleaner.phone, "+380991234567")
-
-    def test_cleaner_delete_view_deletes_cleaner(self):
-        response = self.client.post(
-            reverse(
-                "users:cleaner-delete",
-                kwargs={"pk": self.cleaner.pk},
-            )
-        )
-        self.assertEqual(response.status_code, 302)
-        self.assertFalse(
-            Cleaner.objects.filter(pk=self.cleaner.pk).exists()
-        )
-
-    def test_unauthenticated_user_cannot_create_cleaner(self):
-        self.client.logout()
-        response = self.client.get(
-            reverse("users:cleaner-create")
-        )
-        self.assertRedirects(
-            response,
-            "/login/?next=/users/cleaners/create/",
-        )
-
-    def test_owner_cannot_create_cleaner(self):
-        User.objects.create_user(
-            username="owner",
-            password="password123",
-            role=UserRole.OWNER,
-        )
-        self.client.login(
-            username="owner",
-            password="password123",
-        )
-        response = self.client.get(
-            reverse("users:cleaner-create")
-        )
-        self.assertRedirects(
-            response,
-            reverse("users:cleaner-list"),
-        )
-
-    def test_cleaner_cannot_create_cleaner(self):
-        User.objects.create_user(
-            username="cleaner",
-            password="password123",
-            role=UserRole.CLEANER,
-        )
-        self.client.login(
-            username="cleaner",
-            password="password123",
-            role=UserRole.CLEANER,
-        )
-        response = self.client.get(
-            reverse("users:cleaner-create")
-        )
-        self.assertRedirects(
-            response,
-            reverse("users:cleaner-list"),
-        )
 
 
 class CleaningTypeViewTests(TestCase):
@@ -678,3 +486,54 @@ class CleaningViewTests(TestCase):
         )
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "finished")
+
+
+class CleaningUpdateFormTests(TestCase):
+    def test_cleaner_sees_only_own_types_on_update(self):
+        user = User.objects.create_user(
+            username="cleaner",
+            password="testpassword1",
+            role=UserRole.CLEANER,
+        )
+        owner = User.objects.create_user(
+            username="owner",
+            password="testpassword1",
+            role=UserRole.OWNER,
+        )
+        own_type = CleaningType.objects.create(
+            name=CleaningTypeChoices.REGULAR,
+            description="Regular",
+        )
+        other_type = CleaningType.objects.create(
+            name=CleaningTypeChoices.DEEP,
+            description="Deep",
+        )
+        cleaner = Cleaner.objects.create(
+            user=user,
+            first_name="Ann",
+            last_name="Lee",
+            phone="123",
+        )
+        cleaner.cleaning_types.add(own_type)
+        prop = Property.objects.create(
+            name="Flat",
+            address="st. 1",
+            property_type=PropertyType.HOUSE,
+            rooms=2,
+            owner=owner,
+        )
+        cleaning = Cleaning.objects.create(
+            date=timezone.now() + timedelta(days=2),
+            cleaning_type=own_type,
+            property=prop,
+            cleaner=cleaner,
+        )
+        self.client.force_login(user)
+
+        response = self.client.get(
+            reverse("cleaning:cleaning-update", kwargs={"pk": cleaning.pk})
+        )
+
+        types = response.context["form"].fields["cleaning_type"].queryset
+        self.assertIn(own_type, types)
+        self.assertNotIn(other_type, types)

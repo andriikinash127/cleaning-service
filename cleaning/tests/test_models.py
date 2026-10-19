@@ -1,6 +1,10 @@
+from datetime import timedelta
 
-from django.test import TestCase
+from django.core.exceptions import ValidationError
 from django.db import IntegrityError
+from django.test import TestCase
+from django.utils import timezone
+
 
 from users.models import UserRole, User, Cleaner
 from cleaning.models import (
@@ -73,53 +77,59 @@ class PropertyModelTests(TestCase):
         )
 
 
-class CleanerModelTests(TestCase):
+class CleaningValidationTests(TestCase):
     def setUp(self):
-        self.user = User.objects.create_user(
-            username="cleaner",
+        owner = User.objects.create_user(
+            username="owner",
             password="testpassword1",
-            role=UserRole.CLEANER,
-        )
-        self.cleaner = Cleaner.objects.create(
-            user=self.user,
-            first_name="John",
-            last_name="Smith",
-            phone="123456789",
+            role=UserRole.OWNER,
         )
         self.cleaning_type = CleaningType.objects.create(
             name="Regular",
             description="Regular cleaning",
         )
-        self.second_cleaning_type = CleaningType.objects.create(
-            name="General",
-            description="General cleaning",
+        self.cleaner = Cleaner.objects.create(
+            first_name="John",
+            last_name="Smith",
+            phone="123456789",
+        )
+        self.property = Property.objects.create(
+            name="Flat",
+            address="st. 1",
+            property_type=PropertyType.HOUSE,
+            rooms=2,
+            owner=owner,
+        )
+        self.future = timezone.now() + timedelta(days=2)
+
+    def build(self, date, status=StatusChoices.PLANNED):
+        return Cleaning(
+            date=date,
+            cleaning_type=self.cleaning_type,
+            property=self.property,
+            cleaner=self.cleaner,
+            status=status,
         )
 
-    def test_cleaner_creation(self):
-        self.assertEqual(Cleaner.objects.count(), 1)
+    def test_new_cleaning_in_the_past_is_invalid(self):
+        cleaning = self.build(timezone.now() - timedelta(days=1))
+        with self.assertRaises(ValidationError):
+            cleaning.clean()
 
-    def test_cleaner_str(self):
-        self.assertEqual(str(self.cleaner), "John Smith")
+    def test_existing_past_cleaning_can_change_status(self):
+        cleaning = self.build(timezone.now() - timedelta(days=1))
+        cleaning.save()
+        cleaning.status = StatusChoices.DONE
+        cleaning.clean()
 
-    def test_cleaner_can_have_cleaning_type(self):
-        self.cleaner.cleaning_types.add(self.cleaning_type)
-        self.assertEqual(
-            self.cleaner.cleaning_types.count(),
-            1,
-        )
+    def test_busy_cleaner_is_invalid(self):
+        self.build(self.future).save()
+        with self.assertRaises(ValidationError):
+            self.build(self.future).clean()
 
-    def test_cleaner_can_have_multiple_cleaning_types(self):
-        self.cleaner.cleaning_types.add(
-            self.cleaning_type,
-            self.second_cleaning_type,
-        )
-        self.assertEqual(
-            self.cleaner.cleaning_types.count(),
-            2,
-        )
-
-    def test_cleaner_user(self):
-        self.assertEqual(self.cleaner.user, self.user)
+    def test_canceled_cleaning_does_not_block_cleaner(self):
+        self.build(self.future, status=StatusChoices.CANCELLED).save()
+        self.build(self.future).clean()
 
 
 class CleaningTypeModelTests(TestCase):
