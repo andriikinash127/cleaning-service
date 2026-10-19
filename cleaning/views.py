@@ -19,7 +19,7 @@ from .forms import (
     PropertyForm,
     CleaningForm,
 )
-from mixins import PropertyManagementMixin
+from users.mixins import PropertyManagementMixin
 
 
 class HomeView(TemplateView):
@@ -59,8 +59,8 @@ class PropertyDetailView(LoginRequiredMixin, DetailView):
 
 
 class PropertyCreateView(
-    PropertyManagementMixin,
     LoginRequiredMixin,
+    PropertyManagementMixin,
     CreateView
 ):
     model = Property
@@ -80,8 +80,8 @@ class PropertyCreateView(
 
 
 class PropertyUpdateView(
-    PropertyManagementMixin,
     LoginRequiredMixin,
+    PropertyManagementMixin,
     UpdateView
 ):
     model = Property
@@ -104,8 +104,8 @@ class PropertyUpdateView(
 
 
 class PropertyDeleteView(
-    PropertyManagementMixin,
     LoginRequiredMixin,
+    PropertyManagementMixin,
     DeleteView
 ):
     model = Property

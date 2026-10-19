@@ -13,7 +13,7 @@ from django.views.generic import (
     UpdateView,
 )
 
-from mixins import ManagerRequiredMixin
+from users.mixins import ManagerRequiredMixin
 from users.forms import (
     CleanerForm,
     OwnerPropertyForm,
@@ -105,7 +105,10 @@ class CleanerRegisterView(TemplateView):
         )
 
 
-class CleanerListView(ListView):
+class CleanerListView(
+    LoginRequiredMixin,
+    ListView
+):
     model = Cleaner
     template_name = "users/cleaner_list.html"
     paginate_by = 5
@@ -132,7 +135,9 @@ class CleanerListView(ListView):
         return queryset
 
 
-class CleanerDetailView(DetailView):
+class CleanerDetailView(
+    DetailView
+):
     model = Cleaner
     template_name = "users/cleaner_detail.html"
 
@@ -149,12 +154,19 @@ class CleanerUpdateView(ManagerRequiredMixin, UpdateView):
     success_url = reverse_lazy("users:cleaner-list")
 
 
-class CleanerDeleteView(ManagerRequiredMixin, DeleteView):
+class CleanerDeleteView(
+    LoginRequiredMixin,
+    ManagerRequiredMixin,
+    DeleteView
+):
     model = Cleaner
     success_url = reverse_lazy("users:cleaner-list")
 
 
-class CleanerCreateView(ManagerRequiredMixin, CreateView):
+class CleanerCreateView(
+    LoginRequiredMixin,
+    ManagerRequiredMixin,
+    CreateView):
     model = Cleaner
     form_class = CleanerForm
     template_name = "users/cleaner_form.html"
