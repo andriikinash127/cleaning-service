@@ -1,14 +1,6 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
-from .models import User, Property, CleaningType, Cleaning, Cleaner
-
-
-@admin.register(User)
-class CustomUserAdmin(BaseUserAdmin):
-    fieldsets = BaseUserAdmin.fieldsets + (
-        ("Role", {"fields": ("role",)}),
-    )
+from .models import Property, CleaningType, Cleaning
 
 
 @admin.register(Property)
@@ -22,16 +14,6 @@ class PropertyAdmin(admin.ModelAdmin):
     )
     list_filter = ("property_type",)
     search_fields = ("name", "address")
-
-
-@admin.register(Cleaner)
-class CleanerAdmin(admin.ModelAdmin):
-    list_display = (
-        "first_name",
-        "last_name",
-        "phone",
-    )
-    search_fields = ("first_name", "last_name", "phone")
 
 
 @admin.register(CleaningType)

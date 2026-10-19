@@ -2,12 +2,10 @@
 from django.test import TestCase
 from django.db import IntegrityError
 
+from users.models import UserRole, User, Cleaner
 from cleaning.models import (
-    User,
-    UserRole,
     Property,
     PropertyType,
-    Cleaner,
     CleaningType,
     Cleaning,
     StatusChoices,

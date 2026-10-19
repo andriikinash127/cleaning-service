@@ -1,7 +1,7 @@
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.shortcuts import redirect
 
-from cleaning.models import UserRole
+from users.models import UserRole
 
 
 class ManagerRequiredMixin(UserPassesTestMixin):

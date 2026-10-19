@@ -4,12 +4,11 @@ from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
 
+from users.models import UserRole, User, Cleaner
+
 from cleaning.models import (
-    User,
-    UserRole,
     Property,
     PropertyType,
-    Cleaner,
     CleaningType,
     Cleaning,
     StatusChoices,

@@ -14,8 +14,8 @@ from .models import (
     Property,
     Cleaning,
     CleaningType,
-    UserRole,
 )
+from users.models import UserRole
 from .forms import (
     PropertyForm,
     CleaningForm,

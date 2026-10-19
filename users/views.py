@@ -19,7 +19,7 @@ from users.forms import (
     OwnerPropertyForm,
     UserRegistrationForm,
 )
-from cleaning.models import Cleaner, UserRole
+from users.models import Cleaner, UserRole
 
 
 class UserLoginView(LoginView):
@@ -107,7 +107,7 @@ class CleanerRegisterView(TemplateView):
 
 class CleanerListView(ListView):
     model = Cleaner
-    template_name = "cleaning/cleaner_list.html"
+    template_name = "users/cleaner_list.html"
     paginate_by = 5
     ordering = "id"
 
@@ -134,7 +134,7 @@ class CleanerListView(ListView):
 
 class CleanerDetailView(DetailView):
     model = Cleaner
-    template_name = "cleaning/cleaner_detail.html"
+    template_name = "users/cleaner_detail.html"
 
     def get_queryset(self):
         return super().get_queryset().prefetch_related(
@@ -145,7 +145,7 @@ class CleanerDetailView(DetailView):
 class CleanerUpdateView(ManagerRequiredMixin, UpdateView):
     model = Cleaner
     form_class = CleanerForm
-    template_name = "cleaning/cleaner_form.html"
+    template_name = "users/cleaner_form.html"
     success_url = reverse_lazy("users:cleaner-list")
 
 
@@ -157,5 +157,5 @@ class CleanerDeleteView(ManagerRequiredMixin, DeleteView):
 class CleanerCreateView(ManagerRequiredMixin, CreateView):
     model = Cleaner
     form_class = CleanerForm
-    template_name = "cleaning/cleaner_form.html"
+    template_name = "users/cleaner_form.html"
     success_url = reverse_lazy("users:cleaner-list")

@@ -1,6 +1,6 @@
 [
   {
-    "model": "cleaning.user",
+    "model": "users.user",
     "pk": 2,
     "fields": {
       "password": "pbkdf2_sha256$1500000$asfzQolZCBFWHzWGiV6ILL$HjBqhIFg8X6c/kLYP/JDNlzzkQxP93NfHZoV9N6HpnY=",
@@ -18,7 +18,7 @@
     }
   },
   {
-    "model": "cleaning.user",
+    "model": "users.user",
     "pk": 3,
     "fields": {
       "password": "pbkdf2_sha256$1500000$WR3D4ERamO4cUw8pQF7EIJ$t8GPUgIOOsRoVyeRVoAJ2NoUnm+eBF3xLygTh9IAlEc=",
@@ -36,7 +36,7 @@
     }
   },
   {
-    "model": "cleaning.user",
+    "model": "users.user",
     "pk": 4,
     "fields": {
       "password": "pbkdf2_sha256$1500000$VwOnpTDoawXd88Trog52Sh$fb3Vwta9HXKpaFXjX3JIJ+Ddho6rNTekwFRiPLybtqA=",
@@ -54,7 +54,7 @@
     }
   },
   {
-    "model": "cleaning.user",
+    "model": "users.user",
     "pk": 5,
     "fields": {
       "password": "pbkdf2_sha256$1500000$asfzQolZCBFWHzWGiV6ILL$HjBqhIFg8X6c/kLYP/JDNlzzkQxP93NfHZoV9N6HpnY=",
@@ -72,7 +72,7 @@
     }
   },
   {
-    "model": "cleaning.user",
+    "model": "users.user",
     "pk": 6,
     "fields": {
       "password": "pbkdf2_sha256$1500000$asfzQolZCBFWHzWGiV6ILL$HjBqhIFg8X6c/kLYP/JDNlzzkQxP93NfHZoV9N6HpnY=",
@@ -90,7 +90,7 @@
     }
   },
   {
-    "model": "cleaning.user",
+    "model": "users.user",
     "pk": 7,
     "fields": {
       "password": "pbkdf2_sha256$1500000$asfzQolZCBFWHzWGiV6ILL$HjBqhIFg8X6c/kLYP/JDNlzzkQxP93NfHZoV9N6HpnY=",
@@ -108,7 +108,7 @@
     }
   },
   {
-    "model": "cleaning.user",
+    "model": "users.user",
     "pk": 8,
     "fields": {
       "password": "pbkdf2_sha256$1500000$asfzQolZCBFWHzWGiV6ILL$HjBqhIFg8X6c/kLYP/JDNlzzkQxP93NfHZoV9N6HpnY=",
@@ -126,7 +126,7 @@
     }
   },
   {
-    "model": "cleaning.user",
+    "model": "users.user",
     "pk": 9,
     "fields": {
       "password": "pbkdf2_sha256$1500000$asfzQolZCBFWHzWGiV6ILL$HjBqhIFg8X6c/kLYP/JDNlzzkQxP93NfHZoV9N6HpnY=",
@@ -659,7 +659,7 @@
   },
 
   {
-    "model": "cleaning.cleaner",
+    "model": "users.cleaner",
     "pk": 1,
     "fields": {
       "first_name": "Daniel",
@@ -669,7 +669,7 @@
     }
   },
   {
-    "model": "cleaning.cleaner",
+    "model": "users.cleaner",
     "pk": 2,
     "fields": {
       "first_name": "Emily",
@@ -679,7 +679,7 @@
     }
   },
   {
-    "model": "cleaning.cleaner",
+    "model": "users.cleaner",
     "pk": 3,
     "fields": {
       "first_name": "James",
@@ -689,7 +689,7 @@
     }
   },
   {
-    "model": "cleaning.cleaner",
+    "model": "users.cleaner",
     "pk": 4,
     "fields": {
       "first_name": "Sophia",
@@ -699,7 +699,7 @@
     }
   },
   {
-    "model": "cleaning.cleaner",
+    "model": "users.cleaner",
     "pk": 5,
     "fields": {
       "first_name": "Olivia",
@@ -709,7 +709,7 @@
     }
   },
   {
-    "model": "cleaning.cleaner",
+    "model": "users.cleaner",
     "pk": 6,
     "fields": {
       "first_name": "Liam",
@@ -719,7 +719,7 @@
     }
   },
   {
-    "model": "cleaning.cleaner",
+    "model": "users.cleaner",
     "pk": 7,
     "fields": {
       "first_name": "Noah",
@@ -729,7 +729,7 @@
     }
   },
   {
-    "model": "cleaning.cleaner",
+    "model": "users.cleaner",
     "pk": 8,
     "fields": {
       "first_name": "Emma",
@@ -739,7 +739,7 @@
     }
   },
   {
-    "model": "cleaning.cleaner",
+    "model": "users.cleaner",
     "pk": 9,
     "fields": {
       "first_name": "Lucas",
@@ -749,7 +749,7 @@
     }
   },
   {
-    "model": "cleaning.cleaner",
+    "model": "users.cleaner",
     "pk": 10,
     "fields": {
       "first_name": "Mia",

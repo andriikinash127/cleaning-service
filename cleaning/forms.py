@@ -1,11 +1,10 @@
 from django import forms
 from django.utils import timezone
 
+from users.models import Cleaner, UserRole
 from .models import (
     Property,
-    Cleaner,
     Cleaning,
-    UserRole,
     StatusChoices,
     CleaningType,
 )

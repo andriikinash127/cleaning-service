@@ -143,7 +143,7 @@ MAILERS = {
     },
 }
 
-AUTH_USER_MODEL = "cleaning.User"
+AUTH_USER_MODEL = "users.User"
 
 LOGIN_URL = "/login/"
 LOGIN_REDIRECT_URL = "/"

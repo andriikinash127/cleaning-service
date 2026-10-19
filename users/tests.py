@@ -1,14 +1,12 @@
 from django.test import TestCase
 from django.urls import reverse
 
+from users.models import Cleaner, User, UserRole
 from cleaning.models import (
-    Cleaner,
     CleaningType,
     CleaningTypeChoices,
     Property,
     PropertyType,
-    User,
-    UserRole,
 )
 
 

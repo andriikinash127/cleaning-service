@@ -1,7 +1,8 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
-from cleaning.models import Cleaner, Property, User
+from users.models import Cleaner, User
+from cleaning.models import Property
 
 
 class OwnerPropertyForm(forms.ModelForm):

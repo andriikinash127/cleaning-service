@@ -363,3 +363,4 @@ pyrightconfig.json
 # Python cache
 __pycache__/
 *.py[cod]
+db.backup.sqlite3

@@ -1,6 +1,6 @@
 [
 {
-  "model": "cleaning.user",
+  "model": "users.user",
   "pk": 13,
   "fields": {
     "password": "pbkdf2_sha256$1500000$5LEUMSwMOp0HzJhUa5EoYa$tlBbdtBAqnO2ugD6bKrXvV+oYKxaYLyTPGdthhyMLkM=",
@@ -19,7 +19,7 @@
   }
 },
 {
-  "model": "cleaning.user",
+  "model": "users.user",
   "pk": 12,
   "fields": {
     "password": "pbkdf2_sha256$1500000$n2gCNbOrQeujZySpfI63Ji$v9xxcYbFdeAr0LLDlRtE152GCaqxUe4f0ctODmOKusU=",
@@ -38,7 +38,7 @@
   }
 },
 {
-  "model": "cleaning.user",
+  "model": "users.user",
   "pk": 10,
   "fields": {
     "password": "pbkdf2_sha256$1500000$QV1lPMRBl8uXTMdMUICmJu$fU5XTVcDsDVW28wWU7vI3wo/pekgpmNRlQ/fl6kiTcA=",
@@ -97,7 +97,7 @@
   }
 },
 {
-  "model": "cleaning.cleaner",
+  "model": "users.cleaner",
   "pk": 11,
   "fields": {
     "user": 13,
