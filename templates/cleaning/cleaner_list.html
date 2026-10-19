@@ -6,9 +6,11 @@
     <div class="page-hero-inner container">
     <div class="page-hero-text">
       <h1 class="page-hero-title">Cleaners</h1>
-      <a href="{% url 'users:cleaner-create' %}" class="btn-pill btn-pill-hero--pink page-hero-action">
-        Create Cleaner
-      </a>
+      {% if user.role == "manager" %}
+        <a href="{% url 'users:cleaner-create' %}" class="btn-pill btn-pill-hero--pink page-hero-action">
+          Create Cleaner
+        </a>
+      {% endif %}
     </div>
     <img
       src="{% static 'cleaning/images/badge_cleaners_raccoon.svg' %}"

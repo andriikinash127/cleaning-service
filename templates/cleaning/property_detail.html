@@ -38,7 +38,7 @@
       <dd>{{ property.rooms }}</dd>
 
       <dt>Owner</dt>
-      <dd>{{ property.owner.first_name }} {{ property.owner.last_name }}</dd>
+      <dd>{{ property.owner.get_full_name|default:property.owner.username }}</dd>
     </dl>
   </div>
 

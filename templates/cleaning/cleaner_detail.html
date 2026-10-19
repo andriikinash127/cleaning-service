@@ -32,12 +32,14 @@
   </div>
 
   <div class="actions-row">
-    <a href="{% url 'users:cleaner-update' cleaner.pk %}" class="btn-pill btn-pill-hero--pink">
-      Update
-    </a>
-    <a href="{% url 'users:cleaner-delete' cleaner.pk %}" class="btn-pill btn-pill-hero-outline--pink">
-      Delete
-    </a>
+    {% if user.role == "manager" %}
+      <a href="{% url 'users:cleaner-update' cleaner.pk %}" class="btn-pill btn-pill-hero--pink">
+        Update
+      </a>
+      <a href="{% url 'users:cleaner-delete' cleaner.pk %}" class="btn-pill btn-pill-hero-outline--pink">
+        Delete
+      </a>
+     {% endif %}
     <a href="{% url 'users:cleaner-list' %}" class="btn-pill btn-pill-outline">
       Back to cleaners
     </a>
