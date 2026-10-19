@@ -39,6 +39,10 @@ class CleaningForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.user = user
 
+        if user and user.role == UserRole.OWNER:
+            self.fields["property"].queryset = Property.objects.filter(
+                owner=user
+            )
         if user and user.role == UserRole.CLEANER:
             self.fields.pop("cleaner", None)
 

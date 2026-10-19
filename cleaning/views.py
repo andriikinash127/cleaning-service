@@ -1,6 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
-from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import (
     DetailView,
@@ -183,10 +182,7 @@ class CleaningCreateView(LoginRequiredMixin, CreateView):
         return kwargs
 
     def form_valid(self, form):
-        if self.request.user.role == UserRole.OWNER:
-            if form.instance.property.owner != self.request.user:
-                return redirect("cleaning:cleaning-list")
-        elif self.request.user.role == UserRole.CLEANER:
+        if self.request.user.role == UserRole.CLEANER:
             form.instance.cleaner = self.request.user.cleaner
         return super().form_valid(form)
 
@@ -196,6 +192,11 @@ class CleaningUpdateView(LoginRequiredMixin, UpdateView):
     form_class = CleaningForm
     template_name = "cleaning/cleaning_form.html"
     success_url = reverse_lazy("cleaning:cleaning-list")
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["user"] = self.request.user
+        return kwargs
 
     def get_queryset(self):
         return Cleaning.objects.for_user(self.request.user)

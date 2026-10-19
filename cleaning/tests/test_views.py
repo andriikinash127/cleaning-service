@@ -644,11 +644,9 @@ class CleaningViewTests(TestCase):
                 "status": StatusChoices.PLANNED,
             },
         )
-
-        self.assertRedirects(
-            response,
-            reverse("cleaning:cleaning-list"),
-        )
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("property", response.context["form"].errors)
+        self.assertEqual(Cleaning.objects.count(), 1)
 
     def test_cleaning_filter_by_status(self):
         Cleaning.objects.create(
