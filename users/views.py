@@ -166,7 +166,7 @@ class CleanerDeleteView(
 class CleanerCreateView(
     LoginRequiredMixin,
     ManagerRequiredMixin,
-    CreateView):
+    CreateView,):
     model = Cleaner
     form_class = CleanerForm
     template_name = "users/cleaner_form.html"

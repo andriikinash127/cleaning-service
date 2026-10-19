@@ -5,7 +5,6 @@ from users.models import Cleaner, UserRole
 from .models import (
     Property,
     Cleaning,
-    StatusChoices,
     CleaningType,
 )
 
@@ -59,11 +58,12 @@ class CleaningForm(forms.ModelForm):
 
     def clean_date(self):
         date = self.cleaned_data.get("date")
+        if not date:
+            return date
 
-        if date and date < timezone.now():
-            raise forms.ValidationError(
-                "Cleaning cannot be scheduled in the past."
-            )
+        date_changed = not self.instance.pk or "date" in self.changed_data
+        if date_changed and date < timezone.now():
+            raise forms.ValidationError("Cleaning cannot be scheduled in the past.")
 
         return date
 
@@ -84,7 +84,6 @@ class CleaningForm(forms.ModelForm):
             self.instance.cleaner = cleaner
 
         cleaning_type = cleaned_data.get("cleaning_type")
-        date = cleaned_data.get("date")
 
         if cleaner and cleaning_type:
             if not cleaner.cleaning_types.filter(
@@ -95,22 +94,4 @@ class CleaningForm(forms.ModelForm):
                     "This cleaner does not have experience "
                     "with this cleaning type.",
                 )
-
-        if cleaner and date:
-            conflicts = Cleaning.objects.filter(
-                cleaner=cleaner,
-                date=date,
-            ).exclude(
-                status=StatusChoices.CANCELLED,
-            )
-
-            if self.instance.pk:
-                conflicts = conflicts.exclude(pk=self.instance.pk)
-
-            if conflicts.exists():
-                self.add_error(
-                    "cleaner" if "cleaner" in self.fields else None,
-                    "This cleaner is already booked at this date and time.",
-                )
-
         return cleaned_data

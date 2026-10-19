@@ -112,7 +112,11 @@ class Cleaning(models.Model):
     def clean(self):
         super().clean()
 
-        if self.date and self.date < timezone.now():
+        if (
+                self.date
+                and self._state.adding
+                and self.date < timezone.now()
+        ):
             raise ValidationError({
                 "date": "Cleaning cannot be scheduled in the past."
             })
@@ -121,7 +125,11 @@ class Cleaning(models.Model):
             conflicting_cleanings = Cleaning.objects.filter(
                 cleaner=self.cleaner,
                 date=self.date,
-            ).exclude(pk=self.pk)
+            ).exclude(
+                pk=self.pk,
+            ).exclude(
+                status=StatusChoices.CANCELLED,
+            )
 
             if conflicting_cleanings.exists():
                 raise ValidationError({
