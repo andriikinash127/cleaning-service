@@ -7,6 +7,7 @@ from .models import (
     Cleaning,
     UserRole,
     StatusChoices,
+    CleaningType,
 )
 
 
@@ -40,7 +41,17 @@ class CleaningForm(forms.ModelForm):
         self.user = user
 
         if user and user.role == UserRole.CLEANER:
-            self.fields.pop("cleaner")
+            self.fields.pop("cleaner", None)
+
+            try:
+                cleaner = user.cleaner
+                self.fields["cleaning_type"].queryset = (
+                    cleaner.cleaning_types.all()
+                )
+            except Cleaner.DoesNotExist:
+                self.fields["cleaning_type"].queryset = (
+                    CleaningType.objects.none()
+                )
 
     def clean_date(self):
         date = self.cleaned_data.get("date")
