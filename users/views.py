@@ -1,4 +1,5 @@
 from django.contrib.auth import login
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.db.models import Q
 from django.shortcuts import redirect
@@ -27,6 +28,10 @@ class UserLoginView(LoginView):
 
 class UserLogoutView(LogoutView):
     next_page = "/"
+
+
+class MeView(LoginRequiredMixin, TemplateView):
+    template_name = "users/me.html"
 
 
 class RegisterView(TemplateView):

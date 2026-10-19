@@ -4,6 +4,7 @@ from django.urls import path
 from .views import (
     UserLoginView,
     UserLogoutView,
+    MeView,
     RegisterView,
     OwnerRegisterView,
     CleanerRegisterView,
@@ -19,6 +20,7 @@ app_name = "users"
 urlpatterns = [
     path("login/", UserLoginView.as_view(), name="login"),
     path("logout/", UserLogoutView.as_view(), name="logout"),
+    path("me/", MeView.as_view(), name="me"),
     path("register/", RegisterView.as_view(), name="register"),
     path(
         "register/owner/",
