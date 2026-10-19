@@ -7,6 +7,7 @@ from cleaning.models import (
     Property,
     PropertyType,
     CleaningType,
+    Cleaning,
     StatusChoices,
 )
 
@@ -178,6 +179,20 @@ class CleaningFormTests(TestCase):
             owner=self.user,
         )
         self.cleaner.cleaning_types.add(self.cleaning_type)
+
+    def test_status_field_hidden_on_create(self):
+        form = CleaningForm(user=self.user)
+        self.assertNotIn("status", form.fields)
+
+    def test_status_field_available_on_update(self):
+        cleaning = Cleaning.objects.create(
+            date=timezone.now() + timedelta(days=1),
+            cleaning_type=self.cleaning_type,
+            property=self.property,
+            cleaner=self.cleaner,
+        )
+        form = CleaningForm(instance=cleaning, user=self.user)
+        self.assertIn("status", form.fields)
 
     def test_manager_can_see_cleaner_field(self):
         form = CleaningForm(user=self.user)

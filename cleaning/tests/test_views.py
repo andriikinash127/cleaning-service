@@ -523,6 +523,21 @@ class CleaningViewTests(TestCase):
             ).exists()
         )
 
+    def test_cleaning_is_created_as_planned_by_default(self):
+        self.client.post(
+            reverse("cleaning:cleaning-create"),
+            {
+                "date": self.future_datetime(),
+                "cleaning_type": self.cleaning_type.pk,
+                "property": self.property.pk,
+                "cleaner": self.cleaner.pk,
+                "status": StatusChoices.DONE,
+            },
+        )
+
+        new_cleaning = Cleaning.objects.exclude(pk=self.cleaning.pk).get()
+        self.assertEqual(new_cleaning.status, StatusChoices.PLANNED)
+
     def test_cleaning_update_view_updates_cleaning(self):
         cleaning_date = self.future_datetime()
 
